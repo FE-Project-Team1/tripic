@@ -1,5 +1,7 @@
+import TopNavigation from '../../component/TopNavigation';
+
 function Home() {
-  return <div>홈페이지</div>;
+  return <TopNavigation />;
 }
 
 export default Home;
