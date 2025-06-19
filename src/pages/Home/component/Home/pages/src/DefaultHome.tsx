@@ -6,13 +6,7 @@ import iconEdit from '../../assets/symbol-logo.svg';
           alt="symbol"
           className="mb-6 opacity-60 w-20 h-20"
         />
-        <p
-          className="mt-2 text-[0.875rem]"
-          style={{
-            color: '#767676',
-            fontFamily: 'Spoqa Han Sans Neo, sans-serif',
-          }}
-        >
+        <p className="mt-2 text-[0.875rem] text-[var(--color-gray)] ">
           유저를 검색해 팔로우 해보세요!
         </p>
       </div>
