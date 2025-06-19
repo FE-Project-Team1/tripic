@@ -3,16 +3,23 @@ import SplashScreen from './component/SplashScreen';
 import MainApp from './MainApp';
 
 function App() {
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash, setShowSplash] = useState(() => {
+    return sessionStorage.getItem('hasVisited') !== 'true';
+  });
 
   useEffect(() => {
-    // 스플래시 화면을 2초 동안 표시 후 메인 앱으로 전환
-    const timer = setTimeout(() => {
-      setShowSplash(false);
-    }, 500);
+    if (showSplash) {
+      // 방문 기록 저장
+      sessionStorage.setItem('hasVisited', 'true');
 
-    return () => clearTimeout(timer);
-  }, []);
+      // 스플래시 화면 표시 후 전환
+      const timer = setTimeout(() => {
+        setShowSplash(false);
+      }, 1000); // 시간을 조금 늘려서 스플래시 화면이 잘 보이게 함
+
+      return () => clearTimeout(timer);
+    }
+  }, [showSplash]);
 
   return <>{showSplash ? <SplashScreen /> : <MainApp />}</>;
 }
