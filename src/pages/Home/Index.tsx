@@ -6,7 +6,9 @@ function Home() {
   return (
     <>
       <TopNavigation />
-      <SearchResult />
+      <main className='pt-12'>
+        <SearchResult />
+      </main>
       <BottomNavigation />
     </>
   );
