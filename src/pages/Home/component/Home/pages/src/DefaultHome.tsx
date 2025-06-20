@@ -6,7 +6,7 @@ import iconEdit from '../../assets/symbol-logo.svg';
           alt="symbol"
           className="mb-6 opacity-60 w-20 h-20"
         />
-        <p className="mt-2 text-[0.875rem] text-[var(--color-gray)] ">
+        <p className="mt-2 text-[0.875rem] text-gray ">
           유저를 검색해 팔로우 해보세요!
         </p>
       </div>
