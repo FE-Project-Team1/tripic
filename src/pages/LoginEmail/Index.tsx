@@ -1,7 +1,11 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
 import CommonBtn from '../../component/CommonBtn';
 import CommonInput from '../../component/CommonInput';
+import { loginFetch } from '../../api/loginApi';
+import { setCookie } from '../../utils/setCookie';
 
 interface LoginFormValues {
   email: string;
@@ -9,6 +13,9 @@ interface LoginFormValues {
 }
 
 function LoginEmail() {
+  const navigate = useNavigate();
+  const [passwordError, setPasswordError] = useState('');
+
   const {
     register,
     handleSubmit,
@@ -17,9 +24,27 @@ function LoginEmail() {
     mode: 'onChange', // 입력값 변경 시마다 검증
   });
 
+  // React Query mutation 설정
+  const loginMutation = useMutation({
+    mutationFn: loginFetch,
+    onSuccess: (data) => {
+      // 로그인 성공 시 쿠키에 토큰 저장 (유효기간 1일)
+      setCookie('token', data.user.token, 1);
+      navigate('/');
+    },
+    onError: (error) => {
+      // 에러 발생 시 비밀번호 에러 메시지 설정
+      if (error instanceof Error) {
+        setPasswordError(error.message);
+      }
+    },
+  });
+
   const onSubmit = (data: LoginFormValues) => {
-    console.log('로그인 데이터:', data);
-    // 로그인 로직 구현
+    // 에러 메시지 초기화
+    setPasswordError('');
+    // 로그인 API 호출
+    loginMutation.mutate(data);
   };
 
   return (
@@ -39,12 +64,13 @@ function LoginEmail() {
           type="password"
           register={register}
           required
+          errorMessage={passwordError}
         />
         <div className="mt-[30px]">
           <CommonBtn
-            text={'로그인'}
+            text={loginMutation.isPending ? '로그인 중...' : '로그인'}
             type="submit"
-            disabled={!isValid || !isDirty}
+            disabled={!isValid || !isDirty || loginMutation.isPending}
           />
         </div>
       </form>
