@@ -3,10 +3,10 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 
 // 이미지 파일 import (경로 수정하지 않음)
-import Fushimi from '../../../assets/Fushimi-Inari- Shrine.png';
-import Kinkakuji from '../../../assets/Kinkakuji.png';
-import Kiyomizudera from '../../../assets/Kiyomizudera.png';
-import Nakagawa from '../../../assets/Nakagawa-River.png';
+import Fushimi from '../../../../public/images/Fushimi-Inari- Shrine.png';
+import Kinkakuji from '../../../../public/images/Kinkakuji.png';
+import Kiyomizudera from '../../../../public/images/Kiyomizudera.png';
+import Nakagawa from '../../../../public/images/Nakagawa-River.png';
 
 /**
  * 상품 정보를 정의하는 인터페이스.
