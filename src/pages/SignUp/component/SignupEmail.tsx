@@ -5,6 +5,7 @@ import EmailInput from '../../../component/EmailInput';
 import PasswordInput from '../../../component/PasswordInput';
 import CommonBtn from '../../../component/CommonBtn';
 import { validEmail } from '../../../api/signupApi';
+import type { SignUpStep } from '../Index';
 
 // 폼 필드 타입 정의
 interface SignUpFormValues {
@@ -13,10 +14,10 @@ interface SignUpFormValues {
 }
 
 interface SignUpEmailProps {
-  onNext: (data: SignUpFormValues) => void;
+  setCurrentStep: React.Dispatch<React.SetStateAction<SignUpStep>>;
 }
 
-function SignUpEmail({ onNext }: SignUpEmailProps) {
+function SignUpEmail({ setCurrentStep }: SignUpEmailProps) {
   // 이메일 API 검증 결과를 저장할 상태
   const [emailError, setEmailError] = useState('');
   const [emailSuccess, setEmailSuccess] = useState('');
@@ -67,9 +68,11 @@ function SignUpEmail({ onNext }: SignUpEmailProps) {
   };
 
   // 폼 제출 처리
-  const onSubmit = (data: SignUpFormValues) => {
+  const onSubmit = () => {
     // 다음 단계로 이동 및 데이터 전달
-    onNext(data);
+    if (isEmailValid && isPasswordValid) {
+      setCurrentStep('profile');
+    }
   };
 
   return (

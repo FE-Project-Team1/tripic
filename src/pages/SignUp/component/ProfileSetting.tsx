@@ -11,14 +11,7 @@ interface ProfileFormData {
   introduce: string;
 }
 
-interface ProfileSettingProps {
-  email: string;
-  password: string;
-}
-
-function ProfileSetting({ email, password }: ProfileSettingProps) {
-  console.log(email, password);
-
+function ProfileSetting() {
   // useForm 훅으로 실제 register 함수 생성
   const { register } = useForm<ProfileFormData>({
     defaultValues: {
