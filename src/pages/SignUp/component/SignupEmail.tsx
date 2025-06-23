@@ -12,7 +12,11 @@ interface SignUpFormValues {
   password: string;
 }
 
-function SignUpEmail() {
+interface SignUpEmailProps {
+  onNext: (data: SignUpFormValues) => void;
+}
+
+function SignUpEmail({ onNext }: SignUpEmailProps) {
   // 이메일 API 검증 결과를 저장할 상태
   const [emailError, setEmailError] = useState('');
   const [emailSuccess, setEmailSuccess] = useState('');
@@ -64,7 +68,8 @@ function SignUpEmail() {
 
   // 폼 제출 처리
   const onSubmit = (data: SignUpFormValues) => {
-    console.log('회원가입 데이터:', data);
+    // 다음 단계로 이동 및 데이터 전달
+    onNext(data);
   };
 
   return (
@@ -93,7 +98,7 @@ function SignUpEmail() {
         />
         <div className="mt-8">
           <CommonBtn
-            text="다음"
+            text={emailValidMutation.isPending ? '진행중...' : '다음'}
             type="submit"
             disabled={
               !isEmailValid || !isPasswordValid || emailValidMutation.isPending
