@@ -1,13 +1,13 @@
 import React from 'react';
-import grid1 from '../../../assets/grid1.png';
-import grid2 from '../../../assets/grid2.png';
-import grid3 from '../../../assets/grid3.png';
-import grid4 from '../../../assets/grid4.png';
-import grid5 from '../../../assets/grid5.png';
-import grid6 from '../../../assets/grid6.png';
-import grid7 from '../../../assets/grid7.png';
-import grid8 from '../../../assets/grid8.png';
-import grid9 from '../../../assets/grid9.png';
+import grid1 from '../../../../public/images/grid1.png';
+import grid2 from '../../../../public/images/grid2.png';
+import grid3 from '../../../../public/images/grid3.png';
+import grid4 from '../../../../public/images/grid4.png';
+import grid5 from '../../../../public/images/grid5.png';
+import grid6 from '../../../../public/images/grid6.png';
+import grid7 from '../../../../public/images/grid7.png';
+import grid8 from '../../../../public/images/grid8.png';
+import grid9 from '../../../../public/images/grid9.png';
 import iconLayers from '../../../assets/iccon-img-layers.png';
 
 interface IImageGridProps {}
