@@ -23,7 +23,7 @@ function AccountNameInput<T extends FieldValues = FieldValues>({
 }: IInput<T>) {
   // register에서 필요한 속성 추출
   const { onChange, onBlur, ref, ...rest } = register(name, {
-    required: required ? `${text}을(를) 입력해주세요.` : false,
+    required,
   });
 
   // 커스텀 blur 핸들러

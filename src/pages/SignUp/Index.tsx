@@ -76,7 +76,9 @@ function SignUp() {
         <SignUpEmail onComplete={handleEmailStepComplete} />
       )}
 
-      {currentStep === 'profile' && <ProfileSetting />}
+      {currentStep === 'profile' && (
+        <ProfileSetting onComplete={handleProfileComplete} />
+      )}
     </>
   );
 }
