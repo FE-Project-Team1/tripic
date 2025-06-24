@@ -11,6 +11,8 @@ interface IInput<T extends FieldValues = FieldValues> {
   onValidateEmail?: (email: string) => void; // 이메일 검증 콜백 추가
 }
 
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 function EmailInput<T extends FieldValues = FieldValues>({
   name,
   text,
@@ -21,10 +23,18 @@ function EmailInput<T extends FieldValues = FieldValues>({
   required = false,
   onValidateEmail,
 }: IInput<T>) {
+  const displayErrorMessage =
+    successMessage === '이미 가입된 이메일 주소 입니다.'
+      ? successMessage
+      : errorMessage;
+
+  const displaySuccessMessage =
+    successMessage === '이미 가입된 이메일 주소 입니다.' ? '' : successMessage;
+
   const { onChange, onBlur, ref, ...rest } = register(name, {
     required,
     pattern: {
-      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      value: emailRegex,
       message: '올바른 이메일 형식이 아닙니다.',
     },
   });
@@ -36,7 +46,6 @@ function EmailInput<T extends FieldValues = FieldValues>({
 
     // 이메일 형식 검사
     const value = e.target.value;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     // 형식이 유효하고 콜백이 존재하면 API 검증 수행
     if (value && emailRegex.test(value) && onValidateEmail) {
@@ -58,14 +67,14 @@ function EmailInput<T extends FieldValues = FieldValues>({
         ref={ref}
         {...rest}
       />
-      {errorMessage && !successMessage && (
+      {displayErrorMessage && !displaySuccessMessage && (
         <p className="text-red text-xs leading-[14px] mt-[6px]">
-          {errorMessage}
+          {displayErrorMessage}
         </p>
       )}
-      {successMessage && !errorMessage && (
+      {displaySuccessMessage && !displayErrorMessage && (
         <p className="text-green-400 text-xs leading-[14px] mt-[6px]">
-          {successMessage}
+          {displaySuccessMessage}
         </p>
       )}
     </div>

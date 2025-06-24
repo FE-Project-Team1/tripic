@@ -4,9 +4,10 @@ import image from '../assets/image.svg';
 
 interface IProfileImage {
   upload?: boolean;
+  onImageSelected?: (file: File) => void; // 선택된 파일을 부모에게 전달하는 콜백 추가
 }
 
-function ProfileImage({ upload = false }: IProfileImage) {
+function ProfileImage({ upload = false, onImageSelected }: IProfileImage) {
   // 이미지 미리보기 URL 상태
   const [previewUrl, setPreviewUrl] = useState<string>(defaultProfile);
 
@@ -24,6 +25,11 @@ function ProfileImage({ upload = false }: IProfileImage) {
     // 파일 미리보기 URL 생성
     const imageUrl = URL.createObjectURL(file);
     setPreviewUrl(imageUrl);
+
+    // 선택된 파일을 부모 컴포넌트로 전달
+    if (onImageSelected) {
+      onImageSelected(file);
+    }
   };
 
   return (

@@ -6,6 +6,7 @@ import CommonInput from '../../../component/Input/CommonInput';
 import AccountNameInput from '../../../component/Input/AccountNameInput';
 import CommonBtn from '../../../component/CommonBtn';
 import { validAccountName } from '../../../api/signupApi';
+import { uploadImage, getImageUrl } from '../../../api/imageApi';
 import type { IProfile } from '../Index';
 
 interface IProfileSetting {
@@ -17,6 +18,10 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
   const [accountNameError, setAccountNameError] = useState('');
   const [accountNameSuccess, setAccountNameSuccess] = useState('');
   const [isAccountNameValid, setIsAccountNameValid] = useState(false);
+
+  // 이미지 파일 상태
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   // React Hook Form 설정
   const {
@@ -46,6 +51,25 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
     },
   });
 
+  // 이미지 업로드 뮤테이션
+  const imageUploadMutation = useMutation({
+    mutationFn: uploadImage,
+    onSuccess: (data) => {
+      console.log('이미지 업로드 성공:', data);
+      setIsUploading(false);
+    },
+    onError: (error) => {
+      console.error('이미지 업로드 실패:', error);
+      setIsUploading(false);
+      alert('이미지 업로드에 실패했습니다.');
+    },
+  });
+
+  // 이미지 파일 선택 핸들러
+  const handleImageSelected = (file: File) => {
+    setSelectedImage(file);
+  };
+
   // 계정명 검증 핸들러
   const handleValidateAccountName = (accountName: string) => {
     // 검증 전 상태 초기화
@@ -58,16 +82,41 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
   };
 
   // 폼 제출 핸들러
-  const onSubmit = (data: IProfile) => {
-    console.log('프로필 설정 데이터:', data);
+  const onSubmit = async (data: Omit<IProfile, 'image'>) => {
+    let imageUrl = '';
+
+    // 선택된 이미지가 있다면 업로드
+    if (selectedImage) {
+      try {
+        setIsUploading(true);
+        const result = await imageUploadMutation.mutateAsync(selectedImage);
+        imageUrl = getImageUrl(result.filename);
+      } catch (error) {
+        console.error('이미지 업로드 중 오류:', error);
+        return; // 에러 발생 시 회원가입 중단
+      }
+    }
+
+    // 완성된 프로필 데이터 생성
+    const profileData: IProfile = {
+      ...data,
+      image: imageUrl,
+    };
+
+    console.log('프로필 설정 데이터:', profileData);
+
+    // 부모 컴포넌트로 데이터 전달 (회원가입 진행)
     if (onComplete) {
-      onComplete(data);
+      onComplete(profileData);
     }
   };
 
-  // 폼이 유효한지 여부 (모든 필수 필드가 채워졌고 계정명이 유효한지)
+  // 폼이 유효한지 여부
   const isFormValid =
-    isValid && isAccountNameValid && !accountNameMutation.isPending;
+    isValid &&
+    isAccountNameValid &&
+    !accountNameMutation.isPending &&
+    !isUploading;
 
   return (
     <section className="pt-[30px] px-[34px]">
@@ -76,7 +125,7 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
         나중에 언제든지 변경할 수 있습니다
       </p>
       <div className="flex justify-center">
-        <ProfileImage upload={true} />
+        <ProfileImage upload={true} onImageSelected={handleImageSelected} />
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="mt-[30px]">
         <CommonInput
