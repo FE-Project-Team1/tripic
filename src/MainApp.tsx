@@ -5,6 +5,7 @@ import LoginEmail from './pages/LoginEmail/Index';
 import Profile from './pages/Profile/Index';
 import SignUp from './pages/SignUp/Index';
 import Follow from './pages/Follow/Index';
+import Chat from './pages/Chat/Index';
 
 function MainApp() {
   return (
@@ -17,6 +18,7 @@ function MainApp() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/followers" element={<Follow />} />
         <Route path="/profile/following" element={<Follow />} />
+        <Route path="/chat" element={<Chat />} />
       </Routes>
     </BrowserRouter>
   );
