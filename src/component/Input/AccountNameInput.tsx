@@ -8,12 +8,10 @@ interface IInput<T extends FieldValues = FieldValues> {
   errorMessage?: string;
   successMessage?: string;
   required?: boolean;
-  onValidateEmail?: (email: string) => void; // 이메일 검증 콜백 추가
+  onValidateAccountName?: (accountName: string) => void;
 }
 
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-function EmailInput<T extends FieldValues = FieldValues>({
+function AccountNameInput<T extends FieldValues = FieldValues>({
   name,
   text,
   type,
@@ -21,24 +19,19 @@ function EmailInput<T extends FieldValues = FieldValues>({
   errorMessage = '',
   successMessage = '',
   required = false,
-  onValidateEmail,
+  onValidateAccountName,
 }: IInput<T>) {
-
   const displayErrorMessage =
-    successMessage === '이미 가입된 이메일 주소 입니다.'
+    successMessage === '이미 가입된 계정ID 입니다.'
       ? successMessage
       : errorMessage;
 
   const displaySuccessMessage =
-    successMessage === '이미 가입된 이메일 주소 입니다.' ? '' : successMessage;
+    successMessage === '이미 가입된 계정ID 입니다.' ? '' : successMessage;
 
-
+  // register에서 필요한 속성 추출
   const { onChange, onBlur, ref, ...rest } = register(name, {
     required,
-    pattern: {
-      value: emailRegex,
-      message: '올바른 이메일 형식이 아닙니다.',
-    },
   });
 
   // 커스텀 blur 핸들러
@@ -46,12 +39,12 @@ function EmailInput<T extends FieldValues = FieldValues>({
     // 기존 onBlur 실행
     onBlur(e);
 
-    // 이메일 형식 검사
+    // 계정명 값 가져오기
     const value = e.target.value;
 
-    // 형식이 유효하고 콜백이 존재하면 API 검증 수행
-    if (value && emailRegex.test(value) && onValidateEmail) {
-      onValidateEmail(value);
+    // 값이 있고 검증 함수가 제공되었다면 검증 호출
+    if (value && onValidateAccountName) {
+      onValidateAccountName(value);
     }
   };
 
@@ -63,13 +56,14 @@ function EmailInput<T extends FieldValues = FieldValues>({
       <input
         id={name}
         type={type}
-        className={`h-7 border-b-[1px] focus:border-main focus:outline-0 ${errorMessage ? 'border-red' : 'border-light-gray'}`}
+        className={`h-7 border-b-[1px] focus:border-main focus:outline-0 ${
+          errorMessage ? 'border-red' : 'border-light-gray'
+        }`}
         onChange={onChange}
         onBlur={handleBlur}
         ref={ref}
         {...rest}
       />
-
       {displayErrorMessage && !displaySuccessMessage && (
         <p className="text-red text-xs leading-[14px] mt-[6px]">
           {displayErrorMessage}
@@ -84,4 +78,4 @@ function EmailInput<T extends FieldValues = FieldValues>({
   );
 }
 
-export default EmailInput;
+export default AccountNameInput;

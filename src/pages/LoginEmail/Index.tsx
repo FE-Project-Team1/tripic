@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import CommonBtn from '../../component/Input/CommonBtn';
+
 import CommonInput from '../../component/Input/CommonInput';
 import { loginFetch } from '../../api/loginApi';
 import { setCookie } from '../../utils/setCookie';
@@ -49,6 +50,8 @@ function LoginEmail() {
     loginMutation.mutate(data);
   };
 
+  const loginValid = !isValid || !isDirty || loginMutation.isPending;
+
   return (
     <section className="pt-[30px] px-[34px]">
       <h1 className="text-center font-medium text-2xl mb-10">로그인</h1>
@@ -72,7 +75,7 @@ function LoginEmail() {
           <CommonBtn
             text={loginMutation.isPending ? '로그인 중...' : '로그인'}
             type="submit"
-            disabled={!isValid || !isDirty || loginMutation.isPending}
+            disabled={loginValid}
           />
         </div>
       </form>
