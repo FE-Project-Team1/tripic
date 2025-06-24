@@ -142,6 +142,7 @@ export async function signupFetch(
     return data;
   } catch (error) {
     if (error instanceof Error) {
+      alert(error);
       throw error;
     }
     throw new Error('알 수 없는 오류가 발생했습니다.');

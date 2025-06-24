@@ -27,10 +27,14 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
+    watch,
   } = useForm<IProfile>({
     mode: 'onBlur',
   });
+
+  const username = watch('username');
+  const intro = watch('intro');
 
   // 계정명 API 검증
   const accountNameMutation = useMutation({
@@ -88,9 +92,11 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
     // 선택된 이미지가 있다면 업로드
     if (selectedImage) {
       try {
+        console.log('selctedImage', selectedImage);
         setIsUploading(true);
         const result = await imageUploadMutation.mutateAsync(selectedImage);
-        imageUrl = getImageUrl(result.filename);
+        console.log('result', result);
+        imageUrl = getImageUrl(result.info.filename);
       } catch (error) {
         console.error('이미지 업로드 중 오류:', error);
         return; // 에러 발생 시 회원가입 중단
@@ -100,7 +106,7 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
     // 완성된 프로필 데이터 생성
     const profileData: IProfile = {
       ...data,
-      image: imageUrl,
+      image: imageUrl || '',
     };
 
     console.log('프로필 설정 데이터:', profileData);
@@ -113,7 +119,8 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
 
   // 폼이 유효한지 여부
   const isFormValid =
-    isValid &&
+    username &&
+    intro &&
     isAccountNameValid &&
     !accountNameMutation.isPending &&
     !isUploading;
@@ -133,6 +140,7 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
           text="사용자 이름"
           type="text"
           register={register}
+          required
         />
         <AccountNameInput
           name="accountName"
@@ -146,10 +154,18 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
           successMessage={accountNameSuccess}
           onValidateAccountName={handleValidateAccountName}
         />
-        <CommonInput name="intro" text="소개" type="text" register={register} />
+        <CommonInput
+          name="intro"
+          text="소개"
+          type="text"
+          register={register}
+          required
+        />
         <div className="mt-[30px]">
           <CommonBtn
-            text="감귤마켓 시작하기"
+            text={
+              accountNameMutation.isPending ? '로딩중...' : '감귤마켓 시작하기'
+            }
             type="submit"
             disabled={!isFormValid}
           />

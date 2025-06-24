@@ -2,10 +2,9 @@
  * 이미지 업로드 응답 인터페이스
  */
 interface ImageUploadResponse {
-  filename: string; // 업로드된 파일 이름
-  extension: string; // 파일 확장자
-  originalname: string; // 원본 파일 이름
-  message: string; // 업로드 결과 메시지
+  info: {
+    filename: string;
+  };
 }
 
 /**
@@ -52,6 +51,6 @@ export async function uploadImage(
  * @returns 전체 이미지 URL
  */
 export function getImageUrl(filename: string): string {
-  console.log(filename);
+  if (!filename) return '';
   return `https://dev.wenivops.co.kr/services/mandarin/${filename}`;
 }

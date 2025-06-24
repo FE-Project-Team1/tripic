@@ -21,6 +21,14 @@ function AccountNameInput<T extends FieldValues = FieldValues>({
   required = false,
   onValidateAccountName,
 }: IInput<T>) {
+  const displayErrorMessage =
+    successMessage === '이미 가입된 계정ID 입니다.'
+      ? successMessage
+      : errorMessage;
+
+  const displaySuccessMessage =
+    successMessage === '이미 가입된 계정ID 입니다.' ? '' : successMessage;
+
   // register에서 필요한 속성 추출
   const { onChange, onBlur, ref, ...rest } = register(name, {
     required,
@@ -56,14 +64,14 @@ function AccountNameInput<T extends FieldValues = FieldValues>({
         ref={ref}
         {...rest}
       />
-      {errorMessage && !successMessage && (
+      {displayErrorMessage && !displaySuccessMessage && (
         <p className="text-red text-xs leading-[14px] mt-[6px]">
-          {errorMessage}
+          {displayErrorMessage}
         </p>
       )}
-      {successMessage && !errorMessage && (
+      {displaySuccessMessage && !displayErrorMessage && (
         <p className="text-green-400 text-xs leading-[14px] mt-[6px]">
-          {successMessage}
+          {displaySuccessMessage}
         </p>
       )}
     </div>
