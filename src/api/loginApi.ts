@@ -4,14 +4,12 @@ interface LoginRequest {
 }
 
 interface LoginResponse {
-  user: {
-    _id: string;
-    username: string;
-    email: string;
-    accountname: string;
-    image: string;
-    token: string;
-  };
+  _id: string;
+  username: string;
+  email: string;
+  accountname: string;
+  image: string;
+  token: string;
 }
 
 /**
@@ -43,7 +41,6 @@ export async function loginFetch({
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.log('errorData', errorData);
       throw new Error(errorData.message || '로그인에 실패했습니다.');
     }
 

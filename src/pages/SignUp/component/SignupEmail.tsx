@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
-import EmailInput from '../../../component/EmailInput';
-import PasswordInput from '../../../component/PasswordInput';
-import CommonBtn from '../../../component/CommonBtn';
+import EmailInput from '../../../component/Input/EmailInput';
+import PasswordInput from '../../../component/Input/PasswordInput';
+import CommonBtn from '../../../component/Input/CommonBtn';
 import { validEmail } from '../../../api/signupApi';
 
 // 폼 필드 타입 정의
