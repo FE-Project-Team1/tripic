@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import ProfileImage from '../../../component/ProfileImage';
 import CommonInput from '../../../component/Input/CommonInput';
 import AccountNameInput from '../../../component/Input/AccountNameInput';
-import CommonBtn from '../../../component/CommonBtn';
+import CommonBtn from '../../../component/Input/CommonBtn';
 import { validAccountName } from '../../../api/signupApi';
 import { uploadImage, getImageUrl } from '../../../api/imageApi';
 import type { IProfile } from '../Index';
