@@ -1,4 +1,4 @@
-import Feed from '../../component/Feed';
+import Feed from '../Profile/component/Feed';
 
 function Post() {
   return (
