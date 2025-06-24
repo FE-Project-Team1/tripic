@@ -1,8 +1,8 @@
 import { useForm } from 'react-hook-form';
 import defaultProfile from '../../../assets/default-profile.png';
 import image from '../../../assets/image.svg';
-import CommonInput from '../../../component/CommonInput';
-import CommonBtn from '../../../component/CommonBtn';
+import CommonInput from '../../../component/Input/CommonInput';
+import CommonBtn from '../../../component/Input/CommonBtn';
 
 // 프로필 폼 데이터 타입 정의
 interface ProfileFormData {
