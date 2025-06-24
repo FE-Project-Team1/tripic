@@ -1,23 +1,17 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
-import EmailInput from '../../../component/EmailInput';
-import PasswordInput from '../../../component/PasswordInput';
+import EmailInput from '../../../component/Input/EmailInput';
+import PasswordInput from '../../../component/Input/PasswordInput';
 import CommonBtn from '../../../component/CommonBtn';
 import { validEmail } from '../../../api/signupApi';
-import type { SignUpStep } from '../Index';
-
-// 폼 필드 타입 정의
-interface SignUpFormValues {
-  email: string;
-  password: string;
-}
+import type { IEmailPassword } from '../Index';
 
 interface SignUpEmailProps {
-  setCurrentStep: React.Dispatch<React.SetStateAction<SignUpStep>>;
+  onComplete: (data: IEmailPassword) => void;
 }
 
-function SignUpEmail({ setCurrentStep }: SignUpEmailProps) {
+function SignUpEmail({ onComplete }: SignUpEmailProps) {
   // 이메일 API 검증 결과를 저장할 상태
   const [emailError, setEmailError] = useState('');
   const [emailSuccess, setEmailSuccess] = useState('');
@@ -29,7 +23,7 @@ function SignUpEmail({ setCurrentStep }: SignUpEmailProps) {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm<SignUpFormValues>({
+  } = useForm<IEmailPassword>({
     mode: 'onBlur', // 포커스 해제 시 검증 실행
   });
 
@@ -68,10 +62,10 @@ function SignUpEmail({ setCurrentStep }: SignUpEmailProps) {
   };
 
   // 폼 제출 처리
-  const onSubmit = () => {
-    // 다음 단계로 이동 및 데이터 전달
+  const onSubmit = (data: IEmailPassword) => {
+    // 이메일과 비밀번호 데이터를 상위 컴포넌트로 전달
     if (isEmailValid && isPasswordValid) {
-      setCurrentStep('profile');
+      onComplete(data);
     }
   };
 

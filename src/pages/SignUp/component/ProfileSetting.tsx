@@ -1,14 +1,8 @@
 import { useForm } from 'react-hook-form';
 import ProfileImage from '../../../component/ProfileImage';
-import CommonInput from '../../../component/CommonInput';
+import CommonInput from '../../../component/Input/CommonInput';
 import CommonBtn from '../../../component/CommonBtn';
-
-// 프로필 폼 데이터 타입 정의
-interface ProfileFormData {
-  username: string;
-  accountName: string;
-  introduce: string;
-}
+import type { IProfile } from '../Index';
 
 function ProfileSetting() {
   // React Hook Form 설정
@@ -16,7 +10,7 @@ function ProfileSetting() {
     register,
     handleSubmit,
     formState: { isValid, isDirty },
-  } = useForm<ProfileFormData>({
+  } = useForm<IProfile>({
     mode: 'onBlur',
   });
 
@@ -34,15 +28,20 @@ function ProfileSetting() {
           name="username"
           text="사용자 이름"
           type="text"
-          register={}
+          register={register}
         />
         <CommonInput
           name="accountName"
           text="계정 ID"
           type="text"
-          register={}
+          register={register}
         />
-        <CommonInput name="introduce" text="소개" type="text" register={} />
+        <CommonInput
+          name="introduce"
+          text="소개"
+          type="text"
+          register={register}
+        />
         <div className="mt-[30px]">
           <CommonBtn text="감귤마켓 시작하기" disabled={true} />
         </div>

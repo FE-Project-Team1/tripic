@@ -1,13 +1,13 @@
-interface EmailValidResponse {
+interface IEmailValidResponse {
   message: string;
 }
 
-interface AccountNameValidResponse {
+interface IAccountNameValidResponse {
   message: string;
 }
 
 // 회원가입 요청 매개변수 타입
-interface SignupParams {
+interface ISignupParams {
   username: string;
   email: string;
   password: string;
@@ -17,7 +17,7 @@ interface SignupParams {
 }
 
 // 회원가입 응답 타입
-interface SignupResponse {
+interface ISignupResponse {
   user: {
     _id: string;
     username: string;
@@ -36,7 +36,7 @@ interface SignupResponse {
  * @param email 확인할 이메일 주소
  * @returns 이메일 검증 응답 데이터
  */
-export async function validEmail(email: string): Promise<EmailValidResponse> {
+export async function validEmail(email: string): Promise<IEmailValidResponse> {
   try {
     const response = await fetch(
       `${import.meta.env.VITE_END_POINT}/user/emailvalid`,
@@ -75,7 +75,7 @@ export async function validEmail(email: string): Promise<EmailValidResponse> {
  */
 export async function validAccountName(
   accountname: string
-): Promise<AccountNameValidResponse> {
+): Promise<IAccountNameValidResponse> {
   try {
     const response = await fetch(
       `${import.meta.env.VITE_END_POINT}/user/accountnamevalid`,
@@ -113,8 +113,8 @@ export async function validAccountName(
  * @returns 회원가입 응답 데이터
  */
 export async function signupFetch(
-  signupData: SignupParams
-): Promise<SignupResponse> {
+  signupData: ISignupParams
+): Promise<ISignupResponse> {
   try {
     const response = await fetch(`${import.meta.env.VITE_END_POINT}/user`, {
       method: 'POST',
@@ -127,7 +127,7 @@ export async function signupFetch(
           email: signupData.email,
           password: signupData.password,
           accountname: signupData.accountname,
-          intro: signupData.intro || '',
+          intro: signupData.intro,
           image: signupData.image || '',
         },
       }),
