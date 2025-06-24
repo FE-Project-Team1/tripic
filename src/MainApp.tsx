@@ -4,6 +4,7 @@ import Login from './pages/Login/Index';
 import LoginEmail from './pages/LoginEmail/Index';
 import Profile from './pages/Profile/Index';
 import SignUp from './pages/SignUp/Index';
+import Follow from './pages/Follow/Index';
 
 function MainApp() {
   return (
@@ -14,6 +15,8 @@ function MainApp() {
         <Route path="/login/email" element={<LoginEmail />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/followers" element={<Follow />} />
+        <Route path="/profile/following" element={<Follow />} />
       </Routes>
     </BrowserRouter>
   );
