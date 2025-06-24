@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import EmailInput from '../../../component/Input/EmailInput';
 import PasswordInput from '../../../component/Input/PasswordInput';
 import CommonBtn from '../../../component/CommonBtn';
+
 import { validEmail } from '../../../api/signupApi';
 import type { IEmailPassword } from '../Index';
 

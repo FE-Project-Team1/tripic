@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
-import CommonBtn from '../../component/CommonBtn';
+import CommonBtn from '../../component/Input/CommonBtn';
+
 import CommonInput from '../../component/Input/CommonInput';
 import { loginFetch } from '../../api/loginApi';
 import { setCookie } from '../../utils/setCookie';
@@ -29,7 +30,9 @@ function LoginEmail() {
     mutationFn: loginFetch,
     onSuccess: (data) => {
       // 로그인 성공 시 쿠키에 토큰 저장 (유효기간 1일)
-      setCookie('token', data.user.token, 1);
+      if (data) {
+        setCookie('token', data.token, 1);
+      }
       navigate('/');
     },
     onError: (error) => {
@@ -77,7 +80,7 @@ function LoginEmail() {
         </div>
       </form>
       <div className="mt-5 text-center">
-        <Link to="" className="text-xs text-gray">
+        <Link to="/signup" className="text-xs text-gray">
           이메일로 회원가입
         </Link>
       </div>

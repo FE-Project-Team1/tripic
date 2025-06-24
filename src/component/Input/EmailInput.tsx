@@ -23,6 +23,7 @@ function EmailInput<T extends FieldValues = FieldValues>({
   required = false,
   onValidateEmail,
 }: IInput<T>) {
+
   const displayErrorMessage =
     successMessage === '이미 가입된 이메일 주소 입니다.'
       ? successMessage
@@ -30,6 +31,7 @@ function EmailInput<T extends FieldValues = FieldValues>({
 
   const displaySuccessMessage =
     successMessage === '이미 가입된 이메일 주소 입니다.' ? '' : successMessage;
+
 
   const { onChange, onBlur, ref, ...rest } = register(name, {
     required,
@@ -67,6 +69,7 @@ function EmailInput<T extends FieldValues = FieldValues>({
         ref={ref}
         {...rest}
       />
+
       {displayErrorMessage && !displaySuccessMessage && (
         <p className="text-red text-xs leading-[14px] mt-[6px]">
           {displayErrorMessage}

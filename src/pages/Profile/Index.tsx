@@ -1,5 +1,11 @@
+import Feeds from './component/Feeds';
+
 function Profile() {
-  return <></>;
+  return (
+    <>
+      <Feeds />
+    </>
+  );
 }
 
 export default Profile;
