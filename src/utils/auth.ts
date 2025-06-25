@@ -20,3 +20,14 @@ export function setCookie(name: string, value: string, days: number) {
   // 참고: 기존 쿠키를 덮어쓰진 않고 새로 추가함
   document.cookie = name + '=' + cookieValue;
 }
+
+export function getCookie(name: string): string | null {
+  const cookies = document.cookie.split(';');
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i].trim();
+    if (cookie.startsWith(name + '=')) {
+      return cookie.substring(name.length + 1);
+    }
+  }
+  return null;
+}
