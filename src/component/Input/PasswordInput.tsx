@@ -27,7 +27,7 @@ function PasswordInput<T extends FieldValues = FieldValues>({
         type={type}
         className={`h-7 border-b-[1px] focus:border-main focus:outline-0 ${errorMessage ? 'border-red' : 'border-light-gray'}`}
         {...register(name, {
-          required,
+          required: required ? '필수 입력 값입니다.' : false,
           minLength: {
             value: 6,
             message: '비밀번호는 6자 이상이어야 합니다.',

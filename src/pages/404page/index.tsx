@@ -1,4 +1,4 @@
-import CommonBtn from '../../component/Input/CommonBtn';
+import CommonBtn from '../../component/CommonBtn';
 import icon404 from '../../assets/icon-404.svg';
 
 function ErrorPage() {

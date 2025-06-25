@@ -31,7 +31,7 @@ function AccountNameInput<T extends FieldValues = FieldValues>({
 
   // register에서 필요한 속성 추출
   const { onChange, onBlur, ref, ...rest } = register(name, {
-    required,
+    required: required ? '필수 입력 값입니다.' : false,
   });
 
   // 커스텀 blur 핸들러

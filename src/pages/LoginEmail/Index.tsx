@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
-import CommonBtn from '../../component/Input/CommonBtn';
+import CommonBtn from '../../component/CommonBtn';
 
 import CommonInput from '../../component/Input/CommonInput';
 import { loginFetch } from '../../api/loginApi';
-import { setCookie } from '../../utils/setCookie';
+import { setCookie } from '../../utils/auth';
 
 interface LoginFormValues {
   email: string;
@@ -20,7 +20,7 @@ function LoginEmail() {
   const {
     register,
     handleSubmit,
-    formState: { isValid, isDirty },
+    formState: { errors, isValid, isDirty },
   } = useForm<LoginFormValues>({
     mode: 'onChange', // 입력값 변경 시마다 검증
   });
@@ -64,6 +64,7 @@ function LoginEmail() {
           type="text"
           register={register}
           required
+          errorMessage={errors.email?.message}
         />
         <CommonInput
           name="password"
@@ -71,7 +72,7 @@ function LoginEmail() {
           type="password"
           register={register}
           required
-          errorMessage={passwordError}
+          errorMessage={errors.password?.message || passwordError}
         />
         <div className="mt-[30px]">
           <CommonBtn
