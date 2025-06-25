@@ -52,8 +52,13 @@ function SignUp() {
       // 홈페이지로 이동
       navigate('/');
     },
-    onError: () => {
-      alert('회원가입 실패');
+    onError: (error) => {
+      // 에러 객체에서 메시지 추출하여 표시
+      if (error instanceof Error) {
+        alert(`회원가입 실패: ${error.message}`);
+      } else {
+        alert('회원가입 실패: 알 수 없는 오류가 발생했습니다.');
+      }
     },
   });
 
