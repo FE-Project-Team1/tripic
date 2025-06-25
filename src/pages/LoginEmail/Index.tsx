@@ -39,6 +39,8 @@ function LoginEmail() {
       // 에러 발생 시 비밀번호 에러 메시지 설정
       if (error instanceof Error) {
         setPasswordError(error.message);
+      } else {
+        alert('로그인 실패: 알 수 없는 오류가 발생했습니다.');
       }
     },
   });
