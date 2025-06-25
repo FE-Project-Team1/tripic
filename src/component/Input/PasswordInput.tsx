@@ -6,11 +6,10 @@ interface IInput<T extends FieldValues = FieldValues> {
   type: string;
   register: UseFormRegister<T>;
   errorMessage?: string;
-  successMessage?: string;
   required?: boolean;
 }
 
-function CommonInput<T extends FieldValues = FieldValues>({
+function PasswordInput<T extends FieldValues = FieldValues>({
   name,
   text,
   type,
@@ -27,7 +26,13 @@ function CommonInput<T extends FieldValues = FieldValues>({
         id={name}
         type={type}
         className={`h-7 border-b-[1px] focus:border-main focus:outline-0 ${errorMessage ? 'border-red' : 'border-light-gray'}`}
-        {...register(name, { required })}
+        {...register(name, {
+          required: required ? '필수 입력 값입니다.' : false,
+          minLength: {
+            value: 6,
+            message: '비밀번호는 6자 이상이어야 합니다.',
+          },
+        })}
       />
       {errorMessage && (
         <p className="text-red text-xs leading-[14px] mt-[6px]">
@@ -38,4 +43,4 @@ function CommonInput<T extends FieldValues = FieldValues>({
   );
 }
 
-export default CommonInput;
+export default PasswordInput;

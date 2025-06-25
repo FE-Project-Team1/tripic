@@ -53,13 +53,13 @@ function Login() {
         </ul>
         <ul className="flex items-center mt-5 justify-center">
           <li>
-            <Link to="" className="text-xs font-light text-gray">
+            <Link to="/login/email" className="text-xs font-light text-gray">
               이메일로 로그인
             </Link>
           </li>
           <li className="w-[1px] h-[10px] bg-light-gray-02 mx-[14px]"></li>
           <li>
-            <Link to="" className="text-xs font-light text-gray">
+            <Link to="/signup" className="text-xs font-light text-gray">
               회원가입
             </Link>
           </li>

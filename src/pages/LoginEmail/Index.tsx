@@ -3,9 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import CommonBtn from '../../component/CommonBtn';
-import CommonInput from '../../component/CommonInput';
+
+import CommonInput from '../../component/Input/CommonInput';
 import { loginFetch } from '../../api/loginApi';
-import { setCookie } from '../../utils/setCookie';
+import { setCookie } from '../../utils/auth';
 
 interface LoginFormValues {
   email: string;
@@ -19,7 +20,7 @@ function LoginEmail() {
   const {
     register,
     handleSubmit,
-    formState: { isValid, isDirty },
+    formState: { errors, isValid, isDirty },
   } = useForm<LoginFormValues>({
     mode: 'onChange', // 입력값 변경 시마다 검증
   });
@@ -29,13 +30,17 @@ function LoginEmail() {
     mutationFn: loginFetch,
     onSuccess: (data) => {
       // 로그인 성공 시 쿠키에 토큰 저장 (유효기간 1일)
-      setCookie('token', data.user.token, 1);
+      if (data) {
+        setCookie('token', data.token, 1);
+      }
       navigate('/');
     },
     onError: (error) => {
       // 에러 발생 시 비밀번호 에러 메시지 설정
       if (error instanceof Error) {
         setPasswordError(error.message);
+      } else {
+        alert('로그인 실패: 알 수 없는 오류가 발생했습니다.');
       }
     },
   });
@@ -47,6 +52,8 @@ function LoginEmail() {
     loginMutation.mutate(data);
   };
 
+  const loginValid = !isValid || !isDirty || loginMutation.isPending;
+
   return (
     <section className="pt-[30px] px-[34px]">
       <h1 className="text-center font-medium text-2xl mb-10">로그인</h1>
@@ -57,6 +64,7 @@ function LoginEmail() {
           type="text"
           register={register}
           required
+          errorMessage={errors.email?.message}
         />
         <CommonInput
           name="password"
@@ -64,18 +72,18 @@ function LoginEmail() {
           type="password"
           register={register}
           required
-          errorMessage={passwordError}
+          errorMessage={errors.password?.message || passwordError}
         />
         <div className="mt-[30px]">
           <CommonBtn
             text={loginMutation.isPending ? '로그인 중...' : '로그인'}
             type="submit"
-            disabled={!isValid || !isDirty || loginMutation.isPending}
+            disabled={loginValid}
           />
         </div>
       </form>
       <div className="mt-5 text-center">
-        <Link to="" className="text-xs text-gray">
+        <Link to="/signup" className="text-xs text-gray">
           이메일로 회원가입
         </Link>
       </div>
