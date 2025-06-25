@@ -141,6 +141,9 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
           type="text"
           register={register}
           required
+          minLength={2}
+          maxLength={10}
+          errorMessage={errors.username?.message}
         />
         <AccountNameInput
           name="accountName"
@@ -148,9 +151,7 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
           type="text"
           register={register}
           required
-          errorMessage={
-            (errors.accountName?.message as string) || accountNameError
-          }
+          errorMessage={errors.accountName?.message || accountNameError}
           successMessage={accountNameSuccess}
           onValidateAccountName={handleValidateAccountName}
         />
@@ -160,6 +161,7 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
           type="text"
           register={register}
           required
+          errorMessage={errors.intro?.message}
         />
         <div className="mt-[30px]">
           <CommonBtn

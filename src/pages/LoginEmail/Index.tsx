@@ -20,7 +20,7 @@ function LoginEmail() {
   const {
     register,
     handleSubmit,
-    formState: { isValid, isDirty },
+    formState: { errors, isValid, isDirty },
   } = useForm<LoginFormValues>({
     mode: 'onChange', // 입력값 변경 시마다 검증
   });
@@ -64,6 +64,7 @@ function LoginEmail() {
           type="text"
           register={register}
           required
+          errorMessage={errors.email?.message}
         />
         <CommonInput
           name="password"
@@ -71,7 +72,7 @@ function LoginEmail() {
           type="password"
           register={register}
           required
-          errorMessage={passwordError}
+          errorMessage={errors.password?.message || passwordError}
         />
         <div className="mt-[30px]">
           <CommonBtn
