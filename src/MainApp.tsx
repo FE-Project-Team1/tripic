@@ -1,4 +1,11 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from 'react-router-dom';
 import Home from './pages/Home/Index';
 import Login from './pages/Login/Index';
 import LoginEmail from './pages/LoginEmail/Index';
@@ -10,29 +17,41 @@ import Post from './pages/Post/Index';
 import ChatRoom from './pages/ChatRoom/Index';
 import { getCookie } from './utils/auth';
 
-function MainApp() {
-  const hasToken = !!getCookie('token');
+function AppRoutes() {
+  const [hasToken, setHasToken] = useState(!!getCookie('token'));
+  const location = useLocation();
+
+  // 라우트 변경 시 토큰 상태를 다시 확인
+  useEffect(() => {
+    setHasToken(!!getCookie('token'));
+  }, [location.pathname]);
 
   return (
+    <Routes>
+      <Route
+        path="/"
+        element={hasToken ? <Home /> : <Navigate to="/login" replace />}
+      />
+      <Route
+        path="/login"
+        element={hasToken ? <Navigate to="/" replace /> : <Login />}
+      />
+      <Route path="/login/email" element={<LoginEmail />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/profile/followers" element={<Follow />} />
+      <Route path="/profile/following" element={<Follow />} />
+      <Route path="/chat" element={<Chat />} />
+      <Route path="/chat/room" element={<ChatRoom />} />
+      <Route path="/post" element={<Post />} />
+    </Routes>
+  );
+}
+
+function MainApp() {
+  return (
     <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={hasToken ? <Home /> : <Navigate to="/login" replace />}
-        />
-        <Route
-          path="/login"
-          element={hasToken ? <Navigate to="/" replace /> : <Login />}
-        />
-        <Route path="/login/email" element={<LoginEmail />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/profile/followers" element={<Follow />} />
-        <Route path="/profile/following" element={<Follow />} />
-        <Route path="/chat" element={<Chat />} />
-        <Route path="/chat/room" element={<ChatRoom />} />
-        <Route path="/post" element={<Post />} />
-      </Routes>
+      <AppRoutes />
     </BrowserRouter>
   );
 }
