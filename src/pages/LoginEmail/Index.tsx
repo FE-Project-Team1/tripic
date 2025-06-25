@@ -6,7 +6,7 @@ import CommonBtn from '../../component/CommonBtn';
 
 import CommonInput from '../../component/Input/CommonInput';
 import { loginFetch } from '../../api/loginApi';
-import { setCookie } from '../../utils/setCookie';
+import { setCookie } from '../../utils/auth';
 
 interface LoginFormValues {
   email: string;
