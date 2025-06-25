@@ -7,6 +7,7 @@ import SignUp from './pages/SignUp/Index';
 import Follow from './pages/Follow/Index';
 import Chat from './pages/Chat/Index';
 import Post from './pages/Post/Index';
+import ChatRoom from './pages/ChatRoom/Index';
 
 function MainApp() {
   return (
@@ -20,6 +21,7 @@ function MainApp() {
         <Route path="/profile/followers" element={<Follow />} />
         <Route path="/profile/following" element={<Follow />} />
         <Route path="/chat" element={<Chat />} />
+        <Route path="/chat/room" element={<ChatRoom />} />
         <Route path="/post" element={<Post />} />
       </Routes>
     </BrowserRouter>
