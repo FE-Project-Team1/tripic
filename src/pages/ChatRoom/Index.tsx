@@ -15,7 +15,7 @@ function ChatRoom() {
                 <div
                 className="w-[240px] box-border bg-white border border-[#C4C4C4]
                             px-3 py-3 rounded-[10px] rounded-tl-none text-black
-                            text-[14px] leading-[100%] align-bottom break-words"
+                            text-[14px] leading-[14px] align-bottom break-words"
                 >
                 옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여,
                 뿐이다. 이상의 청춘의 뼈 따뜻한 그들의 그와 약동하다. 대고,
@@ -35,7 +35,7 @@ function ChatRoom() {
                 <div
                 className="w-[240px] box-border bg-white border border-[#C4C4C4]
                             px-3 py-3 rounded-[10px] rounded-tl-none text-black
-                            text-[14px] leading-[100%] align-bottom break-words"
+                            text-[14px] leading-[14px] align-bottom break-words"
                 >
                 안녕하세요. 감귤 사고싶어요요요요요
                 </div>
@@ -49,7 +49,7 @@ function ChatRoom() {
                 <div
                 className="max-w-[240px] bg-[#F26E22] text-white
                             px-3 py-3 rounded-[10px] rounded-tr-none
-                            text-[14px] leading-[100%] align-bottom break-words"
+                            text-[14px] leading-[14px] align-bottom break-words"
                 >
                 네 말씀하세요.
                 </div>
