@@ -27,7 +27,7 @@ function ChatList() {
   ];
 
   return (
-    <section className="flex justify-center px-4 pt-24">
+    <section className="flex justify-center px-4 pt-18">
       <ul className="w-full max-w-screen-sm space-y-5">
         {chatItems.map((item) => (
           <li key={item.id} className="relative w-full">
