@@ -1,9 +1,11 @@
 import BackBtn from './BackBtn';
 import SearchIcon from './SearchIcon';
 import SearchInput from './SearchInput';
+import SettingBtn from './SettingBtn';
 
 interface ITopNav {
   backBtn?: boolean;
+  settingBtn?: boolean;
   searchInput?: boolean;
   searchIcon?: boolean;
   heading?: string;
@@ -11,6 +13,7 @@ interface ITopNav {
 
 function TopNavigation({
   backBtn = false,
+  settingBtn = false,
   searchInput = false,
   searchIcon = false,
   heading,
@@ -28,6 +31,7 @@ function TopNavigation({
       <div>
         {searchIcon && <SearchIcon />}
         {searchInput && <SearchInput />}
+        {settingBtn && <SettingBtn />}
       </div>
     </nav>
   );
