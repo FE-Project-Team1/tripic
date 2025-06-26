@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import type { ReactElement } from 'react';
 
-import Feed from './Feed';
+import Feed from '../../../component/Feed';
 import ImageGrid from './ImageGrid';
 
 import iconPostAlbumOff from '../../../assets/icon-post-album-off.png';
@@ -12,9 +12,7 @@ import iconPostListOn from '../../../assets/icon-post-list-on.png';
 
 type ScreenMode = 'feed' | 'grid';
 
-interface IFeedsProps {};
-
-function Feeds({}: IFeedsProps): ReactElement {
+function Feeds(): ReactElement {
   const [currentScreen, setCurrentScreen] = useState<ScreenMode>('feed');
 
   const handleFeedIconClick = (): void => {
@@ -28,40 +26,35 @@ function Feeds({}: IFeedsProps): ReactElement {
   };
 
   return (
-    <div className="">
-      <div className="w-full max-w-md bg-white px-4 pt-4 mx-auto">
-        <div className="flex justify-end space-x-2 mb-2">
-          <button
-            onClick={handleFeedIconClick}
-            className={`p-1 rounded-md focus:outline-none`}
-            aria-label="피드 화면 보기"
-          >
-            <img
-              src={currentScreen === 'feed' ? iconPostListOn : iconPostListOff}
-              alt="피드 아이콘"
-              className="h-6 w-6"
-            />
-          </button>
-          <button
-            onClick={handleImageGridIconClick}
-            className={`p-1 rounded-md focus:outline-none`}
-            aria-label="이미지 그리드 화면 보기"
-          >
-            <img
-              src={currentScreen === 'grid' ? iconPostAlbumOn : iconPostAlbumOff}
-              alt="앨범 아이콘"
-              className="h-6 w-6"
-            />
-          </button>
-        </div>
+    <section>
+      <div className="bg-white px-4 flex h-11 justify-end border-light-gray border-b-[1px]">
+        <button
+          onClick={handleFeedIconClick}
+          className={`p-1 rounded-md focus:outline-none`}
+          aria-label="피드 화면 보기"
+        >
+          <img
+            src={currentScreen === 'feed' ? iconPostListOn : iconPostListOff}
+            alt="피드 아이콘"
+            className="h-6 w-6"
+          />
+        </button>
+        <button
+          onClick={handleImageGridIconClick}
+          className={`p-1 rounded-md focus:outline-none`}
+          aria-label="이미지 그리드 화면 보기"
+        >
+          <img
+            src={currentScreen === 'grid' ? iconPostAlbumOn : iconPostAlbumOff}
+            alt="앨범 아이콘"
+            className="h-6 w-6"
+          />
+        </button>
       </div>
-
-      <div className="w-full h-px bg-gray-200 mb-4"></div>
-
       <div className="w-full max-w-md bg-white px-4 pb-4 mx-auto">
         {currentScreen === 'feed' ? <Feed /> : <ImageGrid />}
       </div>
-    </div>
+    </section>
   );
 }
 

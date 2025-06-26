@@ -8,9 +8,13 @@ function Profile() {
   return (
     <>
       <TopNavigation backBtn={true} settingBtn={true} />
-      <ProfileInfo />
-      <TripCourse />
-      <Feeds />
+      <main className="pt-12 pb-15">
+        <ProfileInfo />
+        <div className="h-[6px] bg-light-gray-03"></div>
+        <TripCourse />
+        <div className="h-[6px] bg-light-gray-03"></div>
+        <Feeds />
+      </main>
       <BottomNavigation activePage="Profile" />
     </>
   );

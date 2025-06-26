@@ -3,16 +3,15 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 
 // 이미지 파일 import (경로 수정하지 않음)
-import Fushimi from '../../../../public/images/Fushimi-Inari- Shrine.png';
-import Kinkakuji from '../../../../public/images/Kinkakuji.png';
-import Kiyomizudera from '../../../../public/images/Kiyomizudera.png';
-import Nakagawa from '../../../../public/images/Nakagawa-River.png';
+// import Fushimi from '/public/images/Fushimi-Inari- Shrine.png';
+// import Kinkakuji from '/public/images/Kinkakuji.png';
+// import Kiyomizudera from '/public/images/Kiyomizudera.png';
+// import Nakagawa from '/public/images/Nakagawa-River.png';
 
 /**
  * 상품 정보를 정의하는 인터페이스.
  */
 interface IProduct {
-  imageUrl: string;
   name: string;
   price: number;
 }
@@ -31,22 +30,18 @@ function TripCourse() {
   // 캐러셀에 표시될 상품 데이터 배열 (하드코딩된 데이터)
   const PRODUCTS: IProduct[] = [
     {
-      imageUrl: Fushimi,
       name: '후시미 이나리 신사',
       price: 30000,
     },
     {
-      imageUrl: Kinkakuji,
       name: '금각사',
       price: 20000,
     },
     {
-      imageUrl: Kiyomizudera,
       name: '청수사',
       price: 50000,
     },
     {
-      imageUrl: Nakagawa,
       name: '나카스 강',
       price: 44000,
     },
@@ -153,23 +148,26 @@ function TripCourse() {
       let snapToIndex;
 
       if (itemTotalWidth === 0) {
-          snapToIndex = 0;
+        snapToIndex = 0;
       } else {
-          snapToIndex = Math.round(Math.abs(currentTranslateRef.current) / itemTotalWidth);
+        snapToIndex = Math.round(
+          Math.abs(currentTranslateRef.current) / itemTotalWidth
+        );
 
-          if (movedBy < 0) {
-              snapToIndex = Math.min(snapToIndex + 1, PRODUCTS.length - 1);
-          } else {
-              snapToIndex = Math.max(snapToIndex - 1, 0);
-          }
-          snapToIndex = Math.max(0, Math.min(snapToIndex, PRODUCTS.length - 1));
+        if (movedBy < 0) {
+          snapToIndex = Math.min(snapToIndex + 1, PRODUCTS.length - 1);
+        } else {
+          snapToIndex = Math.max(snapToIndex - 1, 0);
+        }
+        snapToIndex = Math.max(0, Math.min(snapToIndex, PRODUCTS.length - 1));
       }
       setCurrentIndex(snapToIndex);
     }
   };
 
   // --- 터치 이벤트 핸들러 ---
-  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => handleStart(e.touches[0].clientX);
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) =>
+    handleStart(e.touches[0].clientX);
   const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
     if (!isDragging.current) return;
     e.preventDefault();
@@ -178,7 +176,8 @@ function TripCourse() {
   const handleTouchEnd = () => handleEnd();
 
   // --- 마우스 이벤트 핸들러 (데스크톱 드래그 기능을 위해) ---
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => handleStart(e.clientX);
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) =>
+    handleStart(e.clientX);
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!isDragging.current) return;
     e.preventDefault();
@@ -192,9 +191,8 @@ function TripCourse() {
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-base font-bold mb-4 text-left ml-2">사용자 추천 여행지
-      </h1>
+    <div className="pl-4 py-5">
+      <h1 className="text-base font-bold mb-4 text-left">사용자 추천 여행지</h1>
 
       {PRODUCTS.length === 0 ? (
         <div className="text-gray-600 p-4 border rounded-md text-center text-base">
@@ -213,23 +211,21 @@ function TripCourse() {
         >
           <div
             ref={carouselTrackRef}
-            className="product-carousel flex"
+            className="product-carousel flex gap-[10px]"
           >
             {PRODUCTS.map((product, index) => (
               <div
                 key={index}
                 ref={index === 0 ? firstProductItemRef : null}
-                className="product-item flex-shrink-0 flex flex-col items-start rounded-lg bg-white mx-2 w-[140px] h-[132px]"
+                className="product-item flex-shrink-0 flex flex-col items-start rounded-lg bg-white w-[140px]"
               >
                 <img
-                  src={product.imageUrl}
+                  src={'https://placehold.co/400'}
                   alt={product.name}
-                  className="product-image w-full h-full object-cover rounded"
+                  className="product-image w-full object-cover rounded mb-[6px] h-[90px]"
                 />
                 <div className="product-details text-left">
-                  <h3 className="product-name text-sm">
-                    {product.name}
-                  </h3>
+                  <h3 className="product-name text-sm mb-1">{product.name}</h3>
                   <p className="product-price text-xs text-orange-600">
                     {product.price.toLocaleString()}원
                   </p>
