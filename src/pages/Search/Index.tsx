@@ -5,7 +5,7 @@ function Search() {
   return (
     <>
       <SearchBar />
-      <BottomNavigation />
+      <BottomNavigation activePage="Home" />
     </>
   );
 }
