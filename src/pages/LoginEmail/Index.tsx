@@ -36,7 +36,7 @@ function LoginEmail() {
         // 약간의 지연 후 리디렉션하여 상태가 동기화되도록 함
         setTimeout(() => {
           navigate('/', { replace: true }); // replace로 이동하여 뒤로가기 방지
-        }, 10);
+        }, 100);
       }
     },
     onError: (error) => {
