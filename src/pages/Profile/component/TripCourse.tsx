@@ -224,7 +224,7 @@ function TripCourse() {
                 <img
                   src={product.imageUrl}
                   alt={product.name}
-                  className="product-image w-full h-auto rounded"
+                  className="product-image w-full h-full object-cover rounded"
                 />
                 <div className="product-details text-left">
                   <h3 className="product-name text-sm">
@@ -237,24 +237,6 @@ function TripCourse() {
               </div>
             ))}
           </div>
-          {PRODUCTS.length > 1 && (
-            <div className="navigation-buttons mt-4 flex space-x-4 hidden md:flex">
-              <button
-                onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
-                disabled={currentIndex === 0}
-                className="px-4 py-2 text-xl font-bold bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                &lt;
-              </button>
-              <button
-                onClick={() => setCurrentIndex((prev) => Math.min(PRODUCTS.length - 1, prev + 1))}
-                disabled={currentIndex >= PRODUCTS.length - 1}
-                className="px-4 py-2 text-xl font-bold bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                &gt;
-              </button>
-            </div>
-          )}
         </div>
       )}
     </div>
