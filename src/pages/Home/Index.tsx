@@ -6,10 +6,10 @@ function Home() {
   return (
     <>
       <TopNavigation />
-      <main className='pt-12'>
+      <main className="pt-12">
         <SearchResult />
       </main>
-      <BottomNavigation />
+      <BottomNavigation activePage="Home" />
     </>
   );
 }

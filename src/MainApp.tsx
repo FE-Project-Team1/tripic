@@ -9,6 +9,7 @@ import {
 import Home from './pages/Home/Index';
 import Login from './pages/Login/Index';
 import LoginEmail from './pages/LoginEmail/Index';
+import Search from './pages/Search/Index';
 import Profile from './pages/Profile/Index';
 import SignUp from './pages/SignUp/Index';
 import Follow from './pages/Follow/Index';
@@ -37,6 +38,7 @@ function AppRoutes() {
         element={hasToken ? <Navigate to="/" replace /> : <Login />}
       />
       <Route path="/login/email" element={<LoginEmail />} />
+      <Route path="/search" element={<Search />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/profile/followers" element={<Follow />} />
