@@ -6,7 +6,7 @@ function BtnPopup() {
             aria-labelledby="popup-title"
             className="fixed inset-0 z-50 flex items-center justify-center"
         >
-            <div className="w-[252px] h-[110px] bg-white rounded-[10px] flex flex-col justify-between shadow-lg">
+            <div className="w-[252px] h-[110px] bg-white rounded-[10px] flex flex-col justify-between shadow">
                 <div className="flex-1 flex items-center justify-center">
                 <h2 className="text-base font-medium text-center">
                     로그아웃하시겠어요?
