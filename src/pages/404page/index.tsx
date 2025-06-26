@@ -4,7 +4,7 @@ import icon404 from '../../assets/icon-404.svg';
 function ErrorPage() {
   return (
     <main className="flex flex-col items-center text-center min-h-screen">
-      <figure className="mt-56 mb-4">
+      <figure className="mt-56 mb-[30px]">
         <img
           src={icon404}
           alt="404 에러 아이콘"
