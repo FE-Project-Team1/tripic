@@ -2,11 +2,10 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
-import CommonBtn from '../../component/Input/CommonBtn';
-
+import CommonBtn from '../../component/CommonBtn';
 import CommonInput from '../../component/Input/CommonInput';
 import { loginFetch } from '../../api/loginApi';
-import { setCookie } from '../../utils/setCookie';
+import { setCookie } from '../../utils/auth';
 
 interface LoginFormValues {
   email: string;
@@ -20,7 +19,7 @@ function LoginEmail() {
   const {
     register,
     handleSubmit,
-    formState: { isValid, isDirty },
+    formState: { errors, isValid, isDirty },
   } = useForm<LoginFormValues>({
     mode: 'onChange', // 입력값 변경 시마다 검증
   });
@@ -32,8 +31,13 @@ function LoginEmail() {
       // 로그인 성공 시 쿠키에 토큰 저장 (유효기간 1일)
       if (data) {
         setCookie('token', data.token, 1);
+
+        // 상태 업데이트 후 즉시 리디렉션하지 않고
+        // 약간의 지연 후 리디렉션하여 상태가 동기화되도록 함
+        setTimeout(() => {
+          navigate('/', { replace: true }); // replace로 이동하여 뒤로가기 방지
+        }, 100);
       }
-      navigate('/');
     },
     onError: (error) => {
       // 에러 발생 시 비밀번호 에러 메시지 설정
@@ -64,6 +68,7 @@ function LoginEmail() {
           type="text"
           register={register}
           required
+          errorMessage={errors.email?.message}
         />
         <CommonInput
           name="password"
@@ -71,7 +76,7 @@ function LoginEmail() {
           type="password"
           register={register}
           required
-          errorMessage={passwordError}
+          errorMessage={errors.password?.message || passwordError}
         />
         <div className="mt-[30px]">
           <CommonBtn

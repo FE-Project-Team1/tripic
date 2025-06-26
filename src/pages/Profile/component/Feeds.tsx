@@ -1,5 +1,66 @@
-function Feeds() {
-  return <></>;
+// src/components/Feeds.tsx
+import { useState } from 'react';
+import type { ReactElement } from 'react';
+
+import Feed from './Feed';
+import ImageGrid from './ImageGrid';
+
+import iconPostAlbumOff from '../../../assets/icon-post-album-off.png';
+import iconPostAlbumOn from '../../../assets/icon-post-album-on.png';
+import iconPostListOff from '../../../assets/icon-post-list-off.png';
+import iconPostListOn from '../../../assets/icon-post-list-on.png';
+
+type ScreenMode = 'feed' | 'grid';
+
+interface IFeedsProps {
+
+}
+
+function Feeds({}: IFeedsProps): ReactElement {
+  const [currentScreen, setCurrentScreen] = useState<ScreenMode>('feed');
+
+  const handleFeedIconClick = (): void => {
+    console.log('피드 아이콘 클릭됨: Feed 화면 표시');
+    setCurrentScreen('feed');
+  };
+
+  const handleImageGridIconClick = (): void => {
+    console.log('그리드 아이콘 클릭됨: ImageGrid 화면으로 이동');
+    setCurrentScreen('grid');
+  };
+
+  return (
+    <div className="">
+      <div className="w-full max-w-md bg-white shadow-md rounded-lg p-4">
+        <div className="flex justify-end space-x-2 mb-4">
+          <button
+            onClick={handleFeedIconClick}
+            className={`p-1 rounded-md focus:outline-none`}
+            aria-label="피드 화면 보기"
+          >
+            <img
+              src={currentScreen === 'feed' ? iconPostListOn : iconPostListOff}
+              alt="피드 아이콘"
+              className="h-6 w-6"
+            />
+          </button>
+          <button
+            onClick={handleImageGridIconClick}
+            className={`p-1 rounded-md focus:outline-none`}
+            aria-label="이미지 그리드 화면 보기"
+          >
+            <img
+              src={currentScreen === 'grid' ? iconPostAlbumOn : iconPostAlbumOff}
+              alt="앨범 아이콘"
+              className="h-6 w-6"
+            />
+          </button>
+        </div>
+
+        {currentScreen === 'feed' ? <Feed /> : <ImageGrid />}
+      </div>
+    </div>
+  );
 }
 
 export default Feeds;

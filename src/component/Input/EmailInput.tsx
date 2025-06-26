@@ -23,7 +23,6 @@ function EmailInput<T extends FieldValues = FieldValues>({
   required = false,
   onValidateEmail,
 }: IInput<T>) {
-
   const displayErrorMessage =
     successMessage === '이미 가입된 이메일 주소 입니다.'
       ? successMessage
@@ -32,9 +31,8 @@ function EmailInput<T extends FieldValues = FieldValues>({
   const displaySuccessMessage =
     successMessage === '이미 가입된 이메일 주소 입니다.' ? '' : successMessage;
 
-
   const { onChange, onBlur, ref, ...rest } = register(name, {
-    required,
+    required: required ? '필수 입력 값입니다.' : false,
     pattern: {
       value: emailRegex,
       message: '올바른 이메일 형식이 아닙니다.',

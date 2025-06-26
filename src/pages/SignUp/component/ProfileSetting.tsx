@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import ProfileImage from '../../../component/ProfileImage';
 import CommonInput from '../../../component/Input/CommonInput';
 import AccountNameInput from '../../../component/Input/AccountNameInput';
-import CommonBtn from '../../../component/Input/CommonBtn';
+import CommonBtn from '../../../component/CommonBtn';
 import { validAccountName } from '../../../api/signupApi';
 import { uploadImage, getImageUrl } from '../../../api/imageApi';
 import type { IProfile } from '../Index';
@@ -141,6 +141,9 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
           type="text"
           register={register}
           required
+          minLength={2}
+          maxLength={10}
+          errorMessage={errors.username?.message}
         />
         <AccountNameInput
           name="accountName"
@@ -148,9 +151,7 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
           type="text"
           register={register}
           required
-          errorMessage={
-            (errors.accountName?.message as string) || accountNameError
-          }
+          errorMessage={errors.accountName?.message || accountNameError}
           successMessage={accountNameSuccess}
           onValidateAccountName={handleValidateAccountName}
         />
@@ -160,6 +161,7 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
           type="text"
           register={register}
           required
+          errorMessage={errors.intro?.message}
         />
         <div className="mt-[30px]">
           <CommonBtn
