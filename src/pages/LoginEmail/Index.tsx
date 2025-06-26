@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import CommonBtn from '../../component/CommonBtn';
-
 import CommonInput from '../../component/Input/CommonInput';
 import { loginFetch } from '../../api/loginApi';
 import { setCookie } from '../../utils/auth';
@@ -32,8 +31,13 @@ function LoginEmail() {
       // 로그인 성공 시 쿠키에 토큰 저장 (유효기간 1일)
       if (data) {
         setCookie('token', data.token, 1);
+
+        // 상태 업데이트 후 즉시 리디렉션하지 않고
+        // 약간의 지연 후 리디렉션하여 상태가 동기화되도록 함
+        setTimeout(() => {
+          navigate('/', { replace: true }); // replace로 이동하여 뒤로가기 방지
+        }, 10);
       }
-      navigate('/');
     },
     onError: (error) => {
       // 에러 발생 시 비밀번호 에러 메시지 설정
