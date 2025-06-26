@@ -1,10 +1,8 @@
 // src/components/Feeds.tsx
 import { useState } from 'react';
 import type { ReactElement } from 'react';
-
 import Feed from '../../../component/Feed';
 import ImageGrid from './ImageGrid';
-
 import iconPostAlbumOff from '../../../assets/icon-post-album-off.png';
 import iconPostAlbumOn from '../../../assets/icon-post-album-on.png';
 import iconPostListOff from '../../../assets/icon-post-list-off.png';
@@ -51,7 +49,7 @@ function Feeds(): ReactElement {
           />
         </button>
       </div>
-      <div className="w-full max-w-md bg-white px-4 pb-4 mx-auto">
+      <div className="w-full max-w-[608px] bg-white px-4 py-4 mx-auto">
         {currentScreen === 'feed' ? <Feed /> : <ImageGrid />}
       </div>
     </section>

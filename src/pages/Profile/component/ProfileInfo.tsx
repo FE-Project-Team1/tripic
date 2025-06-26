@@ -5,7 +5,8 @@ import shareBtn from '../../../assets/share-btn.svg';
 
 function ProfileInfo() {
   return (
-    <div className="flex flex-col items-center max-w-[390px] h mx-auto overflow-auto">
+    <section className="flex flex-col items-center max-w-[390px] h mx-auto overflow-auto">
+      <h2 className="sr-only">프로필 정보</h2>
       <div className="w-full flex justify-between items-center mt-[30px] mb-[16px]">
         <div className="flex flex-col items-center ml-[41px]">
           <span className="text-lg font-bold">2950</span>
@@ -40,7 +41,7 @@ function ProfileInfo() {
           <img src={shareBtn} alt="공유하기" />
         </button>
       </div>
-    </div>
+    </section>
   );
 }
 

@@ -2,10 +2,11 @@ import heartBtn from '../assets/heart.svg';
 import messageCircleBtn from '../assets/message-circle.svg';
 import profileImage from '../assets/profile-img.svg';
 import moreBtn from '../assets/s-icon-more-vertical.svg';
+import testImg from '/public/images/Nakagawa-River.png';
 
 function Feed() {
   return (
-    <article className="w-[358px] mx-[16px] py-[18px]">
+    <article className="max-w-[608px]">
       {/* 프로필 헤더 영역 */}
       <div className="flex justify-between items-center">
         <div className="flex items-start gap-[12px]">
@@ -33,10 +34,16 @@ function Feed() {
         </p>
 
         {/* 이미지 영역 */}
-        <div className="mt-[16px] mb-[12px]"></div>
+        <div className="mt-[16px] mb-[12px] aspect-[304/228] rounded-[10px]">
+          <img
+            src={testImg}
+            alt="dummy"
+            className="w-full h-full block rounded-[10px]"
+          />
+        </div>
 
         {/* 좋아요, 댓글 영역 */}
-        <ul className="flex items-center gap-[16px] px-[15px]">
+        <ul className="flex items-center gap-[16px]">
           <li className="flex items-center gap-[6px]">
             <button>
               <img src={heartBtn} alt="좋아요" />
@@ -51,9 +58,7 @@ function Feed() {
           </li>
         </ul>
 
-        <p className="text-[10px] text-gray mt-[16px] mb-[4px] px-[15px]">
-          2020년 10월 21일
-        </p>
+        <p className="text-[10px] text-gray mt-[16px]">2020년 10월 21일</p>
       </div>
     </article>
   );

@@ -192,7 +192,7 @@ function TripCourse() {
 
   return (
     <div className="pl-4 py-5">
-      <h1 className="text-base font-bold mb-4 text-left">사용자 추천 여행지</h1>
+      <h2 className="text-base font-bold mb-4 text-left">사용자 추천 여행지</h2>
 
       {PRODUCTS.length === 0 ? (
         <div className="text-gray-600 p-4 border rounded-md text-center text-base">
@@ -226,7 +226,7 @@ function TripCourse() {
                 />
                 <div className="product-details text-left">
                   <h3 className="product-name text-sm mb-1">{product.name}</h3>
-                  <p className="product-price text-xs text-orange-600">
+                  <p className="product-price text-xs text-main">
                     {product.price.toLocaleString()}원
                   </p>
                 </div>
