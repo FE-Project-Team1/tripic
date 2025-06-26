@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import iconArrowLeft from '../assets/icon-arrow-left.png';
 
 interface SearchBarProps {
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 function SearchBar({ onClose }: SearchBarProps) {
@@ -21,7 +21,12 @@ function SearchBar({ onClose }: SearchBarProps) {
 
   return (
     // 전체 검색창 오버레이
-    <div className="fixed inset-0 bg-white z-50 flex flex-col pt-2 px-4" role="dialog" aria-modal="true" aria-label="계정 검색">
+    <div
+      className="fixed inset-0 bg-white z-50 flex flex-col pt-2 px-4"
+      role="dialog"
+      aria-modal="true"
+      aria-label="계정 검색"
+    >
       {/* 검색창 상단바*/}
       <div className="flex items-center w-full">
         <button
@@ -30,17 +35,17 @@ function SearchBar({ onClose }: SearchBarProps) {
           className="h-6 w-6 cursor-pointer p-0 border-none bg-transparent flex items-center justify-center flex-shrink-0"
           aria-label="검색창 닫기"
         >
-          <img
-            src={iconArrowLeft}
-            alt="뒤로 가기"
-            className="h-full w-full"
-          />
+          <img src={iconArrowLeft} alt="뒤로 가기" className="h-full w-full" />
         </button>
 
         <div className="flex-grow h-8 ml-4 mr-2">
-          <form onSubmit={handleSubmit}
-                className="flex items-center w-full h-full rounded-full bg-[#F2F2F2] px-3">
-            <label htmlFor="account-search-input" className="sr-only">계정 검색</label>
+          <form
+            onSubmit={handleSubmit}
+            className="flex items-center w-full h-full rounded-full bg-[#F2F2F2] px-3"
+          >
+            <label htmlFor="account-search-input" className="sr-only">
+              계정 검색
+            </label>
             <input
               id="account-search-input"
               type="text"
