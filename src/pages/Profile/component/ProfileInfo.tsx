@@ -1,16 +1,22 @@
+import ProfileImage from '../../../component/ProfileImage';
+import CommonBtn from '../../../component/CommonBtn';
 import messageBtn from '../../../assets/message-btn.svg';
 import shareBtn from '../../../assets/share-btn.svg';
 
-function Profile() {
+function ProfileInfo() {
   return (
-    <div className="flex flex-col items-center w-[390px] h-[362px] mx-auto overflow-auto">
-      <div className="w-full flex justify-between items-center mt-[78px] mb-[16px]">
+    <section className="flex flex-col items-center max-w-[390px] h mx-auto overflow-auto">
+      <h2 className="sr-only">프로필 정보</h2>
+      <div className="w-full flex justify-between items-center mt-[30px] mb-[16px]">
         <div className="flex flex-col items-center ml-[41px]">
           <span className="text-lg font-bold">2950</span>
           <span className="text-[10px] text-gray">followers</span>
         </div>
         {/* 프로필 이미지 영역 (빈 공간으로 유지) */}
-        <div className="w-[110px] h-[110px] flex items-center justify-center"></div>
+        <div className="w-[110px] h-[110px] flex items-center justify-center">
+          <ProfileImage />
+        </div>
+        {/* 프로필 이미지 영역 (빈 공간으로 유지) */}
         <div className="flex flex-col items-center mr-[45px]">
           <span className="text-lg font-bold text-gray">128</span>
           <span className="text-[10px] text-gray">followings</span>
@@ -28,18 +34,18 @@ function Profile() {
         <button>
           <img src={messageBtn} alt="메시지" />
         </button>
-        <button className="w-[120px] h-[34px] bg-[#F26E22] rounded-[30px] text-white text-[14px] font-medium flex items-center justify-center">
-          팔로우
-        </button>
+        <div className="w-30">
+          <CommonBtn text="팔로우" size="medium" />
+        </div>
         <button>
           <img src={shareBtn} alt="공유하기" />
         </button>
       </div>
-    </div>
+    </section>
   );
 }
 
-export default Profile;
+export default ProfileInfo;
 
 {
   /* 언팔로우 버튼 */
