@@ -1,7 +1,7 @@
 import messageBtn from '../../../assets/message-btn.svg';
 import shareBtn from '../../../assets/share-btn.svg';
 
-function Profile() {
+function ProfileInfo() {
   return (
     <div className="flex flex-col items-center w-[390px] h-[362px] mx-auto overflow-auto">
       <div className="w-full flex justify-between items-center mt-[78px] mb-[16px]">
@@ -39,7 +39,7 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default ProfileInfo;
 
 {
   /* 언팔로우 버튼 */
