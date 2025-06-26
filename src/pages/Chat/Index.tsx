@@ -28,9 +28,9 @@ function Chat() {
 
     return (
         <section className="flex justify-center px-4 pt-24">
-            <ul className="space-y-5">
+            <ul className="w-full max-w-screen-sm space-y-5">
                 {chatItems.map((item) => (
-                <li key={item.id} className="relative w-[358px] h-[42px]">
+                <li key={item.id} className="relative w-full">
                     <Link to="" className="flex items-center gap-3">
                     <figure className="relative w-[42px] h-[42px] shrink-0">
                         <img
@@ -43,14 +43,16 @@ function Chat() {
                         )}
                     </figure>
                     <div className="flex-1 overflow-hidden">
-                        <h3 className="text-sm font-semibold text-black leading-tight truncate">
+                        <h3 className="text-sm text-black leading-[14px] truncate">
                         {item.name}
                         </h3>
-                        <p className="text-xs text-[var(--color-gray)] truncate mt-1 mb-[3px] w-[238px] h-[15px] leading-[15px]">
+                        <p className="text-xs text-[var(--color-gray)] truncate mt-1 mb-[3px] leading-[12px]">
                         {item.message}
                         </p>
                     </div>
-                    <time className="absolute right-0 bottom-[3px] text-[10px] text-[var(--color-light-gray)]">{item.date}</time>
+                    <time className="absolute right-0 bottom-[3px] text-[10px] text-[var(--color-light-gray)]">
+                        {item.date}
+                    </time>
                     </Link>
                 </li>
                 ))}
