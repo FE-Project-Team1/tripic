@@ -1,15 +1,13 @@
 import TopNavigation from '../../component/TopNavigation';
 import BottomNavigation from '../../component/BottomNavigation';
-import SearchResult from './component/SearchResult';
+import DefaultHome from './component/DefaultHome';
 
 function Home() {
   return (
     <>
       <TopNavigation />
-      <main className='pt-12'>
-        <SearchResult />
-      </main>
-      <BottomNavigation />
+      <DefaultHome />
+      <BottomNavigation activePage="Home" />
     </>
   );
 }

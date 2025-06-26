@@ -12,9 +12,7 @@ import iconPostListOn from '../../../assets/icon-post-list-on.png';
 
 type ScreenMode = 'feed' | 'grid';
 
-interface IFeedsProps {
-
-}
+interface IFeedsProps {};
 
 function Feeds({}: IFeedsProps): ReactElement {
   const [currentScreen, setCurrentScreen] = useState<ScreenMode>('feed');
@@ -31,8 +29,8 @@ function Feeds({}: IFeedsProps): ReactElement {
 
   return (
     <div className="">
-      <div className="w-full max-w-md bg-white shadow-md rounded-lg p-4">
-        <div className="flex justify-end space-x-2 mb-4">
+      <div className="w-full max-w-md bg-white px-4 pt-4 mx-auto">
+        <div className="flex justify-end space-x-2 mb-2">
           <button
             onClick={handleFeedIconClick}
             className={`p-1 rounded-md focus:outline-none`}
@@ -56,7 +54,11 @@ function Feeds({}: IFeedsProps): ReactElement {
             />
           </button>
         </div>
+      </div>
 
+      <div className="w-full h-px bg-gray-200 mb-4"></div>
+
+      <div className="w-full max-w-md bg-white px-4 pb-4 mx-auto">
         {currentScreen === 'feed' ? <Feed /> : <ImageGrid />}
       </div>
     </div>
