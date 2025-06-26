@@ -1,10 +1,10 @@
-import SearchBar from '../../component/SearchBar';
+import TopNavigation from '../../component/Navigation/TopNavigation';
 import BottomNavigation from '../../component/BottomNavigation';
 
 function Search() {
   return (
     <>
-      <SearchBar />
+      <TopNavigation backBtn={true} searchInput={true} />
       <BottomNavigation activePage="Home" />
     </>
   );
