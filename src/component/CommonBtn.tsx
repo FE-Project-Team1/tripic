@@ -17,7 +17,7 @@ function CommonBtn({
     <button
       type={type}
       disabled={disabled}
-      className={`w-full ${size === 'large' ? 'h-11' : size === 'medium' ? 'h-[34px]' : ''} rounded-[44px] text-white font-medium text-sm ${disabled ? 'bg-[#FFC7A7]' : 'bg-main'}`}
+      className={`w-full ${size === 'large' ? 'h-11' : size === 'medium' ? 'h-[34px]' : 'h-[32px]'} rounded-[44px] text-white font-medium text-sm ${disabled ? 'bg-[#FFC7A7]' : 'bg-main'}`}
       onClick={onClick && onClick}
     >
       {text}

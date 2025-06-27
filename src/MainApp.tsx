@@ -17,6 +17,7 @@ import Chat from './pages/Chat/Index';
 import Post from './pages/Post/Index';
 import ChatRoom from './pages/ChatRoom/Index';
 import { getCookie } from './utils/auth';
+import ProfileModification from './pages/ProfieModification/Index';
 
 function AppRoutes() {
   const [hasToken, setHasToken] = useState(!!getCookie('token'));
@@ -43,6 +44,7 @@ function AppRoutes() {
       <Route path="/profile" element={<Profile />} />
       <Route path="/profile/followers" element={<Follow />} />
       <Route path="/profile/following" element={<Follow />} />
+      <Route path="/profile/modification" element={<ProfileModification />} />
       <Route path="/chat" element={<Chat />} />
       <Route path="/chat/room" element={<ChatRoom />} />
       <Route path="/post" element={<Post />} />
