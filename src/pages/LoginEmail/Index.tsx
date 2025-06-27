@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import CommonBtn from '../../component/CommonBtn';
-import CommonInput from '../../component/Input/CommonInput';
 import { loginFetch } from '../../api/loginApi';
 import { setCookie } from '../../utils/auth';
+import FormInput from '../../component/FormInput';
 
 interface LoginFormValues {
   email: string;
@@ -56,24 +56,24 @@ function LoginEmail() {
     loginMutation.mutate(data);
   };
 
-  const loginValid = !isValid || !isDirty || loginMutation.isPending;
+  const isFormValid = !isValid || !isDirty || loginMutation.isPending;
 
   return (
     <section className="pt-[30px] px-[34px]">
       <h1 className="text-center font-medium text-2xl mb-10">로그인</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <CommonInput
+        <FormInput
           name="email"
           text="이메일"
-          type="text"
+          variant="email"
           register={register}
           required
           errorMessage={errors.email?.message}
         />
-        <CommonInput
+        <FormInput
           name="password"
           text="비밀번호"
-          type="password"
+          variant="password"
           register={register}
           required
           errorMessage={errors.password?.message || passwordError}
@@ -82,7 +82,7 @@ function LoginEmail() {
           <CommonBtn
             text={loginMutation.isPending ? '로그인 중...' : '로그인'}
             type="submit"
-            disabled={loginValid}
+            disabled={isFormValid}
           />
         </div>
       </form>

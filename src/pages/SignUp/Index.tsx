@@ -70,6 +70,26 @@ function SignUp() {
 
   // 프로필 설정 완료 핸들러
   const handleProfileComplete = (profileData: IProfile) => {
+    // 전송할 데이터 로깅
+    const finalSignupData = {
+      email: signUpData.email,
+      password: signUpData.password,
+      username: profileData.username,
+      accountname: profileData.accountName,
+      intro: profileData.intro,
+      image: profileData.image,
+    };
+
+    console.log('=== 회원가입 요청 데이터 ===');
+    console.log('Email:', finalSignupData.email);
+    console.log('Password length:', finalSignupData.password.length);
+    console.log('Username:', finalSignupData.username);
+    console.log('Account name:', finalSignupData.accountname);
+    console.log('Intro:', finalSignupData.intro);
+    console.log('Image:', finalSignupData.image);
+    console.log('=== 전체 데이터 ===');
+    console.log(JSON.stringify(finalSignupData, null, 2));
+
     // API 요청 실행
     signupMutation.mutate(profileData);
   };

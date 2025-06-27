@@ -2,11 +2,10 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import ProfileImage from '../../../component/ProfileImage';
-import CommonInput from '../../../component/Input/CommonInput';
-import AccountNameInput from '../../../component/Input/AccountNameInput';
 import CommonBtn from '../../../component/CommonBtn';
 import { validAccountName } from '../../../api/signupApi';
 import { uploadImage, getImageUrl } from '../../../api/imageApi';
+import FormInput from '../../../component/FormInput';
 import type { IProfile } from '../Index';
 
 interface IProfileSetting {
@@ -34,6 +33,7 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
   });
 
   const username = watch('username');
+  const accountName = watch('accountName');
   const intro = watch('intro');
 
   // 계정명 API 검증
@@ -119,11 +119,13 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
 
   // 폼이 유효한지 여부
   const isFormValid =
-    username &&
-    intro &&
-    isAccountNameValid &&
-    !accountNameMutation.isPending &&
-    !isUploading;
+    username && // 사용자이름이 입력되어 있고
+    accountName && // 계정ID가 입력되어 있고
+    intro && // 소개가 입력되어 있고
+    isAccountNameValid && // 계정명 검증이 통과했고
+    !errors.username && // 사용자이름에 에러가 없고
+    !errors.accountName && // 계정ID에 에러가 없고
+    !errors.intro; // 소개에 에러가 없음
 
   return (
     <section className="pt-[30px] px-[34px]">
@@ -135,30 +137,28 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
         <ProfileImage upload={true} onImageSelected={handleImageSelected} />
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="mt-[30px]">
-        <CommonInput
+        <FormInput
           name="username"
           text="사용자 이름"
-          type="text"
           register={register}
           required
           minLength={2}
           maxLength={10}
           errorMessage={errors.username?.message}
         />
-        <AccountNameInput
+        <FormInput
           name="accountName"
           text="계정 ID"
-          type="text"
+          variant="accountName"
           register={register}
           required
           errorMessage={errors.accountName?.message || accountNameError}
           successMessage={accountNameSuccess}
           onValidateAccountName={handleValidateAccountName}
         />
-        <CommonInput
+        <FormInput
           name="intro"
           text="소개"
-          type="text"
           register={register}
           required
           errorMessage={errors.intro?.message}
@@ -166,10 +166,19 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
         <div className="mt-[30px]">
           <CommonBtn
             text={
-              accountNameMutation.isPending ? '로딩중...' : '감귤마켓 시작하기'
+              isUploading ||
+              accountNameMutation.isPending ||
+              imageUploadMutation.isPending
+                ? '로딩중...'
+                : '감귤마켓 시작하기'
             }
             type="submit"
-            disabled={!isFormValid}
+            disabled={
+              !isFormValid ||
+              isUploading ||
+              accountNameMutation.isPending ||
+              imageUploadMutation.isPending
+            }
           />
         </div>
       </form>

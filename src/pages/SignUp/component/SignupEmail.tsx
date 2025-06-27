@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
-import EmailInput from '../../../component/Input/EmailInput';
-import PasswordInput from '../../../component/Input/PasswordInput';
 import CommonBtn from '../../../component/CommonBtn';
-
 import { validEmail } from '../../../api/signupApi';
+import FormInput from '../../../component/FormInput';
 import type { IEmailPassword } from '../Index';
 
 interface SignUpEmailProps {
@@ -70,37 +68,38 @@ function SignUpEmail({ onComplete }: SignUpEmailProps) {
     }
   };
 
+  const isFormValid =
+    !isEmailValid || !isPasswordValid || emailValidMutation.isPending;
+
   return (
     <section className="pt-[30px] px-[34px]">
       <h1 className="text-center font-medium text-2xl mb-10">
         이메일로 회원가입
       </h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <EmailInput
+        <FormInput
           name="email"
           text="이메일"
-          type="text"
+          variant="email"
           required
           register={register}
-          errorMessage={(errors.email?.message as string) || emailError}
+          errorMessage={errors.email?.message || emailError}
           successMessage={emailSuccess}
           onValidateEmail={handleValidateEmail}
         />
-        <PasswordInput
+        <FormInput
           name="password"
           text="비밀번호"
-          type="password"
+          variant="password"
           required
           register={register}
-          errorMessage={errors.password?.message as string}
+          errorMessage={errors.password?.message}
         />
         <div className="mt-8">
           <CommonBtn
             text={emailValidMutation.isPending ? '진행중...' : '다음'}
             type="submit"
-            disabled={
-              !isEmailValid || !isPasswordValid || emailValidMutation.isPending
-            }
+            disabled={isFormValid}
           />
         </div>
       </form>
