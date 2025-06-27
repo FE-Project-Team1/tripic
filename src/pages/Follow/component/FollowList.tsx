@@ -64,8 +64,8 @@ function FollowList() {
 
   // 수정된 부분: 팔로우/취소 버튼 클릭 핸들러 함수
   const handleFollowToggle = (id: number) => {
-    setFollowers(prevFollowers =>
-      prevFollowers.map(follower =>
+    setFollowers((prevFollowers) =>
+      prevFollowers.map((follower) =>
         follower.id === id
           ? { ...follower, isFollowing: !follower.isFollowing } // 해당 팔로워의 isFollowing 상태 토글
           : follower
@@ -74,27 +74,25 @@ function FollowList() {
   };
 
   return (
-    <div className='min-h-screen bg-white pt-12'>
-      <ul className='flex flex-col space-y-4 py-2 list-none'>
+    <div className="min-h-screen bg-white pt-12">
+      <ul className="flex flex-col space-y-4 py-6 list-none">
         {/* FOLLOWERS_DATA 대신 followers 상태 사용 */}
         {followers.map((follower: IFollower) => (
           <li
             key={follower.id}
-            className='flex items-center justify-between p-4 h-[50px]'
+            className="flex items-center justify-between p-4 h-[50px]"
           >
-            <div className='flex items-center'>
+            <div className="flex items-center">
               <img
                 src={follower.profileImageUrl}
                 alt={follower.name}
-                className='w-12 h-12 rounded-full mr-4 object-cover'
+                className="w-12 h-12 rounded-full mr-4 object-cover"
               />
-              <div className='flex flex-col gap-y-[6px]'>
-                <p className='font-medium text-gray-900 text-sm max-w-[288px] truncate'>
+              <div className="flex flex-col gap-y-[6px]">
+                <p className="font-medium text-sm max-w-[288px] truncate">
                   {follower.name}
                 </p>
-                <p
-                  className='text-xs text-gray-500 max-w-[240px] truncate'
-                >
+                <p className="text-xs text-gray max-w-[240px] truncate">
                   {follower.description}
                 </p>
               </div>
@@ -103,22 +101,22 @@ function FollowList() {
             {follower.isFollowing ? (
               <button
                 onClick={() => handleFollowToggle(follower.id)} // 클릭 시 상태 토글 함수 호출
-                className='
+                className="
                   w-14 h-7 flex items-center justify-center
-                  text-sm text-gray-600 bg-gray-100
-                  rounded-[26px] whitespace-nowrap
-                '
+                  text-xs text-gray bg-white
+                  rounded-[26px] whitespace-nowrap border-light-gray border-[1px]
+                "
               >
                 취소
               </button>
             ) : (
               <button
                 onClick={() => handleFollowToggle(follower.id)} // 클릭 시 상태 토글 함수 호출
-                className='
+                className="
                   w-14 h-7 flex items-center justify-center
-                  text-sm text-white bg-orange-500
+                  text-xs text-white bg-main
                   rounded-[26px] whitespace-nowrap
-                '
+                "
               >
                 팔로우
               </button>
