@@ -162,8 +162,6 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
           register={register}
           required
           errorMessage={errors.intro?.message}
-          minLength={2}
-          maxLength={10}
         />
         <div className="mt-[30px]">
           <CommonBtn
