@@ -145,6 +145,7 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
           minLength={2}
           maxLength={10}
           errorMessage={errors.username?.message}
+          placeholder="2~10자 이내여야 합니다."
         />
         <FormInput
           name="accountName"
@@ -155,6 +156,7 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
           errorMessage={errors.accountName?.message || accountNameError}
           successMessage={accountNameSuccess}
           onValidateAccountName={handleValidateAccountName}
+          placeholder="영문, 숫자, 특수문자(.),(_)만 사용 가능합니다."
         />
         <FormInput
           name="intro"
@@ -162,6 +164,7 @@ function ProfileSetting({ onComplete }: IProfileSetting) {
           register={register}
           required
           errorMessage={errors.intro?.message}
+          placeholder="자신과 판매할 상품에 대해 소개해 주세요!"
         />
         <div className="mt-[30px]">
           <CommonBtn

@@ -86,6 +86,7 @@ function SignUpEmail({ onComplete }: SignUpEmailProps) {
           errorMessage={errors.email?.message || emailError}
           successMessage={emailSuccess}
           onValidateEmail={handleValidateEmail}
+          placeholder="이메일 주소를 입력해 주세요."
         />
         <FormInput
           name="password"
@@ -94,6 +95,7 @@ function SignUpEmail({ onComplete }: SignUpEmailProps) {
           required
           register={register}
           errorMessage={errors.password?.message}
+          placeholder="비밀번호를 설정해 주세요."
         />
         <div className="mt-8">
           <CommonBtn
