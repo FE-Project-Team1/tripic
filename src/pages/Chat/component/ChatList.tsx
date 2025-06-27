@@ -32,7 +32,7 @@ function ChatList() {
       <ul className="w-full max-w-screen-sm space-y-5">
         {chatItems.map((item) => (
           <li key={item.id} className="relative w-full">
-            <Link to="" className="flex items-center gap-3">
+            <Link to="/chat/room" className="flex items-center gap-3">
               <figure className="relative w-[42px] h-[42px] shrink-0">
                 <img
                   src={basicProfile}
