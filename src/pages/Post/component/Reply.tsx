@@ -3,7 +3,8 @@ import moreVertical from '../../../assets/more-vertical.svg';
 
 function Reply() {
   return (
-    <article className="bg-white max-w-md mx-auto mb-[66px] pt-[20px] border-t border-light-gray ">
+    <article className="bg-white max-w-md mx-auto mb-[66px] pt-[20px] px-[16px] border-t border-light-gray ">
+      <h2 className="sr-only">댓글 창</h2>
       <div className="flex items-center justify-between mb-[4px]">
         <div className="flex items-center gap-[12px]">
           <img src={loVer} alt="프로필 사진" />
