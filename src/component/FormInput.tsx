@@ -15,6 +15,7 @@ interface IFormInput<T extends FieldValues = FieldValues> {
   maxLength?: number;
   onValidateEmail?: (email: string) => void;
   onValidateAccountName?: (accountName: string) => void;
+  placeholder?: string;
 }
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -31,6 +32,7 @@ function FormInput<T extends FieldValues = FieldValues>({
   maxLength,
   onValidateEmail,
   onValidateAccountName,
+  placeholder = '',
 }: IFormInput<T>) {
   // variant에 따른 input type 자동 결정
   const getInputType = (): string => {
@@ -109,16 +111,17 @@ function FormInput<T extends FieldValues = FieldValues>({
   if (!needsCustomHandler) {
     // 기본 사용법 (CommonInput, PasswordInput과 동일)
     return (
-      <div className="flex flex-col gap-1 mb-4">
+      <div className="flex flex-col gap-[10px] mb-4">
         <label htmlFor={name} className="font-medium text-xs text-gray">
           {text}
         </label>
         <input
           id={name}
           type={inputType}
-          className={`h-7 border-b-[1px] focus:border-main focus:outline-0 ${
+          className={`text-sm h-7 border-b-[1px] focus:border-main focus:outline-0 pb-2 placeholder:text-sm placeholder:text-light-gray ${
             errorMessage ? 'border-red' : 'border-light-gray'
           }`}
+          placeholder={placeholder}
           {...register(name, getValidationRules())}
         />
         {displayErrorMessage && !displaySuccessMessage && (
@@ -160,19 +163,20 @@ function FormInput<T extends FieldValues = FieldValues>({
   };
 
   return (
-    <div className="flex flex-col gap-1 mb-4">
+    <div className="flex flex-col gap-[10px] mb-4">
       <label htmlFor={name} className="font-medium text-xs text-gray">
         {text}
       </label>
       <input
         id={name}
         type={inputType}
-        className={`h-7 border-b-[1px] focus:border-main focus:outline-0 ${
+        className={`text-sm h-7 border-b-[1px] focus:border-main focus:outline-0 pb-2 placeholder:text-sm placeholder:text-light-gray ${
           errorMessage ? 'border-red' : 'border-light-gray'
         }`}
         onChange={onChange}
         onBlur={handleBlur}
         ref={ref}
+        placeholder={placeholder}
         {...rest}
       />
       {displayErrorMessage && !displaySuccessMessage && (
