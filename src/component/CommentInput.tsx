@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { ChangeEvent } from 'react';
-import basicPf from '../../../assets/basic-profile.svg';
+import basicPf from '../assets/basic-profile.svg';
 
 interface CommentInputProps {
   profileImage?: string;
