@@ -1,4 +1,6 @@
 // 팔로워/팔로잉 사용자 타입 정의
+import { getCookie } from '../utils/auth';
+
 interface User {
   _id: string;
   accountname: string;
@@ -31,7 +33,7 @@ export const getProfile = async (
   accountname: string
 ): Promise<ProfileResponse> => {
   try {
-    const token = localStorage.getItem('token');
+    const token = getCookie('token');
 
     if (!token) {
       throw new Error('인증 토큰이 없습니다. 로그인이 필요합니다.');
