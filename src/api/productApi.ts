@@ -1,3 +1,5 @@
+import { getCookie } from '../utils/auth'; 
+
 interface IProductAuthor {
   _id: string;
   username: string;
@@ -28,18 +30,24 @@ interface IGetProductsResponse {
 /**
  * 특정 계정의 상품 목록을 조회하는 API 함수
  * @param accountname 상품을 조회할 계정명
- * @param token 인증 토큰
  * @param limit 페이지당 상품 수 (옵션)
  * @param skip 건너뛸 상품 수 (옵션)
  * @returns 상품 목록 응답 데이터
  */
 export async function fetchProductsByAccount(
   accountname: string,
-  token: string,
   limit?: number,
   skip?: number
 ): Promise<IGetProductsResponse> {
   try {
+    // getCookie 함수를 사용하여 'token' 이름의 쿠키에서 토큰을 가져옵니다.
+    const token = getCookie('token'); 
+
+    // 토큰이 없으면 오류를 throw합니다.
+    if (!token) {
+      throw new Error('인증 토큰이 없습니다. 로그인 상태를 확인해주세요.');
+    }
+
     const params = new URLSearchParams();
     if (limit !== undefined) params.append('limit', String(limit));
     if (skip !== undefined) params.append('skip', String(skip));
@@ -62,6 +70,8 @@ export async function fetchProductsByAccount(
       if (response.status === 404) {
         throw new Error(errorData.message || '요청한 계정의 상품을 찾을 수 없습니다.');
       } else if (response.status === 401) {
+        // 토큰이 없어서 발생한 401 오류와, 토큰은 있으나 유효하지 않은 401 오류를 구분하기 위해
+        // 토큰 부재 시 미리 오류를 throw 했으므로, 여기서는 '유효하지 않은 토큰'으로 간주합니다.
         throw new Error(errorData.message || '인증 정보가 유효하지 않습니다.');
       }
       throw new Error(errorData.message || '상품 목록 조회에 실패했습니다.');
