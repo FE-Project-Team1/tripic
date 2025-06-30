@@ -31,6 +31,7 @@ function LoginEmail() {
       // 로그인 성공 시 쿠키에 토큰 저장 (유효기간 1일)
       if (data) {
         setCookie('token', data.token, 1);
+        setCookie('accountname', data.accountname, 1);
 
         // 상태 업데이트 후 즉시 리디렉션하지 않고
         // 약간의 지연 후 리디렉션하여 상태가 동기화되도록 함
