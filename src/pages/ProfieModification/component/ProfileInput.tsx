@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import ProfileImage from '../../../component/ProfileImage';
 import FormInput from '../../../component/FormInput';
-import type { IProfile } from '../../SignUp/Index';
+import type { IProfile } from '../../../types/profileType';
 
 function ProfileInput() {
   // React Hook Form 설정
@@ -30,6 +30,7 @@ function ProfileInput() {
             minLength={2}
             maxLength={10}
             errorMessage={errors.username?.message}
+            placeholder="2~10자 이내여야 합니다."
           />
           <FormInput
             name="accountName"
@@ -38,6 +39,7 @@ function ProfileInput() {
             register={register}
             required
             errorMessage={errors.accountName?.message}
+            placeholder="영문, 숫자, 특수문자(.),(_)만 사용 가능합니다."
           />
           <FormInput
             name="intro"
@@ -45,6 +47,7 @@ function ProfileInput() {
             register={register}
             required
             errorMessage={errors.intro?.message}
+            placeholder="자신과 판매할 상품에 대해 소개해 주세요!"
           />
         </div>
       </form>
