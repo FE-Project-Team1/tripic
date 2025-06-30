@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import ProfileSetting from './component/ProfileSetting';
+import ProfileSetting from './component/BeforeProfileSetting';
 import SignUpEmail from './component/SignupEmail';
 import { signupFetch } from '../../api/signupApi';
+import type { IProfile } from '../../types/profileType';
 
 // 회원가입 단계를 나타내는 타입
 export type SignUpStep = 'email-password' | 'profile';
@@ -12,14 +13,6 @@ export type SignUpStep = 'email-password' | 'profile';
 export interface IEmailPassword {
   email: string;
   password: string;
-}
-
-// 프로필 데이터 타입
-export interface IProfile {
-  username: string;
-  accountName: string;
-  intro: string;
-  image: string;
 }
 
 function SignUp() {

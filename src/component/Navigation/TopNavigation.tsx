@@ -2,7 +2,6 @@ import BackBtn from './BackBtn';
 import SearchIcon from './SearchIcon';
 import SearchInput from './SearchInput';
 import SettingBtn from './SettingBtn';
-import CommonBtn from '../CommonBtn';
 
 interface ITopNav {
   backBtn?: boolean;
@@ -11,7 +10,6 @@ interface ITopNav {
   searchIcon?: boolean;
   heading?: string;
   headingSize?: string;
-  saveBtn?: boolean;
 }
 
 function TopNavigation({
@@ -21,7 +19,6 @@ function TopNavigation({
   searchIcon = false,
   heading,
   headingSize = 'text-[18px]',
-  saveBtn = false,
 }: ITopNav) {
   return (
     <nav className="flex items-center justify-between px-4 border-b-[1px] border-[#dbdbdb] fixed w-full h-12 z-50 bg-white">
@@ -39,11 +36,6 @@ function TopNavigation({
         {searchIcon && <SearchIcon />}
         {searchInput && <SearchInput />}
         {settingBtn && <SettingBtn />}
-        {saveBtn && (
-          <div className="w-[90px]">
-            <CommonBtn text="저장" size="small" disabled={true} />
-          </div>
-        )}
       </div>
     </nav>
   );
