@@ -4,7 +4,7 @@ import ProfileInput from './component/ProfileInput';
 function ProfileModification() {
   return (
     <>
-      <TopNavigation backBtn={true} saveBtn={true} />
+      <TopNavigation backBtn={true} />
       <ProfileInput />
     </>
   );

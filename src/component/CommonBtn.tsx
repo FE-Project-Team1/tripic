@@ -1,5 +1,5 @@
 interface ICommonBtn {
-  text: string;
+  text?: string;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
   size?: 'large' | 'medium' | 'small';
