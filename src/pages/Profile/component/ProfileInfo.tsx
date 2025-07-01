@@ -5,6 +5,8 @@ import messageBtn from '../../../assets/message-btn.svg';
 import shareBtn from '../../../assets/share-btn.svg';
 import { getProfile } from '../../../api/profileApi';
 import { getCookie } from '../../../utils/auth';
+import Loading from '../../../component/Loading';
+import ErrorFallback from '../../../component/ErrorFallback';
 
 function ProfileInfo() {
   // 쿠키에서 accountname 가져오기
@@ -21,10 +23,15 @@ function ProfileInfo() {
   console.log('프로필 데이터:', data);
 
   // 로딩 중일 때
-  if (isLoading) return <div>로딩 중...</div>;
+  if (isLoading)
+    return (
+      <div className="min-h-[322px]">
+        <Loading />
+      </div>
+    );
 
   // 에러 발생 시
-  if (isError) return <div>프로필 정보를 불러오는 중 오류가 발생했습니다.</div>;
+  if (isError) return <ErrorFallback />;
 
   // 프로필 데이터
   const profile = data?.profile;
