@@ -1,9 +1,31 @@
+import { useQuery } from '@tanstack/react-query';
 import ProfileImage from '../../../component/ProfileImage';
 import CommonBtn from '../../../component/CommonBtn';
 import messageBtn from '../../../assets/message-btn.svg';
 import shareBtn from '../../../assets/share-btn.svg';
+import { getProfile } from '../../../api/profileApi';
+import { getCookie } from '../../../utils/auth';
 
 function ProfileInfo() {
+  // 쿠키에서 accountname 가져오기
+  const accountname = getCookie('accountname');
+
+  // useQuery를 사용하여 프로필 데이터 가져오기
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['profile', accountname],
+    queryFn: () => getProfile(accountname || ''),
+    enabled: !!accountname, // accountname이 있을 때만 쿼리 실행
+  });
+
+  // 데이터가 로드되면 콘솔에 출력
+  console.log('프로필 데이터:', data);
+
+  // 로딩 중일 때
+  if (isLoading) return <div>로딩 중...</div>;
+
+  // 에러 발생 시
+  if (isError) return <div>프로필 정보를 불러오는 중 오류가 발생했습니다.</div>;
+
   return (
     <section className="flex flex-col items-center max-w-[390px] h mx-auto overflow-auto">
       <h2 className="sr-only">프로필 정보</h2>
