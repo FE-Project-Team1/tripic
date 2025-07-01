@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import defaultProfile from '../assets/default-profile.png';
-import image from '../assets/image.svg';
+import ImageUploadBtn from './ImageUploadBtn';
 
 interface IProfileImage {
   upload?: boolean;
@@ -43,14 +43,7 @@ function ProfileImage({ upload = false, onImageSelected }: IProfileImage) {
       </div>
       {upload && (
         <>
-          <div className="w-9 h-9 absolute bottom-0 right-0 bg-main rounded-[50%] flex justify-center items-center">
-            <img src={image} alt="image" className="w-[22px] h-[22px]" />
-          </div>
-          <input
-            type="file"
-            className="opacity-0 w-9 h-9 absolute bottom-0 right-0"
-            onChange={handleImageChange}
-          />
+          <ImageUploadBtn handleImageChange={handleImageChange} />
         </>
       )}
     </div>

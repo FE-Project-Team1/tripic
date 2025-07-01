@@ -1,7 +1,7 @@
 import type { UseFormRegister, FieldValues, Path } from 'react-hook-form';
 
 // 입력 필드 유형 정의
-type InputVariant = 'text' | 'email' | 'password' | 'accountName';
+type InputVariant = 'text' | 'email' | 'password' | 'accountName' | 'number';
 
 interface IFormInput<T extends FieldValues = FieldValues> {
   name: Path<T>;
@@ -41,6 +41,8 @@ function FormInput<T extends FieldValues = FieldValues>({
         return 'email';
       case 'password':
         return 'password';
+      case 'number':
+        return 'number';
       case 'text':
       case 'accountName':
       default:
