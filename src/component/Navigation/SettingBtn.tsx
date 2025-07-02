@@ -8,6 +8,7 @@ function SettingBtn() {
 
   const handleClick = () => {
     if (modalContext) {
+      console.log('settingBtn 작동');
       modalContext.toggleModal();
     } else {
       console.log('모달 없이 설정 버튼 클릭');

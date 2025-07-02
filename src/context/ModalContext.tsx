@@ -3,8 +3,12 @@ import type { ReactNode } from 'react';
 
 interface ModalContextType {
   isModalOpen: boolean;
+  isConfirmModalOpen: boolean; // 새로 추가
   toggleModal: () => void;
   closeModal: () => void;
+  openConfirmModal: () => void; // 새로 추가
+  closeConfirmModal: () => void; // 새로 추가
+  closeAllModals: () => void; // 새로 추가
 }
 
 export const ModalContext = createContext<ModalContextType | undefined>(
@@ -25,6 +29,7 @@ interface ModalProviderProps {
 
 export const ModalProvider = ({ children }: ModalProviderProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
 
   const toggleModal = () => {
     setIsModalOpen((prev) => !prev);
@@ -34,8 +39,31 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
     setIsModalOpen(false);
   };
 
+  const openConfirmModal = () => {
+    setIsConfirmModalOpen(true);
+  };
+
+  const closeConfirmModal = () => {
+    setIsConfirmModalOpen(false);
+  };
+
+  const closeAllModals = () => {
+    setIsModalOpen(false);
+    setIsConfirmModalOpen(false);
+  };
+
   return (
-    <ModalContext.Provider value={{ isModalOpen, toggleModal, closeModal }}>
+    <ModalContext.Provider
+      value={{
+        isModalOpen,
+        isConfirmModalOpen,
+        toggleModal,
+        closeModal,
+        openConfirmModal,
+        closeConfirmModal,
+        closeAllModals,
+      }}
+    >
       {children}
     </ModalContext.Provider>
   );
