@@ -1,4 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import { getProfile } from '../../../api/profileApi';
+import { getCookie } from '../../../utils/auth';
 import ProfileImage from '../../../component/ProfileImage';
 import CommonBtn from '../../../component/CommonBtn';
 import messageBtn from '../../../assets/message-btn.svg';
@@ -11,7 +14,8 @@ import ErrorFallback from '../../../component/ErrorFallback';
 function ProfileInfo() {
   // 쿠키에서 accountname 가져오기
   const accountname = getCookie('accountname');
-
+  // 버튼 상태를 위한 state
+  const [isFollowed, setIsFollowed] = useState(false);
   // useQuery를 사용하여 프로필 데이터 가져오기
   const { data, isLoading, isError } = useQuery({
     queryKey: ['profile', accountname],
@@ -22,7 +26,6 @@ function ProfileInfo() {
   // 데이터가 로드되면 콘솔에 출력
   console.log('프로필 데이터:', data);
 
-  // 로딩 중일 때
   if (isLoading)
     return (
       <div className="min-h-[322px]">
@@ -35,6 +38,11 @@ function ProfileInfo() {
 
   // 프로필 데이터
   const profile = data?.profile;
+
+  // 팔로우 버튼 클릭 핸들러
+  const handleFollowClick = () => {
+    setIsFollowed(!isFollowed);
+  };
 
   return (
     <section className="flex flex-col items-center max-w-[390px] h mx-auto overflow-auto">
@@ -74,6 +82,19 @@ function ProfileInfo() {
           <img src={messageBtn} alt="메시지" />
         </button>
         <div className="w-30">
+          {isFollowed ? (
+            <button
+              className="w-[120px] h-[34px] bg-[#FFFFFF] border border-light-gray rounded-[30px] text-gray text-[14px] font-medium flex items-center justify-center"
+              onClick={handleFollowClick}
+            >
+              언팔로우
+            </button>
+          ) : (
+            <CommonBtn
+              text="팔로우"
+              size="medium"
+              onClick={handleFollowClick}
+            />
           {profile?.isfollow ? (
             <button className="w-[120px] h-[34px] bg-[#FFFFFF] border border-light-gray rounded-[30px] text-gray text-[14px] font-medium flex items-center justify-center">
               언팔로우
