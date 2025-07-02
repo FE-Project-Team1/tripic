@@ -1,34 +1,37 @@
-import { useEffect, useRef } from 'react';
 import LoadingIcon from '../assets/icon-loading.svg';
 
-function Loading() {
-  const spinnerRef = useRef<HTMLDivElement>(null);
+interface LoadingProps {
+  heightClass?: string;
+}
 
-  useEffect(() => {
-    if (spinnerRef.current) {
-      spinnerRef.current.animate(
-        [{ transform: 'rotate(0deg)' }, { transform: 'rotate(360deg)' }],
-        {
-          duration: 1000,
-          iterations: Infinity,
-          easing: 'linear',
-        }
-      );
-    }
-  }, []);
+function Loading({ heightClass }: LoadingProps) {
+
+  const isSmall = !heightClass || heightClass.includes("120");
+
+  let iconSize = isSmall ? "w-8 h-8 mb-2" : "w-16 h-16 mb-4";
+  let textSize = isSmall ? "text-lg mb-1" : "text-2xl mb-2";
+  let descSize = isSmall ? "text-xs" : "text-sm";
+
+  const containerClass =
+    'flex flex-col items-center justify-center w-full bg-white ' +
+    (heightClass ? heightClass : 'min-h-[120px]');
 
   return (
-    <div className="flex flex-col items-center justify-center h-full bg-white">
-      <div
-        ref={spinnerRef}
-        className="w-16 h-16 mb-4 flex items-center justify-center"
-      >
-        <img src={LoadingIcon} alt="로딩 스피너" />
+    <div className={containerClass} aria-live="polite">
+      <div className={`${iconSize} flex items-center justify-center`}>
+        <img
+          src={LoadingIcon}
+          alt="로딩 스피너"
+          className="w-full h-full animate-spin"
+        />
       </div>
-      <span className="text-2xl font-bold text-orange-500 mb-2 animate-pulse">
+      <span
+        className={`font-bold text-orange-500 animate-pulse ${textSize}`}
+        role="status"
+      >
         Loading...
       </span>
-      <p className="text-sm text-[#767676]">
+      <p className={`${descSize} text-[#767676]`}>
         로딩중입니다. 잠시만 기다려주세요!
       </p>
     </div>
