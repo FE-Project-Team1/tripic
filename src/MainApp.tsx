@@ -51,6 +51,7 @@ function AppRoutes() {
       <Route path="/chat" element={<Chat />} />
       <Route path="/chat/room" element={<ChatRoom />} />
       <Route path="/post" element={<Post />} />
+      <Route path="/post-upload" element={<PostUpload />} />
     </Routes>
   );
 }

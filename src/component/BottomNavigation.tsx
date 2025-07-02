@@ -50,7 +50,12 @@ function BottomNavigation({ activePage }: IBottomNav) {
         on={activePage === 'Chat'}
         to={'/chat'}
       />
-      <List svg={iconEdit} text={'게시물 작성'} on={false} to={'/write'} />
+      <List
+        svg={iconEdit}
+        text={'게시물 작성'}
+        on={false}
+        to={'/post-upload'}
+      />
       <List
         svg={activePage === 'Profile' ? iconUserFill : iconUser}
         text={'프로필'}
