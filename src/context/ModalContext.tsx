@@ -7,7 +7,9 @@ interface ModalContextType {
   closeModal: () => void;
 }
 
-const ModalContext = createContext<ModalContextType | undefined>(undefined);
+export const ModalContext = createContext<ModalContextType | undefined>(
+  undefined
+);
 
 export const useModal = () => {
   const context = useContext(ModalContext);
