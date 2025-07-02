@@ -3,6 +3,15 @@ import TopNavigation from '../../component/Navigation/TopNavigation';
 import ChatList from './component/ChatList';
 import CommentInput from '../../component/CommentInput';
 import ButtonImg from '../../assets/img-button.png';
+import BottomModal from '../../component/BottomModal';
+import { ModalProvider } from '../../context/ModalContext';
+
+const modalItems = [
+  {
+    label: '채팅방 나가기',
+    onClick: () => {},
+  },
+];
 
 function ChatRoom() {
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
@@ -27,7 +36,7 @@ function ChatRoom() {
   };
 
   return (
-    <>
+    <ModalProvider>
       <TopNavigation
         backBtn={true}
         heading="애월읍 위니브 감귤농장"
@@ -51,7 +60,8 @@ function ChatRoom() {
         onChange={handleImageChange}
         className="hidden"
       />
-    </>
+      <BottomModal items={modalItems} />
+    </ModalProvider>
   );
 }
 
