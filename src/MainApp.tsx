@@ -44,7 +44,7 @@ function AppRoutes() {
       <Route path="/login/email" element={<LoginEmail />} />
       <Route path="/search" element={<Search />} />
       <Route path="/signup" element={<SignUp />} />
-      <Route path="/profile" element={<MyProfile />} />
+      <Route path="/my-profile" element={<MyProfile />} />
       <Route path="/my-profile/followers" element={<Follow />} />
       <Route path="/my-profile/following" element={<Follow />} />
       <Route
