@@ -6,12 +6,16 @@ interface CommentInputProps {
   profileImage?: string;
   placeholder?: string;
   submitText?: string;
+  onFileClick?: (imageFile?: File) => void;
+  hasImage?: boolean;
 }
 
 function CommentInput({
   profileImage = basicPf,
   placeholder = '댓글 입력하기...',
   submitText = '게시',
+  onFileClick,
+  hasImage = false,
 }: CommentInputProps) {
   const [comment, setComment] = useState<string>('');
 
@@ -27,9 +31,15 @@ function CommentInput({
     setComment('');
   };
 
+  const isSubmitEnabled = comment.trim().length > 0 || hasImage;
+
   return (
     <article className="w-full flex items-center bg-white border-t border-light-gray pt-[13px] pb-[12px] px-[16px] fixed bottom-0 left-0">
-      <img src={profileImage} alt="프로필 사진" />
+      <img
+        src={profileImage}
+        alt="프로필 사진"
+        onClick={onFileClick ? () => onFileClick() : undefined}
+      />
       <input
         type="text"
         value={comment}
@@ -38,7 +48,7 @@ function CommentInput({
         className="flex-grow outline-none text-sm text-gray-02 w-[91px] h-[18px] pl-[18px]"
       />
       <button
-        className={`text-sm ${comment.trim() ? 'text-orange-500 font-medium' : 'text-gray-02'}`}
+        className={`text-sm ${isSubmitEnabled ? 'text-orange-500 font-medium' : 'text-gray-02'}`}
         onClick={handleSubmit}
         disabled={!comment.trim()}
       >
