@@ -23,7 +23,7 @@ export const getMyProfile = async (): Promise<UserProfileResponse> => {
 
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/user/myinfo`,
+      `${import.meta.env.VITE_END_POINT}/user/myinfo`,
       {
         method: 'GET',
         headers: {
