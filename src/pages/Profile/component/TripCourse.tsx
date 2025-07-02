@@ -1,9 +1,6 @@
-// src/components/TripCourse.tsx
-
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getCookie } from '../../../utils/auth';
-// 👇 productApi.ts에서 IProduct를 임포트합니다.
 import { fetchProductsByAccount } from '../../../api/productApi';
 
 interface ITripCourse {
@@ -72,7 +69,7 @@ function TripCourse({ pageType, urlAccountname }: ITripCourse) {
     }
   }, [productsData]);
 
-  // --- 아이템 너비 측정 로직  ---
+  // --- 아이템 너비 측정 로직 ---
   useEffect(() => {
     const measureWidth = () => {
       if (firstProductItemRef.current) {
@@ -90,7 +87,7 @@ function TripCourse({ pageType, urlAccountname }: ITripCourse) {
     return () => window.removeEventListener('resize', measureWidth);
   }, [products.length]);
 
-  // --- currentTranslateRef 값을 실제 DOM 요소의 'transform' 속성에 적용하는 함수  ---
+  // --- currentTranslateRef 값을 실제 DOM 요소의 'transform' 속성에 적용하는 함수 ---
   const applyTranslate = useCallback(() => {
     if (carouselTrackRef.current) {
       carouselTrackRef.current.style.transform = `translateX(${currentTranslateRef.current}px)`;
@@ -104,25 +101,15 @@ function TripCourse({ pageType, urlAccountname }: ITripCourse) {
     }
   }, []);
 
-  // --- 'currentIndex'가 변경될 때 캐러셀을 해당 위치로 스냅시키는 useEffect  ---
-  useEffect(() => {
-    if (itemTotalWidth > 0 && carouselTrackRef.current) {
-      const targetTranslate = -currentIndex * itemTotalWidth;
-      currentTranslateRef.current = targetTranslate;
-      setCarouselTransition('transform 0.3s ease-out');
-      applyTranslate();
-    }
-  }, [currentIndex, itemTotalWidth, applyTranslate, setCarouselTransition]);
-
-  // --- 드래그 시작/이동/종료 핸들러들 ---
-  const handleStart = (clientX: number) => {
+  // --- 드래그 시작/이동/종료 핸들러들 (이벤트 객체 타입은 Generic으로 설정) ---
+  const handleStart = useCallback((clientX: number) => {
     isDragging.current = true;
     startX.current = clientX;
     prevTranslateRef.current = currentTranslateRef.current;
     setCarouselTransition('none');
-  };
+  }, [setCarouselTransition]);
 
-  const handleMove = (clientX: number) => {
+  const handleMove = useCallback((clientX: number) => {
     if (!isDragging.current) return;
 
     const dragDistance = clientX - startX.current;
@@ -140,9 +127,9 @@ function TripCourse({ pageType, urlAccountname }: ITripCourse) {
 
     currentTranslateRef.current = newTranslate;
     applyTranslate();
-  };
+  }, [products.length, itemTotalWidth, applyTranslate]);
 
-  const handleEnd = () => {
+  const handleEnd = useCallback(() => {
     if (!isDragging.current) return;
     isDragging.current = false;
     setCarouselTransition('transform 0.3s ease-out');
@@ -150,6 +137,7 @@ function TripCourse({ pageType, urlAccountname }: ITripCourse) {
     const movedBy = currentTranslateRef.current - prevTranslateRef.current;
 
     if (Math.abs(movedBy) < SWIPE_THRESHOLD) {
+      // 스냅될 위치로 돌아가거나 현재 위치 유지
       setCurrentIndex(currentIndex);
     } else {
       let snapToIndex;
@@ -157,44 +145,105 @@ function TripCourse({ pageType, urlAccountname }: ITripCourse) {
       if (itemTotalWidth === 0) {
         snapToIndex = 0;
       } else {
+        // 현재 위치에서 가장 가까운 상품 인덱스 계산
         snapToIndex = Math.round(
           Math.abs(currentTranslateRef.current) / itemTotalWidth
         );
 
+        // 이동 방향에 따라 다음/이전 인덱스로 조정
         if (movedBy < 0) {
+          // 왼쪽으로 스와이프 (다음 상품으로 이동)
           snapToIndex = Math.min(snapToIndex + 1, products.length - 1);
         } else {
+          // 오른쪽으로 스와이프 (이전 상품으로 이동)
           snapToIndex = Math.max(snapToIndex - 1, 0);
         }
+        // 인덱스가 배열 범위를 벗어나지 않도록 보정
         snapToIndex = Math.max(0, Math.min(snapToIndex, products.length - 1));
       }
       setCurrentIndex(snapToIndex);
     }
-  };
+  }, [currentIndex, itemTotalWidth, products.length, setCarouselTransition]);
 
-  // --- 터치 및 마우스 이벤트 핸들러 ---
-  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) =>
-    handleStart(e.touches[0].clientX);
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!isDragging.current) return;
-    e.preventDefault();
-    handleMove(e.touches[0].clientX);
-  };
-  const handleTouchEnd = () => handleEnd();
-
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) =>
-    handleStart(e.clientX);
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!isDragging.current) return;
-    e.preventDefault();
-    handleMove(e.clientX);
-  };
-  const handleMouseUp = () => handleEnd();
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     if (isDragging.current) {
       handleEnd();
     }
-  };
+  }, [handleEnd]);
+
+
+  // --- currentIndex가 변경될 때 캐러셀을 해당 위치로 스냅시키는 useEffect ---
+  useEffect(() => {
+    if (itemTotalWidth > 0 && carouselTrackRef.current) {
+      const targetTranslate = -currentIndex * itemTotalWidth;
+      currentTranslateRef.current = targetTranslate;
+      setCarouselTransition('transform 0.3s ease-out');
+      applyTranslate();
+    }
+  }, [currentIndex, itemTotalWidth, applyTranslate, setCarouselTransition]);
+
+
+  // --- 이벤트 리스너를 직접 등록하여 passive 옵션 제어 ---
+  useEffect(() => {
+    const carouselElement = carouselTrackRef.current;
+    if (!carouselElement) return;
+
+    // 터치 이벤트 핸들러
+    const touchStartHandler = (e: TouchEvent) => {
+      // e.preventDefault(); // 필요하다면 여기서도 preventDefault()
+      handleStart(e.touches[0].clientX);
+    };
+    const touchMoveHandler = (e: TouchEvent) => {
+      if (!isDragging.current) return;
+      e.preventDefault(); // passive: false 덕분에 여기서 문제 없음
+      handleMove(e.touches[0].clientX);
+    };
+    const touchEndHandler = () => handleEnd();
+
+    // 마우스 이벤트 핸들러
+    const mouseDownHandler = (e: MouseEvent) => {
+      // e.preventDefault(); // 필요하다면 여기서도 preventDefault()
+      handleStart(e.clientX);
+    };
+    const mouseMoveHandler = (e: MouseEvent) => {
+      if (!isDragging.current) return;
+      e.preventDefault();
+      handleMove(e.clientX);
+    };
+    const mouseUpHandler = () => handleEnd();
+
+    // passive: false로 터치 이벤트를 등록
+    carouselElement.addEventListener('touchstart', touchStartHandler, { passive: false });
+    carouselElement.addEventListener('touchmove', touchMoveHandler, { passive: false });
+    carouselElement.addEventListener('touchend', touchEndHandler, { passive: false });
+    carouselElement.addEventListener('touchcancel', touchEndHandler, { passive: false }); // 터치 취소도 처리
+
+    // 마우스 이벤트도 직접 등록
+    carouselElement.addEventListener('mousedown', mouseDownHandler);
+    carouselElement.addEventListener('mousemove', mouseMoveHandler);
+    carouselElement.addEventListener('mouseup', mouseUpHandler);
+    carouselElement.addEventListener('mouseleave', handleMouseLeave); // 마우스 리브 이벤트는 기존 핸들러 사용
+
+    // 컴포넌트 언마운트 시 이벤트 리스너 제거
+    return () => {
+      carouselElement.removeEventListener('touchstart', touchStartHandler);
+      carouselElement.removeEventListener('touchmove', touchMoveHandler);
+      carouselElement.removeEventListener('touchend', touchEndHandler);
+      carouselElement.removeEventListener('touchcancel', touchEndHandler);
+
+      carouselElement.removeEventListener('mousedown', mouseDownHandler);
+      carouselElement.removeEventListener('mousemove', mouseMoveHandler);
+      carouselElement.removeEventListener('mouseup', mouseUpHandler);
+      carouselElement.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, [
+    handleStart,
+    handleMove,
+    handleEnd,
+    handleMouseLeave,
+    isDragging,
+  ]); // 종속성 배열에 carouselTrackRef를 넣지 않음: 렌더링 시점에 current가 null이 아닐 때만 실행되도록 보장 (이미 carouselTrackRef.current가 !null 조건으로 체크됨)
+
 
   // --- 로딩 및 에러 UI (useQuery 상태 활용) ---
   if (isLoading) {
@@ -236,13 +285,6 @@ function TripCourse({ pageType, urlAccountname }: ITripCourse) {
       ) : (
         <div
           className="trip-course-container overflow-hidden relative w-full mx-auto px-4"
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseLeave}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
         >
           <div
             ref={carouselTrackRef}
@@ -258,6 +300,7 @@ function TripCourse({ pageType, urlAccountname }: ITripCourse) {
                   src={product.itemImage}
                   alt={product.itemName}
                   className="product-image w-full object-cover rounded mb-[6px] h-[90px]"
+                  crossOrigin="anonymous" // 업로드된 이미지 표시 오류 (CORS 오류) 해결을 위해 추가
                 />
                 <div className="product-details text-left">
                   <h3 className="product-name text-sm mb-1">

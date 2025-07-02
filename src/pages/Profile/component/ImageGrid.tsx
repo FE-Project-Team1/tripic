@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { fetchUserPostsByAccount } from '../../../api/getpostApi';
+import { fetchUserPostsByAccount } from '../../../api/postApi';
 import iconLayers from '../../../assets/iccon-img-layers.png';
 
 interface ImageGridProps {
