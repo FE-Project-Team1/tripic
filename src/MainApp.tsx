@@ -19,6 +19,7 @@ import ChatRoom from './pages/ChatRoom/Index';
 import { getCookie } from './utils/auth';
 import ProfileModification from './pages/ProfieModification/Index';
 import ProductUpload from './pages/ProductUpload/Index';
+import PostUpload from './pages/PostUpload/Index';
 
 function AppRoutes() {
   const [hasToken, setHasToken] = useState(!!getCookie('token'));
