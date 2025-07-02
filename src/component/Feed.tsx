@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import heartBtn from '../assets/heart.svg';
+import heart from '../assets/heart.svg';
+import heartFill from '../assets/heart-fill.svg';
 import messageCircleBtn from '../assets/message-circle.svg';
 import profileImage from '../assets/profile-img.svg';
 import moreBtn from '../assets/s-icon-more-vertical.svg';
@@ -10,6 +12,12 @@ interface FeedProps {
 }
 
 function Feed({ accountname }: FeedProps) {
+  // 좋아요 색상 변경
+  const [isLiked, setIsLiked] = useState(false);
+  const handleLikeClick = () => {
+    setIsLiked(!isLiked);
+  };
+
   const { data, isLoading, error } = useQuery({
     queryKey: ['userPosts', accountname],
     queryFn: () => fetchUserPostsByAccount(accountname),
@@ -19,7 +27,9 @@ function Feed({ accountname }: FeedProps) {
   if (isLoading) return <div>로딩중...</div>;
   if (error instanceof Error) return <div>에러: {error.message}</div>;
   if (!data || data.post.length === 0)
-    return <div className="text-center text-gray-400 py-10">게시글이 없습니다.</div>;
+    return (
+      <div className="text-center text-gray-400 py-10">게시글이 없습니다.</div>
+    );
 
   return (
     <>
@@ -28,7 +38,11 @@ function Feed({ accountname }: FeedProps) {
           {/* 프로필 헤더 영역 */}
           <div className="flex justify-between items-center">
             <div className="flex items-start gap-[12px]">
-              <img src={post.author.image || profileImage} alt="프로필이미지" className="start-0 w-10 h-10 rounded-full" />
+              <img
+                src={post.author.image || profileImage}
+                alt="프로필이미지"
+                className="start-0 w-10 h-10 rounded-full"
+              />
               <div>
                 <p className="text-[14px] font-bold pt-[4px] pb-[2px] ">
                   {post.author.username}
@@ -61,8 +75,8 @@ function Feed({ accountname }: FeedProps) {
             {/* 좋아요, 댓글 영역 */}
             <ul className="flex items-center gap-[16px]">
               <li className="flex items-center gap-[6px]">
-                <button>
-                  <img src={heartBtn} alt="좋아요" />
+                <button onClick={handleLikeClick}>
+                  <img src={isLiked ? heartFill : heart} alt="좋아요" />
                 </button>
                 <span className="text-[12px] text-gray">{post.heartCount}</span>
               </li>
@@ -70,7 +84,9 @@ function Feed({ accountname }: FeedProps) {
                 <button>
                   <img src={messageCircleBtn} alt="메세지" />
                 </button>
-                <span className="text-[12px] text-gray">{post.commentCount}</span>
+                <span className="text-[12px] text-gray">
+                  {post.commentCount}
+                </span>
               </li>
             </ul>
 
