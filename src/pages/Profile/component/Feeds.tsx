@@ -1,4 +1,3 @@
-// src/components/Feeds.tsx
 import { useState } from 'react';
 import type { ReactElement } from 'react';
 import Feed from '../../../component/Feed';
@@ -8,18 +7,21 @@ import iconPostAlbumOn from '../../../assets/icon-post-album-on.png';
 import iconPostListOff from '../../../assets/icon-post-list-off.png';
 import iconPostListOn from '../../../assets/icon-post-list-on.png';
 
+// accountname을 상위 컴포넌트에서 prop으로 받는다고 가정합니다.
 type ScreenMode = 'feed' | 'grid';
 
-function Feeds(): ReactElement {
+interface FeedsProps {
+  accountname: string;
+}
+
+function Feeds({ accountname }: FeedsProps): ReactElement {
   const [currentScreen, setCurrentScreen] = useState<ScreenMode>('feed');
 
   const handleFeedIconClick = (): void => {
-    console.log('피드 아이콘 클릭됨: Feed 화면 표시');
     setCurrentScreen('feed');
   };
 
   const handleImageGridIconClick = (): void => {
-    console.log('그리드 아이콘 클릭됨: ImageGrid 화면으로 이동');
     setCurrentScreen('grid');
   };
 
@@ -28,7 +30,7 @@ function Feeds(): ReactElement {
       <div className="bg-white px-4 flex h-11 justify-end border-light-gray border-b-[1px]">
         <button
           onClick={handleFeedIconClick}
-          className={`p-1 rounded-md focus:outline-none`}
+          className="p-1 rounded-md focus:outline-none"
           aria-label="피드 화면 보기"
         >
           <img
@@ -39,7 +41,7 @@ function Feeds(): ReactElement {
         </button>
         <button
           onClick={handleImageGridIconClick}
-          className={`p-1 rounded-md focus:outline-none`}
+          className="p-1 rounded-md focus:outline-none"
           aria-label="이미지 그리드 화면 보기"
         >
           <img
@@ -50,7 +52,11 @@ function Feeds(): ReactElement {
         </button>
       </div>
       <div className="w-full max-w-[608px] bg-white px-4 py-4 mx-auto">
-        {currentScreen === 'feed' ? <Feed /> : <ImageGrid />}
+        {currentScreen === 'feed' ? (
+          <Feed accountname={accountname} />
+        ) : (
+          <ImageGrid accountname={accountname} />
+        )}
       </div>
     </section>
   );

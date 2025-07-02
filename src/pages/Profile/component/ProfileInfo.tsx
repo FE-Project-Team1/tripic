@@ -6,14 +6,16 @@ import ProfileImage from '../../../component/ProfileImage';
 import CommonBtn from '../../../component/CommonBtn';
 import messageBtn from '../../../assets/message-btn.svg';
 import shareBtn from '../../../assets/share-btn.svg';
+import { getProfile } from '../../../api/profileApi';
+import { getCookie } from '../../../utils/auth';
+import Loading from '../../../component/Loading';
+import ErrorFallback from '../../../component/ErrorFallback';
 
 function ProfileInfo() {
   // 쿠키에서 accountname 가져오기
   const accountname = getCookie('accountname');
-
   // 버튼 상태를 위한 state
   const [isFollowed, setIsFollowed] = useState(false);
-
   // useQuery를 사용하여 프로필 데이터 가져오기
   const { data, isLoading, isError } = useQuery({
     queryKey: ['profile', accountname],
@@ -24,11 +26,15 @@ function ProfileInfo() {
   // 데이터가 로드되면 콘솔에 출력
   console.log('프로필 데이터:', data);
 
-  // 로딩 중일 때
-  if (isLoading) return <div>로딩 중...</div>;
+  if (isLoading)
+    return (
+      <div className="min-h-[322px]">
+        <Loading />
+      </div>
+    );
 
   // 에러 발생 시
-  if (isError) return <div>프로필 정보를 불러오는 중 오류가 발생했습니다.</div>;
+  if (isError) return <ErrorFallback />;
 
   // 프로필 데이터
   const profile = data?.profile;
@@ -89,6 +95,12 @@ function ProfileInfo() {
               size="medium"
               onClick={handleFollowClick}
             />
+          {profile?.isfollow ? (
+            <button className="w-[120px] h-[34px] bg-[#FFFFFF] border border-light-gray rounded-[30px] text-gray text-[14px] font-medium flex items-center justify-center">
+              언팔로우
+            </button>
+          ) : (
+            <CommonBtn text="팔로우" size="medium" />
           )}
         </div>
         <button>
