@@ -6,6 +6,11 @@ import { getCookie } from '../../../utils/auth';
 // 👇 productApi.ts에서 IProduct를 임포트합니다.
 import { fetchProductsByAccount } from '../../../api/productApi';
 
+interface ITripCourse {
+  pageType: string;
+  urlAccountname?: string;
+}
+
 // 스와이프를 인식할 최소 이동 거리 (픽셀)
 const SWIPE_THRESHOLD = 50;
 
@@ -16,7 +21,7 @@ const SWIPE_THRESHOLD = 50;
  *
  * @returns 렌더링된 TripCourse 컴포넌트.
  */
-function TripCourse() {
+function TripCourse({ pageType, urlAccountname }: ITripCourse) {
   // 현재 캐러셀에서 가장 왼쪽에 보이는(스냅된) 상품의 인덱스를 관리합니다.
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
@@ -26,6 +31,12 @@ function TripCourse() {
   const currentTranslateRef = useRef(0);
   const prevTranslateRef = useRef(0);
 
+  // pageType에 따라 accountname 결정
+  const accountname =
+    pageType === 'my-profile'
+      ? getCookie('accountname') // 내 프로필일 때는 쿠키에서
+      : urlAccountname; // 다른 사용자 프로필일 때는 URL에서
+
   // 개별 상품 아이템의 총 너비를 저장하는 State
   const [itemTotalWidth, setItemTotalWidth] = useState(0);
   // 첫 번째 상품 아이템에 대한 참조
@@ -34,13 +45,18 @@ function TripCourse() {
   const carouselTrackRef = useRef<HTMLDivElement>(null);
 
   // --- useQuery를 사용한 상품 데이터 불러오기 로직 ---
-  const accountname = getCookie('accountname');
-
-  const { data: productsData, isLoading, isError, error } = useQuery({
-    queryKey: ['productsByAccount', accountname],
+  const {
+    data: productsData,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ['productsByAccount', accountname, pageType],
     queryFn: () => {
       if (!accountname) {
-        throw new Error('계정 정보를 찾을 수 없습니다. 로그인 상태를 확인해주세요.');
+        throw new Error(
+          '계정 정보를 찾을 수 없습니다. 로그인 상태를 확인해주세요.'
+        );
       }
       return fetchProductsByAccount(accountname, 10);
     },
@@ -184,7 +200,9 @@ function TripCourse() {
   if (isLoading) {
     return (
       <div className="pl-4 py-5">
-        <h2 className="text-base font-bold mb-4 text-left">사용자 추천 여행지</h2>
+        <h2 className="text-base font-bold mb-4 text-left">
+          사용자 추천 여행지
+        </h2>
         <div className="text-gray-600 p-4 border rounded-md text-center text-base">
           상품을 불러오는 중...
         </div>
@@ -195,7 +213,9 @@ function TripCourse() {
   if (isError) {
     return (
       <div className="pl-4 py-5">
-        <h2 className="text-base font-bold mb-4 text-left">사용자 추천 여행지</h2>
+        <h2 className="text-base font-bold mb-4 text-left">
+          사용자 추천 여행지
+        </h2>
         <div className="text-red-600 p-4 border rounded-md text-center text-base">
           오류: {error?.message || '상품을 불러오는 데 실패했습니다.'}
         </div>
@@ -205,7 +225,9 @@ function TripCourse() {
 
   return (
     <div className="py-5">
-      <h2 className="text-base font-bold mb-4 text-left px-4">사용자 추천 여행지</h2>
+      <h2 className="text-base font-bold mb-4 text-left px-4">
+        사용자 추천 여행지
+      </h2>
 
       {products.length === 0 ? (
         <div className="text-gray-600 p-4 border rounded-md text-center text-base mx-4">
@@ -238,7 +260,9 @@ function TripCourse() {
                   className="product-image w-full object-cover rounded mb-[6px] h-[90px]"
                 />
                 <div className="product-details text-left">
-                  <h3 className="product-name text-sm mb-1">{product.itemName}</h3>
+                  <h3 className="product-name text-sm mb-1">
+                    {product.itemName}
+                  </h3>
                   <p className="product-price text-xs text-main">
                     {product.price.toLocaleString()}원
                   </p>

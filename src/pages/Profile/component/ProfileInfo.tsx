@@ -6,12 +6,27 @@ import ProfileImage from '../../../component/ProfileImage';
 import CommonBtn from '../../../component/CommonBtn';
 import messageBtn from '../../../assets/message-btn.svg';
 import shareBtn from '../../../assets/share-btn.svg';
-import { getProfile } from '../../../api/profileApi';
-import { getCookie } from '../../../utils/auth';
 import Loading from '../../../component/Loading';
 import ErrorFallback from '../../../component/ErrorFallback';
 
-function ProfileInfo() {
+interface IProfileInfo {
+  pageType: string;
+}
+
+function EditRegistration() {
+  return (
+    <div className="flex flex-row items-center justify-center w-full mb-[26px] gap-[12px]">
+      <button className="w-[120px] h-[34px] bg-[#FFFFFF] border border-light-gray rounded-[30px] text-gray text-[14px] font-medium flex items-center justify-center">
+        프로필 수정
+      </button>
+      <button className="w-[100px] h-[34px] bg-[#FFFFFF] border border-light-gray rounded-[30px] text-gray text-[14px] font-medium flex items-center justify-center">
+        상품 등록
+      </button>
+    </div>
+  );
+}
+
+function ProfileInfo({ pageType }: IProfileInfo) {
   // 쿠키에서 accountname 가져오기
   const accountname = getCookie('accountname');
   // 버튼 상태를 위한 state
@@ -82,7 +97,8 @@ function ProfileInfo() {
           <img src={messageBtn} alt="메시지" />
         </button>
         <div className="w-30">
-          {isFollowed ? (
+          {pageType === 'my-profile' ? <EditRegistration /> : <></>}
+          {/* {isFollowed ? (
             <button
               className="w-[120px] h-[34px] bg-[#FFFFFF] border border-light-gray rounded-[30px] text-gray text-[14px] font-medium flex items-center justify-center"
               onClick={handleFollowClick}
@@ -95,13 +111,14 @@ function ProfileInfo() {
               size="medium"
               onClick={handleFollowClick}
             />
+          )}
           {profile?.isfollow ? (
             <button className="w-[120px] h-[34px] bg-[#FFFFFF] border border-light-gray rounded-[30px] text-gray text-[14px] font-medium flex items-center justify-center">
               언팔로우
             </button>
           ) : (
             <CommonBtn text="팔로우" size="medium" />
-          )}
+          )} */}
         </div>
         <button>
           <img src={shareBtn} alt="공유하기" />
@@ -127,23 +144,4 @@ export default ProfileInfo;
     
   export default unfollow;
   */
-}
-
-{
-  /* 프로필수정, 상품등록 버튼 */
-}
-
-{
-  /*
-function editRegistration() {
-  return (
-    <div className="flex flex-row items-center justify-center w-full mb-[26px] gap-[12px]">
-      <button className="w-[120px] h-[34px] bg-[#FFFFFF] border border-light-gray rounded-[30px] text-gray text-[14px] font-medium flex items-center justify-center">프로필 수정</button>
-      <button className="w-[100px] h-[34px] bg-[#FFFFFF] border border-light-gray rounded-[30px] text-gray text-[14px] font-medium flex items-center justify-center">상품 등록</button>
-    </div>
-  );
-}
-
-export default editRegistration;
-*/
 }
