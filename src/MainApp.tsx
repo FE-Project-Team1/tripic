@@ -10,7 +10,8 @@ import Home from './pages/Home/Index';
 import Login from './pages/Login/Index';
 import LoginEmail from './pages/LoginEmail/Index';
 import Search from './pages/Search/Index';
-import Profile from './pages/Profile/Index';
+import MyProfile from './pages/MyProfile/Index';
+import YourProfile from './pages/YourProfile/Index';
 import SignUp from './pages/SignUp/Index';
 import Follow from './pages/Follow/Index';
 import Chat from './pages/Chat/Index';
@@ -43,12 +44,15 @@ function AppRoutes() {
       <Route path="/login/email" element={<LoginEmail />} />
       <Route path="/search" element={<Search />} />
       <Route path="/signup" element={<SignUp />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/profile/followers" element={<Follow />} />
-      <Route path="/profile/following" element={<Follow />} />
-      <Route path="/profile/modification" element={<ProfileModification />} />
-      <Route path="/profile/product-upload" element={<ProductUpload />} />
-      <Route path="/your-profile/:accountname" element={<Profile />} />
+      <Route path="/my-profile" element={<MyProfile />} />
+      <Route path="/my-profile/followers" element={<Follow />} />
+      <Route path="/my-profile/following" element={<Follow />} />
+      <Route
+        path="/my-profile/modification"
+        element={<ProfileModification />}
+      />
+      <Route path="/my-profile/product-upload" element={<ProductUpload />} />
+      <Route path="/your-profile/:accountname" element={<YourProfile />} />
       <Route path="/chat" element={<Chat />} />
       <Route path="/chat/room" element={<ChatRoom />} />
       <Route path="/post" element={<Post />} />

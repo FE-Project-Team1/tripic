@@ -60,7 +60,7 @@ function BottomNavigation({ activePage }: IBottomNav) {
         svg={activePage === 'Profile' ? iconUserFill : iconUser}
         text={'프로필'}
         on={activePage === 'Profile'}
-        to={'/profile'}
+        to={'/my-profile'}
       />
     </ul>
   );
