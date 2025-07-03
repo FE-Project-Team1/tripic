@@ -21,6 +21,7 @@ import { getCookie } from './utils/auth';
 import ProfileModification from './pages/ProfieModification/Index';
 import ProductUpload from './pages/ProductUpload/Index';
 import PostUpload from './pages/PostUpload/Index';
+import ErrorPage from './pages/404page';
 
 function AppRoutes() {
   const [hasToken, setHasToken] = useState(!!getCookie('token'));
@@ -57,13 +58,14 @@ function AppRoutes() {
       <Route path="/chat/room" element={<ChatRoom />} />
       <Route path="/post" element={<Post />} />
       <Route path="/post-upload" element={<PostUpload />} />
+      <Route path="*" element={<ErrorPage />} />
     </Routes>
   );
 }
 
 function MainApp() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/tripic">
       <AppRoutes />
     </BrowserRouter>
   );

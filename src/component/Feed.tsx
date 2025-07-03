@@ -8,12 +8,12 @@ import moreBtn from '../assets/s-icon-more-vertical.svg';
 import { fetchUserPostsByAccount } from '../api/postApi';
 
 interface FeedProps {
-  accountname: string;
-  
+  accountname?: string;
 }
 
 function getProfileImage(img: string | undefined) {
-  if (!img || img === 'null' || img === '' || img.startsWith('/')) return profileImage;
+  if (!img || img === 'null' || img === '' || img.startsWith('/'))
+    return profileImage;
   if (img.startsWith('http')) return img;
   return profileImage;
 }
@@ -27,13 +27,17 @@ function Feed({ accountname }: FeedProps) {
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['userPosts', accountname],
-    queryFn: () => fetchUserPostsByAccount(accountname),
+    queryFn: () => fetchUserPostsByAccount(accountname!),
     enabled: !!accountname,
   });
 
   // accountname이 유효하지 않을 때의 처리
   if (!accountname) {
-    return <div className="text-center text-gray-500 py-10">계정 정보가 유효하지 않습니다.</div>;
+    return (
+      <div className="text-center text-gray-500 py-10">
+        계정 정보가 유효하지 않습니다.
+      </div>
+    );
   }
 
   if (isLoading) return <div>로딩중...</div>;
