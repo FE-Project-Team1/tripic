@@ -7,6 +7,7 @@ import ImageUploadBtn from '../../../component/ImageUploadBtn';
 import CommonBtn from '../../../component/CommonBtn';
 import { uploadProduct } from '../../../api/productApi';
 import { uploadImage, getImageUrl } from '../../../api/imageApi';
+import CountrySelector from '../../../component/CountrySelector';
 
 interface IProductForm {
   itemName: string;
@@ -169,6 +170,7 @@ function UplaodForm() {
             errorMessage={errors.place?.message}
             placeholder="장소를 입력 해주세요."
           />
+          <CountrySelector />
           <div className="mt-[30px]">
             <CommonBtn
               text={isUploading ? '업로드중...' : '저장'}
