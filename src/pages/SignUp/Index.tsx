@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import ProfileSetting from './component/BeforeProfileSetting';
+import ProfileSetting from './component/ProfileSetting';
 import SignUpEmail from './component/SignupEmail';
 import { signupFetch } from '../../api/signupApi';
 import type { IProfile } from '../../types/profileType';
