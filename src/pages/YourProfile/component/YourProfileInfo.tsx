@@ -1,15 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { getProfile } from '../../../api/profileApi';
-import { getCookie } from '../../../utils/auth';
 import ProfileImage from '../../../component/ProfileImage';
 import CommonBtn from '../../../component/CommonBtn';
 import messageBtn from '../../../assets/message-btn.svg';
 import shareBtn from '../../../assets/share-btn.svg';
+import { useParams } from 'react-router-dom';
 
 function YourProfileInfo() {
-  // 쿠키에서 accountname 가져오기
-  const accountname = getCookie('accountname');
+  // URL에서 accountname 가져오기
+  const { accountname } = useParams<{ accountname: string }>();
 
   // 버튼 상태를 위한 state
   const [isFollowed, setIsFollowed] = useState(false);
