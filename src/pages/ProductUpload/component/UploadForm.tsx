@@ -7,12 +7,11 @@ import ImageUploadBtn from '../../../component/ImageUploadBtn';
 import CommonBtn from '../../../component/CommonBtn';
 import { uploadProduct } from '../../../api/productApi';
 import { uploadImage, getImageUrl } from '../../../api/imageApi';
-import CountrySelector from '../../../component/CountrySelector';
+import CountrySelector from './CountrySelector';
 
 interface IProductForm {
   itemName: string;
   price: number;
-  place: string; // link 필드로 사용
 }
 
 function UplaodForm() {
@@ -34,13 +33,11 @@ function UplaodForm() {
   // 폼 필드 값들을 실시간으로 감시
   const itemName = watch('itemName');
   const price = watch('price');
-  const place = watch('place');
 
   // 유효성 검증: 모든 필드가 입력되고 이미지가 선택되었는지 확인
   const isFormValid =
     itemName &&
     price &&
-    place &&
     selectedImageFile &&
     itemName.length >= 2 &&
     itemName.length <= 15 &&
@@ -90,7 +87,7 @@ function UplaodForm() {
       const productData = {
         itemName: data.itemName,
         price: Number(data.price),
-        link: data.place,
+        link: '',
         itemImage: imageUrl, // 업로드된 이미지 URL 사용
       };
 
@@ -161,14 +158,6 @@ function UplaodForm() {
             setValue={setValue}
             errorMessage={errors.price?.message}
             placeholder="숫자만 입력 가능합니다."
-          />
-          <FormInput
-            name="place"
-            text="장소"
-            register={register}
-            required
-            errorMessage={errors.place?.message}
-            placeholder="장소를 입력 해주세요."
           />
           <CountrySelector />
           <div className="mt-[30px]">

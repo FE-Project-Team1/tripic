@@ -5,10 +5,13 @@ function CountrySelector() {
   const [selected, setSelected] = useState('');
 
   return (
-    <ReactFlagsSelect
-      selected={selected}
-      onSelect={(code) => setSelected(code)}
-    />
+    <div>
+      <h3 className="font-medium text-xs text-gray mb-[10px]">장소</h3>
+      <ReactFlagsSelect
+        selected={selected}
+        onSelect={(code) => setSelected(code)}
+      />
+    </div>
   );
 }
 
