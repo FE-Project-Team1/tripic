@@ -11,7 +11,7 @@ import { getCookie } from '../../utils/auth';
 
 type PageType = 'my-profile' | 'your-profile';
 
-function MyProfileContent() {
+function YourProfileContent() {
 
   const { accountname: urlAccountname } = useParams<{ accountname: string }>();
 
@@ -59,12 +59,12 @@ function MyProfileContent() {
   );
 }
 
-function MyProfile() {
+function YourProfile() {
   return (
     <ModalProvider>
-      <MyProfileContent />
+      <YourProfileContent />
     </ModalProvider>
   );
 }
 
-export default MyProfile;
+export default YourProfile;
