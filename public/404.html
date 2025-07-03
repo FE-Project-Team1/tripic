@@ -4,31 +4,40 @@
     <meta charset="utf-8" />
     <title>404 Error</title>
     <script type="text/javascript">
-      // GitHub Pages에서 SPA 라우팅을 위한 스크립트
+      // GitHub Pages에서 SPA 라우팅을 위한 스크립트 (tripic 레포지토리용)
       var pathSegmentsToKeep = 1;
       var l = window.location;
-      l.replace(
-        l.protocol +
-          '//' +
-          l.hostname +
-          (l.port ? ':' + l.port : '') +
-          l.pathname
-            .split('/')
-            .slice(0, 1 + pathSegmentsToKeep)
-            .join('/') +
-          '/?/' +
-          l.pathname
-            .slice(1)
-            .split('/')
-            .slice(pathSegmentsToKeep)
-            .join('/')
-            .replace(/&/g, '~and~') +
-          (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-          l.hash
-      );
+
+      // tripic 레포지토리의 경우 경로를 올바르게 처리
+      var segments = l.pathname.split('/').slice(1); // 첫 번째 빈 문자열 제거
+      var repoName = segments[0]; // 'tripic'
+      var pathAfterRepo = segments.slice(1).join('/'); // 'tripic' 이후 경로
+
+      if (repoName === 'tripic' && pathAfterRepo) {
+        l.replace(
+          l.protocol +
+            '//' +
+            l.hostname +
+            (l.port ? ':' + l.port : '') +
+            '/tripic/' +
+            '?/' +
+            pathAfterRepo.replace(/&/g, '~and~') +
+            (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+            l.hash
+        );
+      } else {
+        // 기본 tripic 페이지로 리다이렉트
+        l.replace(
+          l.protocol +
+            '//' +
+            l.hostname +
+            (l.port ? ':' + l.port : '') +
+            '/tripic/'
+        );
+      }
     </script>
   </head>
   <body>
-    <div>페이지를 찾는 중...</div>
+    <div>페이지를 불러오는 중...</div>
   </body>
 </html>
