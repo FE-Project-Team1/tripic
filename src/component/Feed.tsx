@@ -5,10 +5,17 @@ import heartFill from '../assets/heart-fill.svg';
 import messageCircleBtn from '../assets/message-circle.svg';
 import profileImage from '../assets/profile-img.svg';
 import moreBtn from '../assets/s-icon-more-vertical.svg';
-import { fetchUserPostsByAccount } from '../api/getpostApi';
+import { fetchUserPostsByAccount } from '../api/postApi';
 
 interface FeedProps {
   accountname: string;
+  
+}
+
+function getProfileImage(img: string | undefined) {
+  if (!img || img === 'null' || img === '' || img.startsWith('/')) return profileImage;
+  if (img.startsWith('http')) return img;
+  return profileImage;
 }
 
 function Feed({ accountname }: FeedProps) {
@@ -23,6 +30,11 @@ function Feed({ accountname }: FeedProps) {
     queryFn: () => fetchUserPostsByAccount(accountname),
     enabled: !!accountname,
   });
+
+  // accountname이 유효하지 않을 때의 처리
+  if (!accountname) {
+    return <div className="text-center text-gray-500 py-10">계정 정보가 유효하지 않습니다.</div>;
+  }
 
   if (isLoading) return <div>로딩중...</div>;
   if (error instanceof Error) return <div>에러: {error.message}</div>;
@@ -39,9 +51,9 @@ function Feed({ accountname }: FeedProps) {
           <div className="flex justify-between items-center">
             <div className="flex items-start gap-[12px]">
               <img
-                src={post.author.image || profileImage}
+                src={getProfileImage(post.author.image)}
                 alt="프로필이미지"
-                className="start-0 w-10 h-10 rounded-full"
+                className="start-0 w-10 h-10 rounded-full bg-transparent"
               />
               <div>
                 <p className="text-[14px] font-bold pt-[4px] pb-[2px] ">
@@ -68,6 +80,7 @@ function Feed({ accountname }: FeedProps) {
                   src={post.image}
                   alt="post"
                   className="w-full h-full block rounded-[10px]"
+                  crossOrigin="anonymous"
                 />
               </div>
             )}
