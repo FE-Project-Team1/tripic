@@ -7,7 +7,7 @@ import ImageUploadBtn from '../../../component/ImageUploadBtn';
 import CommonBtn from '../../../component/CommonBtn';
 import { uploadProduct } from '../../../api/productApi';
 import { uploadImage, getImageUrl } from '../../../api/imageApi';
-import CountrySelector from './CountrySelector';
+import CountrySelector, { countryNames } from './CountrySelector';
 
 interface IProductForm {
   itemName: string;
@@ -19,6 +19,8 @@ function UplaodForm() {
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
   const [previewImageUrl, setPreviewImageUrl] = useState<string>('');
   const [isUploading, setIsUploading] = useState(false);
+  const [selectedCountryCode, setSelectedCountryCode] = useState<string>(''); // 선택된 국가 코드
+  const [selectedCountryName, setSelectedCountryName] = useState<string>(''); // 선택된 국가 이름
 
   const {
     register,
@@ -38,10 +40,24 @@ function UplaodForm() {
   const isFormValid =
     itemName &&
     price &&
+    selectedCountryName &&
     selectedImageFile &&
     itemName.length >= 2 &&
     itemName.length <= 15 &&
     price >= 1;
+
+  // 국가 선택 핸들러
+  const handleCountrySelect = (countryName: string) => {
+    setSelectedCountryName(countryName);
+
+    const countryCode = Object.keys(countryNames).find(
+      (name) => countryNames[name] === countryName
+    );
+
+    if (countryCode) {
+      setSelectedCountryCode(countryCode);
+    }
+  };
 
   // 이미지 선택 핸들러
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,7 +103,7 @@ function UplaodForm() {
       const productData = {
         itemName: data.itemName,
         price: Number(data.price),
-        link: '',
+        link: selectedCountryName,
         itemImage: imageUrl, // 업로드된 이미지 URL 사용
       };
 
@@ -159,7 +175,10 @@ function UplaodForm() {
             errorMessage={errors.price?.message}
             placeholder="숫자만 입력 가능합니다."
           />
-          <CountrySelector />
+          <CountrySelector
+            onCountrySelect={handleCountrySelect}
+            selectedCountry={selectedCountryCode}
+          />
           <div className="mt-[30px]">
             <CommonBtn
               text={isUploading ? '업로드중...' : '저장'}
