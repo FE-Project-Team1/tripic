@@ -3,6 +3,7 @@ import BottomModal from '../../component/BottomModal';
 import { ModalProvider, useModal } from '../../context/ModalContext';
 import BtnPopup from '../../component/BtnPopup';
 import BottomNavigation from '../../component/BottomNavigation';
+import MyProfileInfo from './component/MyProfileInfo';
 
 function MyProfileContent() {
   const { openConfirmModal } = useModal();
@@ -25,6 +26,7 @@ function MyProfileContent() {
   return (
     <>
       <TopNavigation backBtn={true} settingBtn={true} />
+      <MyProfileInfo />
       <BottomModal items={modalItems} />
       <BtnPopup />
       <BottomNavigation activePage="Profile" />
