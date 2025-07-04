@@ -114,7 +114,7 @@ function UplaodForm() {
 
       // 두 API 모두 성공 시 알림 및 페이지 이동
       alert('업로드 되었습니다');
-      navigate('/profile');
+      navigate('/my-profile');
     } catch (error) {
       console.error('업로드 실패:', error);
 

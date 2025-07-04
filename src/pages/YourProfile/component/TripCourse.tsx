@@ -289,6 +289,12 @@ function TripCourse({ pageType, urlAccountname }: ITripCourse) {
                   <h3 className="product-name text-sm mb-1">
                     {product.itemName}
                   </h3>
+                  {/* 위치 정보(국가명) 표시 */}
+                  {product.link && (
+                    <div className="text-gray text-xs mb-1">
+                      {product.link}
+                    </div>
+                  )}
                   <p className="product-price text-xs text-main">
                     {product.price.toLocaleString()}원
                   </p>
