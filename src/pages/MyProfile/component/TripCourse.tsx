@@ -333,11 +333,19 @@ function TripCourse({ pageType, urlAccountname, setPopupProps }: ITripCourse) {
 
   // --- 로딩 및 에러 UI  ---
   if (isLoading) {
-    return <Loading />;
+    return (
+      <div className="h-[333px]"> 
+        <Loading />
+      </div>
+    );
   }
 
   if (isError) {
-    return <ErrorFallback />;
+    return (
+      <div className="h-[333px]">
+        <ErrorFallback />
+      </div>
+    );
   }
 
   return (
