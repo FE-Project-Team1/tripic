@@ -1,8 +1,8 @@
 import BottomNavigation from '../../component/BottomNavigation';
 import TopNavigation from '../../component/Navigation/TopNavigation';
-import FollowList from '../Follow/component/FollowList';
+import FollowList from '../../component/FollowList';
 
-function Follow() {
+function Followers() {
   return (
     <>
       <TopNavigation heading="Followings" backBtn={true} />
@@ -12,4 +12,4 @@ function Follow() {
   );
 }
 
-export default Follow;
+export default Followers;
