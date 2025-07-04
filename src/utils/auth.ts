@@ -31,3 +31,46 @@ export function getCookie(name: string): string | null {
   }
   return null;
 }
+
+/**
+ * 특정 쿠키를 삭제하는 함수
+ * @param name 삭제할 쿠키 이름
+ * @param path 쿠키 경로 (선택사항, 기본값: '/')
+ * @param domain 쿠키 도메인 (선택사항)
+ */
+export function deleteCookie(
+  name: string,
+  path: string = '/',
+  domain?: string
+) {
+  // 쿠키 삭제는 만료일을 과거로 설정하는 방식으로 구현
+  let cookieString = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=${path}`;
+
+  // 도메인이 지정된 경우 추가
+  if (domain) {
+    cookieString += `; domain=${domain}`;
+  }
+
+  // 쿠키 삭제 실행
+  document.cookie = cookieString;
+}
+
+/**
+ * 모든 쿠키를 삭제하는 함수
+ */
+export function deleteAllCookies() {
+  const cookies = document.cookie.split(';');
+
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i].trim();
+    const eqPos = cookie.indexOf('=');
+    const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+
+    // 각 쿠키를 삭제
+    deleteCookie(name);
+
+    // 도메인별로도 삭제 시도 (하위 도메인 쿠키 처리)
+    deleteCookie(name, '/', `.${window.location.hostname}`);
+    deleteCookie(name, '/', window.location.hostname);
+  }
+}

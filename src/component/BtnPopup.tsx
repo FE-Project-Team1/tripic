@@ -1,4 +1,5 @@
 import { useModal } from '../context/ModalContext';
+import { deleteAllCookies } from '../utils/auth';
 
 function BtnPopup() {
   const { isConfirmModalOpen, closeAllModals } = useModal();
@@ -12,6 +13,7 @@ function BtnPopup() {
     if (result) {
       console.log('로그아웃 처리');
       // 실제 로그아웃 로직 구현
+      deleteAllCookies();
       closeAllModals();
     }
   };
