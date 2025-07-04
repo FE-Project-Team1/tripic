@@ -298,7 +298,7 @@ function TripCourse({ pageType, urlAccountname, setPopupProps }: ITripCourse) {
             label: '수정',
             onClick: () => {
               // TODO: 상품 수정 페이지로 이동하거나 수정 로직 구현
-              navigate(`/my-profle/product-modification/${product.id}`);
+              navigate(`/my-profile/product-modification/${product.id}`);
             },
           },
           {
