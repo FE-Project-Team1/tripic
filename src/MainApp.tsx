@@ -48,7 +48,7 @@ function AppRoutes() {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/my-profile" element={<MyProfile />} />
       <Route path="/my-profile/followers" element={<Followers />} />
-      <Route path="/my-profile/following" element={<Followings />} />
+      <Route path="/my-profile/followings" element={<Followings />} />
       <Route
         path="/my-profile/modification"
         element={<ProfileModification />}
