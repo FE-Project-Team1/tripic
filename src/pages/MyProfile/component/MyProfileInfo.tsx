@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { getMyProfile } from '../../../api/myprofileApi';
 import { getCookie } from '../../../utils/auth';
 import ProfileImage from '../../../component/ProfileImage';
+import ErrorFallback from '../../../component/ErrorFallback';
+import Loading from '../../../component/Loading';
 
 function MyProfileInfo() {
   // 쿠키에서 accountname 가져오기
@@ -18,10 +20,18 @@ function MyProfileInfo() {
   console.log('프로필 데이터:', data);
 
   // 로딩 중일 때
-  if (isLoading) return <div>로딩 중...</div>;
+
+  if (isLoading) return;
+  <div className="h=[386px]">
+    <Loading />
+  </div>;
 
   // 에러 발생 시
-  if (isError) return <div>프로필 정보를 불러오는 중 오류가 발생했습니다.</div>;
+
+  if (isError) return;
+  <div className="h=[378px]">
+    <ErrorFallback />
+  </div>;
 
   // 프로필 데이터 - 콘솔에서 확인한 응답 구조에 맞게 user 객체 사용
   const profile = data?.user;

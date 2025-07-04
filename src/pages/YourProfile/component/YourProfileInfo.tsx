@@ -5,6 +5,8 @@ import ProfileImage from '../../../component/ProfileImage';
 import CommonBtn from '../../../component/CommonBtn';
 import messageBtn from '../../../assets/message-btn.svg';
 import shareBtn from '../../../assets/share-btn.svg';
+import ErrorFallback from '../../../component/ErrorFallback';
+import Loading from '../../../component/Loading';
 import { useParams } from 'react-router-dom';
 
 function YourProfileInfo() {
@@ -25,10 +27,16 @@ function YourProfileInfo() {
   console.log('프로필 데이터:', data);
 
   // 로딩 중일 때
-  if (isLoading) return <div>로딩 중...</div>;
+  if (isLoading) return;
+  <div className="h=[386px]">
+    <Loading />
+  </div>;
 
   // 에러 발생 시
-  if (isError) return <div>프로필 정보를 불러오는 중 오류가 발생했습니다.</div>;
+  if (isError) return;
+  <div className="h=[378px]">
+    <ErrorFallback />
+  </div>;
 
   // 프로필 데이터
   const profile = data?.profile;
