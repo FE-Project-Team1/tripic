@@ -7,11 +7,11 @@ import ImageUploadBtn from '../../../component/ImageUploadBtn';
 import CommonBtn from '../../../component/CommonBtn';
 import { uploadProduct } from '../../../api/productApi';
 import { uploadImage, getImageUrl } from '../../../api/imageApi';
+import CountrySelector, { countryNames } from './CountrySelector';
 
 interface IProductForm {
   itemName: string;
   price: number;
-  place: string; // link 필드로 사용
 }
 
 function UplaodForm() {
@@ -19,6 +19,8 @@ function UplaodForm() {
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
   const [previewImageUrl, setPreviewImageUrl] = useState<string>('');
   const [isUploading, setIsUploading] = useState(false);
+  const [selectedCountryCode, setSelectedCountryCode] = useState<string>(''); // 선택된 국가 코드
+  const [selectedCountryName, setSelectedCountryName] = useState<string>(''); // 선택된 국가 이름
 
   const {
     register,
@@ -33,17 +35,29 @@ function UplaodForm() {
   // 폼 필드 값들을 실시간으로 감시
   const itemName = watch('itemName');
   const price = watch('price');
-  const place = watch('place');
 
   // 유효성 검증: 모든 필드가 입력되고 이미지가 선택되었는지 확인
   const isFormValid =
     itemName &&
     price &&
-    place &&
+    selectedCountryName &&
     selectedImageFile &&
     itemName.length >= 2 &&
     itemName.length <= 15 &&
     price >= 1;
+
+  // 국가 선택 핸들러
+  const handleCountrySelect = (countryName: string) => {
+    setSelectedCountryName(countryName);
+
+    const countryCode = Object.keys(countryNames).find(
+      (name) => countryNames[name] === countryName
+    );
+
+    if (countryCode) {
+      setSelectedCountryCode(countryCode);
+    }
+  };
 
   // 이미지 선택 핸들러
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,7 +103,7 @@ function UplaodForm() {
       const productData = {
         itemName: data.itemName,
         price: Number(data.price),
-        link: data.place,
+        link: selectedCountryName,
         itemImage: imageUrl, // 업로드된 이미지 URL 사용
       };
 
@@ -100,7 +114,7 @@ function UplaodForm() {
 
       // 두 API 모두 성공 시 알림 및 페이지 이동
       alert('업로드 되었습니다');
-      navigate('/profile');
+      navigate('/my-profile');
     } catch (error) {
       console.error('업로드 실패:', error);
 
@@ -161,13 +175,9 @@ function UplaodForm() {
             errorMessage={errors.price?.message}
             placeholder="숫자만 입력 가능합니다."
           />
-          <FormInput
-            name="place"
-            text="장소"
-            register={register}
-            required
-            errorMessage={errors.place?.message}
-            placeholder="장소를 입력 해주세요."
+          <CountrySelector
+            onCountrySelect={handleCountrySelect}
+            selectedCountry={selectedCountryCode}
           />
           <div className="mt-[30px]">
             <CommonBtn
