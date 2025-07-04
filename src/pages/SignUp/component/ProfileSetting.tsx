@@ -2,7 +2,7 @@ import ProfileImage from '../../../component/ProfileImage';
 import CommonBtn from '../../../component/CommonBtn';
 import FormInput from '../../../component/FormInput';
 import { useProfileForm } from '../../../hooks/useProfileForm';
-import type { IProfile } from '../../../types/profileType';
+import type { IProfile } from '../../../types/commonType';
 
 interface IProfileSetting {
   onComplete: (data: IProfile) => void;

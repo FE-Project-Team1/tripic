@@ -2,17 +2,23 @@ import { useContext } from 'react';
 import { ModalContext } from '../../context/ModalContext';
 import iconMore from '../../assets/icon- more-vertical.svg';
 
-function SettingBtn() {
+interface ISettingBtn {
+  onClick?: () => void;
+}
+
+function SettingBtn({ onClick }: ISettingBtn) {
   // Context가 없어도 에러가 발생하지 않도록 처리
   const modalContext = useContext(ModalContext);
 
   const handleClick = () => {
-    if (modalContext) {
-      console.log('settingBtn 작동');
+    if (onClick) {
+      onClick();
+    } else if (modalContext) {
+      // 기본 동작: Context의 toggleModal 사용
+      console.log('settingBtn 기본 동작');
       modalContext.toggleModal();
     } else {
       console.log('모달 없이 설정 버튼 클릭');
-      // 다른 동작 수행
     }
   };
 

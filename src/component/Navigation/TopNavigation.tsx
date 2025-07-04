@@ -10,6 +10,7 @@ interface ITopNav {
   searchIcon?: boolean;
   heading?: string;
   headingSize?: string;
+  onSettingClick?: () => void;
 }
 
 function TopNavigation({
@@ -19,6 +20,7 @@ function TopNavigation({
   searchIcon = false,
   heading,
   headingSize = 'text-[18px]',
+  onSettingClick,
 }: ITopNav) {
   return (
     <nav className="flex items-center justify-between px-4 border-b-[1px] border-[#dbdbdb] fixed w-full h-12 z-50 bg-white">
@@ -35,7 +37,7 @@ function TopNavigation({
       <div>
         {searchIcon && <SearchIcon />}
         {searchInput && <SearchInput />}
-        {settingBtn && <SettingBtn />}
+        {settingBtn && <SettingBtn onClick={onSettingClick} />}
       </div>
     </nav>
   );
