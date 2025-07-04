@@ -1,15 +1,18 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { getCookie } from '../../../utils/auth';
 import { fetchProductsByAccount } from '../../../api/productApi';
 import Loading from '../../../component/Loading';
 import ErrorFallback from '../../../component/ErrorFallback';
 import { useModal } from '../../../context/ModalContext';
-import type { IProduct } from '../../../types/profileType';
+import { deleteProduct } from '../../../api/product/deleteProduct';
+import type { IProduct, IBtnPopup } from '../../../types/commonType';
 
 interface ITripCourse {
   pageType: string;
   urlAccountname?: string;
+  setPopupProps: React.Dispatch<React.SetStateAction<IBtnPopup>>;
 }
 
 // 스와이프를 인식할 최소 이동 거리 (픽셀)
@@ -22,39 +25,11 @@ const SWIPE_THRESHOLD = 30;
  *
  * @returns 렌더링된 TripCourse 컴포넌트.
  */
-function TripCourse({ pageType, urlAccountname }: ITripCourse) {
-  // 제품 클릭 핸들러
-  const { openModal } = useModal();
-  const handleProductClick = useCallback(
-    (product: IProduct) => {
-      if (pageType === 'my-profile') {
-        // 내 프로필일 때만 수정/삭제 가능
-        const productModalItems = [
-          {
-            label: '수정',
-            onClick: () => {
-              console.log('상품 수정:', product.id);
-              // TODO: 상품 수정 페이지로 이동하거나 수정 로직 구현
-            },
-          },
-          {
-            label: '삭제',
-            onClick: () => {
-              console.log('상품 삭제:', product.id);
-              // TODO: 상품 삭제 API 호출 또는 확인 모달 띄우기
-            },
-          },
-        ];
+function TripCourse({ pageType, urlAccountname, setPopupProps }: ITripCourse) {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { openModal, openConfirmModal, closeAllModals } = useModal();
 
-        openModal(productModalItems);
-      } else {
-        // 다른 사용자 프로필일 때는 상세보기나 다른 액션
-        console.log('상품 상세보기:', product.id);
-        // TODO: 상품 상세 페이지로 이동하거나 상세 정보 표시
-      }
-    },
-    [pageType, openModal]
-  );
   // 현재 캐러셀에서 가장 왼쪽에 보이는(스냅된) 상품의 인덱스를 관리합니다.
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
@@ -286,6 +261,75 @@ function TripCourse({ pageType, urlAccountname }: ITripCourse) {
       carouselElement.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, [handleStart, handleMove, handleEnd, handleMouseLeave, isDragging]); // 종속성 배열에 carouselTrackRef를 넣지 않음: 렌더링 시점에 current가 null이 아닐 때만 실행되도록 보장 (이미 carouselTrackRef.current가 !null 조건으로 체크됨)
+
+  // 상품 삭제 함수
+  const handleDeleteProduct = useCallback(
+    async (productId: string) => {
+      try {
+        console.log('상품 삭제 시작:', productId);
+        await deleteProduct(productId);
+
+        // 성공 시 처리
+        queryClient.invalidateQueries({
+          queryKey: ['productsByAccount', accountname, pageType],
+        });
+        closeAllModals();
+        setPopupProps({}); // BtnPopup props 초기화
+        alert('상품이 삭제되었습니다');
+      } catch (error) {
+        // 실패 시 처리
+        console.error('상품 삭제 실패:', error);
+        const errorMessage =
+          error instanceof Error ? error.message : '상품 삭제에 실패했습니다.';
+        alert(errorMessage);
+        closeAllModals();
+        setPopupProps({}); // 실패해도 팝업 초기화
+      }
+    },
+    [queryClient, accountname, pageType, closeAllModals, setPopupProps]
+  );
+  // 제품 클릭 핸들러
+  const handleProductClick = useCallback(
+    (product: IProduct) => {
+      if (pageType === 'my-profile') {
+        // 내 프로필일 때만 수정/삭제 가능
+        const productModalItems = [
+          {
+            label: '수정',
+            onClick: () => {
+              // TODO: 상품 수정 페이지로 이동하거나 수정 로직 구현
+              navigate(`/my-profle/product-modification/${product.id}`);
+            },
+          },
+          {
+            label: '삭제',
+            onClick: () => {
+              setPopupProps({
+                title: '상품을 삭제할까요?',
+                confirmText: '삭제',
+                onConfirmClick: () => handleDeleteProduct(product.id),
+              });
+              openConfirmModal();
+            },
+          },
+        ];
+
+        openModal(productModalItems);
+      } else {
+        // 다른 사용자 프로필일 때는 상세보기나 다른 액션
+        console.log('상품 상세보기:', product.id);
+        // TODO: 상품 상세 페이지로 이동하거나 상세 정보 표시
+      }
+    },
+    [
+      pageType,
+      openModal,
+      navigate,
+      handleDeleteProduct,
+      openConfirmModal,
+      setPopupProps,
+    ]
+  );
 
   // --- 로딩 및 에러 UI  ---
   if (isLoading) {

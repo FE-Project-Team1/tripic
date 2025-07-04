@@ -28,3 +28,10 @@ export interface IProduct {
   itemImage: string;
   author: IProductAuthor;
 }
+
+// BtnPopup의 props 타입 정의
+export interface IBtnPopup {
+  title?: string;
+  confirmText?: string;
+  onConfirmClick?: () => void;
+}

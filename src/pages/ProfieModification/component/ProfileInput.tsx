@@ -4,7 +4,7 @@ import FormInput from '../../../component/FormInput';
 import CommonBtn from '../../../component/CommonBtn';
 import { useProfileForm } from '../../../hooks/useProfileForm';
 import { modifyProfile } from '../../../api/profileApi';
-import type { IProfile } from '../../../types/profileType';
+import type { IProfile } from '../../../types/commonType';
 import { setCookie } from '../../../utils/auth';
 
 function ProfileInput() {

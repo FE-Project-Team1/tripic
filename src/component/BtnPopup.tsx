@@ -1,7 +1,12 @@
 import { useModal } from '../context/ModalContext';
 import { deleteAllCookies } from '../utils/auth';
+import type { IBtnPopup } from '../types/commonType';
 
-function BtnPopup() {
+function BtnPopup({
+  title = '로그아웃하시겠어요?',
+  confirmText = '로그아웃',
+  onConfirmClick,
+}: IBtnPopup) {
   const { isConfirmModalOpen, closeAllModals } = useModal();
 
   const handleCancel = () => {
@@ -24,9 +29,7 @@ function BtnPopup() {
   return (
     <div className="fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[252px] h-[110px] bg-white rounded-[10px] flex flex-col justify-between shadow">
       <div className="flex-1 flex items-center justify-center">
-        <h2 className="text-base font-medium text-center">
-          로그아웃하시겠어요?
-        </h2>
+        <h2 className="text-base font-medium text-center">{title}</h2>
       </div>
 
       <div
@@ -44,9 +47,9 @@ function BtnPopup() {
         <button
           type="button"
           className="w-1/2 h-full text-sm text-[color:var(--color-main)] bg-white rounded-br-[10px] font-medium leading-none p-0"
-          onClick={handleLogout}
+          onClick={onConfirmClick ? onConfirmClick : handleLogout}
         >
-          로그아웃
+          {confirmText}
         </button>
       </div>
     </div>

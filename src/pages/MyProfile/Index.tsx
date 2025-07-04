@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import TopNavigation from '../../component/Navigation/TopNavigation';
 import BottomModal from '../../component/BottomModal';
 import { ModalProvider, useModal } from '../../context/ModalContext';
@@ -8,10 +9,12 @@ import TripCourse from '../MyProfile/component/TripCourse';
 import Feeds from '../MyProfile/component/Feeds';
 import { useParams } from 'react-router-dom';
 import { getCookie } from '../../utils/auth';
+import type { IBtnPopup } from '../../types/commonType';
 
 type PageType = 'my-profile' | 'your-profile';
 
 function MyProfileContent() {
+  const [popupProps, setPopupProps] = useState<IBtnPopup>({});
   const { accountname: urlAccountname } = useParams<{ accountname: string }>();
 
   // accountname 존재 여부로 페이지 타입 결정
@@ -55,12 +58,16 @@ function MyProfileContent() {
       <main className="pt-12 pb-15">
         <MyProfileInfo />
         <div className="h-[6px] bg-light-gray-03"></div>
-        <TripCourse pageType={pageType} urlAccountname={urlAccountname} />
+        <TripCourse
+          pageType={pageType}
+          urlAccountname={urlAccountname}
+          setPopupProps={setPopupProps}
+        />
         <div className="h-[6px] bg-light-gray-03"></div>
         <Feeds accountname={displayAccountname} />
       </main>
       <BottomModal items={modalItems} />
-      <BtnPopup />
+      <BtnPopup {...popupProps} />
       <BottomNavigation activePage="Profile" />
     </>
   );

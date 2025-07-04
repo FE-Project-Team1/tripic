@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import ProfileSetting from './component/ProfileSetting';
 import SignUpEmail from './component/SignupEmail';
 import { signupFetch } from '../../api/signupApi';
-import type { IProfile } from '../../types/profileType';
+import type { IProfile } from '../../types/commonType';
 
 // 회원가입 단계를 나타내는 타입
 export type SignUpStep = 'email-password' | 'profile';
