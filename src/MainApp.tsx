@@ -13,7 +13,6 @@ import Search from './pages/Search/Index';
 import MyProfile from './pages/MyProfile/Index';
 import YourProfile from './pages/YourProfile/Index';
 import SignUp from './pages/SignUp/Index';
-import Follow from './pages/Follow/Index';
 import Chat from './pages/Chat/Index';
 import Post from './pages/Post/Index';
 import ChatRoom from './pages/ChatRoom/Index';
@@ -22,6 +21,8 @@ import ProfileModification from './pages/ProfieModification/Index';
 import ProductUpload from './pages/ProductUpload/Index';
 import PostUpload from './pages/PostUpload/Index';
 import ErrorPage from './pages/404page';
+import Followers from './pages/Followers/Index';
+import Followings from './pages/Followings/Index';
 
 function AppRoutes() {
   const [hasToken, setHasToken] = useState(!!getCookie('token'));
@@ -46,8 +47,8 @@ function AppRoutes() {
       <Route path="/search" element={<Search />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/my-profile" element={<MyProfile />} />
-      <Route path="/my-profile/followers" element={<Follow />} />
-      <Route path="/my-profile/following" element={<Follow />} />
+      <Route path="/my-profile/followers" element={<Followers />} />
+      <Route path="/my-profile/following" element={<Followings />} />
       <Route
         path="/my-profile/modification"
         element={<ProfileModification />}
