@@ -12,7 +12,6 @@ import { getCookie } from '../../utils/auth';
 type PageType = 'my-profile' | 'your-profile';
 
 function MyProfileContent() {
-
   const { accountname: urlAccountname } = useParams<{ accountname: string }>();
 
   // accountname 존재 여부로 페이지 타입 결정
@@ -24,10 +23,9 @@ function MyProfileContent() {
   const displayAccountname =
     pageType === 'my-profile' ? getCookie('accountname') : urlAccountname;
 
+  const { modalItems, openModal, openConfirmModal } = useModal();
 
-  const { openConfirmModal } = useModal();
-
-  const modalItems = [
+  const profileModalItems = [
     {
       label: '설정 및 개인정보',
       onClick: () => {
@@ -42,9 +40,18 @@ function MyProfileContent() {
     },
   ];
 
+  // TopNavigation의 settingBtn 클릭 핸들러
+  const handleSettingBtnClick = () => {
+    openModal(profileModalItems);
+  };
+
   return (
     <>
-      <TopNavigation backBtn={true} settingBtn={true} />
+      <TopNavigation
+        backBtn={true}
+        settingBtn={true}
+        onSettingClick={handleSettingBtnClick}
+      />
       <main className="pt-12 pb-15">
         <MyProfileInfo />
         <div className="h-[6px] bg-light-gray-03"></div>

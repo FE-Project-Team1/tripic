@@ -4,6 +4,8 @@ import { getCookie } from '../../../utils/auth';
 import { fetchProductsByAccount } from '../../../api/productApi';
 import Loading from '../../../component/Loading';
 import ErrorFallback from '../../../component/ErrorFallback';
+import { useModal } from '../../../context/ModalContext';
+import type { IProduct } from '../../../types/profileType';
 
 interface ITripCourse {
   pageType: string;
@@ -21,6 +23,38 @@ const SWIPE_THRESHOLD = 30;
  * @returns 렌더링된 TripCourse 컴포넌트.
  */
 function TripCourse({ pageType, urlAccountname }: ITripCourse) {
+  // 제품 클릭 핸들러
+  const { openModal } = useModal();
+  const handleProductClick = useCallback(
+    (product: IProduct) => {
+      if (pageType === 'my-profile') {
+        // 내 프로필일 때만 수정/삭제 가능
+        const productModalItems = [
+          {
+            label: '수정',
+            onClick: () => {
+              console.log('상품 수정:', product.id);
+              // TODO: 상품 수정 페이지로 이동하거나 수정 로직 구현
+            },
+          },
+          {
+            label: '삭제',
+            onClick: () => {
+              console.log('상품 삭제:', product.id);
+              // TODO: 상품 삭제 API 호출 또는 확인 모달 띄우기
+            },
+          },
+        ];
+
+        openModal(productModalItems);
+      } else {
+        // 다른 사용자 프로필일 때는 상세보기나 다른 액션
+        console.log('상품 상세보기:', product.id);
+        // TODO: 상품 상세 페이지로 이동하거나 상세 정보 표시
+      }
+    },
+    [pageType, openModal]
+  );
   // 현재 캐러셀에서 가장 왼쪽에 보이는(스냅된) 상품의 인덱스를 관리합니다.
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
@@ -103,32 +137,40 @@ function TripCourse({ pageType, urlAccountname }: ITripCourse) {
   }, []);
 
   // --- 드래그 시작/이동/종료 핸들러들 (이벤트 객체 타입은 Generic으로 설정) ---
-  const handleStart = useCallback((clientX: number) => {
-    isDragging.current = true;
-    startX.current = clientX;
-    prevTranslateRef.current = currentTranslateRef.current;
-    setCarouselTransition('none');
-  }, [setCarouselTransition]);
+  const handleStart = useCallback(
+    (clientX: number) => {
+      isDragging.current = true;
+      startX.current = clientX;
+      prevTranslateRef.current = currentTranslateRef.current;
+      setCarouselTransition('none');
+    },
+    [setCarouselTransition]
+  );
 
-  const handleMove = useCallback((clientX: number) => {
-    if (!isDragging.current) return;
+  const handleMove = useCallback(
+    (clientX: number) => {
+      if (!isDragging.current) return;
 
-    const dragDistance = clientX - startX.current;
-    let newTranslate = prevTranslateRef.current + dragDistance;
+      const dragDistance = clientX - startX.current;
+      let newTranslate = prevTranslateRef.current + dragDistance;
 
-    const minTranslate = -(products.length - 1) * itemTotalWidth;
-    const maxTranslate = 0;
-    const elasticity = 0.2;
+      const minTranslate = -(products.length - 1) * itemTotalWidth;
+      const maxTranslate = 0;
+      const elasticity = 0.2;
 
-    if (newTranslate > maxTranslate) {
-      newTranslate = maxTranslate + (newTranslate - maxTranslate) * elasticity;
-    } else if (newTranslate < minTranslate) {
-      newTranslate = minTranslate + (newTranslate - minTranslate) * elasticity;
-    }
+      if (newTranslate > maxTranslate) {
+        newTranslate =
+          maxTranslate + (newTranslate - maxTranslate) * elasticity;
+      } else if (newTranslate < minTranslate) {
+        newTranslate =
+          minTranslate + (newTranslate - minTranslate) * elasticity;
+      }
 
-    currentTranslateRef.current = newTranslate;
-    applyTranslate();
-  }, [products.length, itemTotalWidth, applyTranslate]);
+      currentTranslateRef.current = newTranslate;
+      applyTranslate();
+    },
+    [products.length, itemTotalWidth, applyTranslate]
+  );
 
   const handleEnd = useCallback(() => {
     if (!isDragging.current) return;
@@ -172,7 +214,6 @@ function TripCourse({ pageType, urlAccountname }: ITripCourse) {
     }
   }, [handleEnd]);
 
-
   // --- currentIndex가 변경될 때 캐러셀을 해당 위치로 스냅시키는 useEffect ---
   useEffect(() => {
     if (itemTotalWidth > 0 && carouselTrackRef.current) {
@@ -182,7 +223,6 @@ function TripCourse({ pageType, urlAccountname }: ITripCourse) {
       applyTranslate();
     }
   }, [currentIndex, itemTotalWidth, applyTranslate, setCarouselTransition]);
-
 
   // --- 이벤트 리스너를 직접 등록하여 passive 옵션 제어 ---
   useEffect(() => {
@@ -214,10 +254,18 @@ function TripCourse({ pageType, urlAccountname }: ITripCourse) {
     const mouseUpHandler = () => handleEnd();
 
     // passive: false로 터치 이벤트를 등록
-    carouselElement.addEventListener('touchstart', touchStartHandler, { passive: false });
-    carouselElement.addEventListener('touchmove', touchMoveHandler, { passive: false });
-    carouselElement.addEventListener('touchend', touchEndHandler, { passive: false });
-    carouselElement.addEventListener('touchcancel', touchEndHandler, { passive: false }); // 터치 취소도 처리
+    carouselElement.addEventListener('touchstart', touchStartHandler, {
+      passive: false,
+    });
+    carouselElement.addEventListener('touchmove', touchMoveHandler, {
+      passive: false,
+    });
+    carouselElement.addEventListener('touchend', touchEndHandler, {
+      passive: false,
+    });
+    carouselElement.addEventListener('touchcancel', touchEndHandler, {
+      passive: false,
+    }); // 터치 취소도 처리
 
     // 마우스 이벤트도 직접 등록
     carouselElement.addEventListener('mousedown', mouseDownHandler);
@@ -237,14 +285,7 @@ function TripCourse({ pageType, urlAccountname }: ITripCourse) {
       carouselElement.removeEventListener('mouseup', mouseUpHandler);
       carouselElement.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [
-    handleStart,
-    handleMove,
-    handleEnd,
-    handleMouseLeave,
-    isDragging,
-  ]); // 종속성 배열에 carouselTrackRef를 넣지 않음: 렌더링 시점에 current가 null이 아닐 때만 실행되도록 보장 (이미 carouselTrackRef.current가 !null 조건으로 체크됨)
-
+  }, [handleStart, handleMove, handleEnd, handleMouseLeave, isDragging]); // 종속성 배열에 carouselTrackRef를 넣지 않음: 렌더링 시점에 current가 null이 아닐 때만 실행되도록 보장 (이미 carouselTrackRef.current가 !null 조건으로 체크됨)
 
   // --- 로딩 및 에러 UI  ---
   if (isLoading) {
@@ -266,9 +307,7 @@ function TripCourse({ pageType, urlAccountname }: ITripCourse) {
           추천하는 여행지가 없습니다.
         </div>
       ) : (
-        <div
-          className="trip-course-container overflow-hidden relative w-full mx-auto px-4"
-        >
+        <div className="trip-course-container overflow-hidden relative w-full mx-auto px-4">
           <div
             ref={carouselTrackRef}
             className="product-carousel flex gap-[10px]"
@@ -278,6 +317,7 @@ function TripCourse({ pageType, urlAccountname }: ITripCourse) {
                 key={product.id}
                 ref={index === 0 ? firstProductItemRef : null}
                 className="product-item flex-shrink-0 flex flex-col items-start rounded-lg bg-white w-[140px]"
+                onClick={() => handleProductClick(product)}
               >
                 <img
                   src={product.itemImage}
@@ -291,9 +331,7 @@ function TripCourse({ pageType, urlAccountname }: ITripCourse) {
                   </h3>
                   {/* 위치 정보(국가명) 표시 */}
                   {product.link && (
-                    <div className="text-gray text-xs mb-1">
-                      {product.link}
-                    </div>
+                    <div className="text-gray text-xs mb-1">{product.link}</div>
                   )}
                   <p className="product-price text-xs text-main">
                     {product.price.toLocaleString()}원
