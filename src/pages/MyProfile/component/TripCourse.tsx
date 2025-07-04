@@ -11,7 +11,7 @@ interface ITripCourse {
 }
 
 // 스와이프를 인식할 최소 이동 거리 (픽셀)
-const SWIPE_THRESHOLD = 50;
+const SWIPE_THRESHOLD = 30;
 
 /**
  * TripCourse 컴포넌트입니다.
@@ -289,6 +289,12 @@ function TripCourse({ pageType, urlAccountname }: ITripCourse) {
                   <h3 className="product-name text-sm mb-1">
                     {product.itemName}
                   </h3>
+                  {/* 위치 정보(국가명) 표시 */}
+                  {product.link && (
+                    <div className="text-gray text-xs mb-1">
+                      {product.link}
+                    </div>
+                  )}
                   <p className="product-price text-xs text-main">
                     {product.price.toLocaleString()}원
                   </p>
