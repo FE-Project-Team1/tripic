@@ -20,10 +20,18 @@ function MyProfileInfo() {
   console.log('프로필 데이터:', data);
 
   // 로딩 중일 때
-  if (isLoading) return <Loading />;
+
+  if (isLoading) return;
+  <div className="h=[386px]">
+    <Loading />
+  </div>;
 
   // 에러 발생 시
-  if (isError) return <ErrorFallback />;
+
+  if (isError) return;
+  <div className="h=[378px]">
+    <ErrorFallback />
+  </div>;
 
   // 프로필 데이터 - 콘솔에서 확인한 응답 구조에 맞게 user 객체 사용
   const profile = data?.user;
