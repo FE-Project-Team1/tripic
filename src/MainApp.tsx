@@ -23,6 +23,7 @@ import PostUpload from './pages/PostUpload/Index';
 import ErrorPage from './pages/404page';
 import Followers from './pages/Followers/Index';
 import Followings from './pages/Followings/Index';
+import ProductModification from './pages/ProductModification/Index';
 
 function AppRoutes() {
   const [hasToken, setHasToken] = useState(!!getCookie('token'));
@@ -54,6 +55,10 @@ function AppRoutes() {
         element={<ProfileModification />}
       />
       <Route path="/my-profile/product-upload" element={<ProductUpload />} />
+      <Route
+        path="/my-profile/product-modification/:product-id"
+        element={<ProductModification />}
+      />
       <Route path="/your-profile/:accountname" element={<YourProfile />} />
       <Route path="/chat" element={<Chat />} />
       <Route path="/chat/room" element={<ChatRoom />} />
