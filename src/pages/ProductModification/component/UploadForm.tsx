@@ -134,6 +134,7 @@ function UploadForm() {
     }
   };
 
+  // 폼 제출 핸들러 - ProductUpload 패턴 적용
   const onSubmit = async (data: IProductForm) => {
     // 기존 이미지가 있고 새 이미지가 없으면 통과
     if (!selectedImageFile && !previewImageUrl) {
@@ -145,49 +146,50 @@ function UploadForm() {
       setIsUploading(true);
 
       console.log('=== 상품 수정 시작 ===');
+      console.log('상품 ID:', productId);
+      console.log('폼 데이터:', data);
+      console.log('선택된 국가:', selectedCountryName);
 
-      let finalImageUrl = previewImageUrl;
+      let finalImageUrl = '';
 
       // 새로운 이미지가 선택된 경우에만 업로드
       if (selectedImageFile) {
-        console.log('새 이미지 업로드 중...');
-
-        // postImage 함수 사용
-        const uploadResponse = await postImage(selectedImageFile);
-        finalImageUrl = uploadResponse.info.filename; // info.filename 사용
-
-        console.log('이미지 업로드 완료:', finalImageUrl);
+        // 1단계: 이미지 업로드 (ProductUpload와 동일한 패턴)
+        console.log('1단계: 새 이미지 업로드 시작...');
+        const imageUploadResponse = await postImage(selectedImageFile);
+        finalImageUrl = getImageUrl(imageUploadResponse.info.filename);
+        console.log('이미지 업로드 성공:', finalImageUrl);
       } else {
-        // 기존 이미지 사용 - getImageUrl로 처리된 URL에서 파일명만 추출
-        if (previewImageUrl.includes('dev.wenivops.co.kr/services/mandarin/')) {
-          const baseUrl = 'https://dev.wenivops.co.kr/services/mandarin/';
-          finalImageUrl = previewImageUrl.replace(baseUrl, '');
-        }
-        console.log('기존 이미지 사용:', finalImageUrl);
+        // 기존 이미지 사용
+        console.log('기존 이미지 사용:', previewImageUrl);
+        finalImageUrl = previewImageUrl;
       }
 
-      // 상품 수정 데이터 준비
+      // 2단계: 상품 수정 (ProductUpload의 uploadProduct와 유사한 패턴)
+      console.log('2단계: 상품 수정 시작...');
       const updateData = {
         itemName: data.itemName,
-        price: data.price,
+        price: Number(data.price), // ProductUpload와 동일하게 Number로 변환
         link: selectedCountryName,
         itemImage: finalImageUrl,
       };
 
       console.log('상품 수정 데이터:', updateData);
 
-      // 상품 수정 API 호출
       const updatedProduct = await putProduct(productId!, updateData);
 
-      console.log('상품 수정 완료:', updatedProduct);
-      alert('상품이 수정되었습니다!');
+      console.log('상품 수정 성공:', updatedProduct);
+      console.log('=== 모든 수정 완료 ===');
 
-      // 마이프로필로 이동
+      // 두 단계 모두 성공 시 알림 및 페이지 이동 (ProductUpload와 동일한 패턴)
+      alert('수정되었습니다');
       navigate('/my-profile');
     } catch (error) {
       console.error('수정 실패:', error);
+
+      // ProductUpload와 동일한 에러 처리 패턴
       const errorMessage =
-        error instanceof Error ? error.message : '상품 수정에 실패했습니다.';
+        error instanceof Error ? error.message : '수정에 실패했습니다.';
       alert(errorMessage);
     } finally {
       setIsUploading(false);
