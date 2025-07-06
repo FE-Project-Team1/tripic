@@ -1,6 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState, useEffect } from 'react';
 import { getProfile } from '../../../api/profileApi';
+import { postFollow } from '../../../api/profile/postFollow';
+import { deleteUnFollow } from '../../../api/profile/deleteUnFollow';
 import ProfileImage from '../../../component/ProfileImage';
 import CommonBtn from '../../../component/CommonBtn';
 import messageBtn from '../../../assets/message-btn.svg';
@@ -12,6 +14,7 @@ import { useParams } from 'react-router-dom';
 function YourProfileInfo() {
   // URL에서 accountname 가져오기
   const { accountname } = useParams<{ accountname: string }>();
+  const queryClient = useQueryClient();
 
   // 버튼 상태를 위한 state
   const [isFollowed, setIsFollowed] = useState(false);
@@ -22,6 +25,42 @@ function YourProfileInfo() {
     queryFn: () => getProfile(accountname || ''),
     enabled: !!accountname, // accountname이 있을 때만 쿼리 실행
   });
+
+  // 팔로우 mutation
+  const followMutation = useMutation({
+    mutationFn: (accountname: string) => postFollow(accountname),
+    onSuccess: () => {
+      // 성공 시 프로필 쿼리 무효화하여 최신 데이터 가져오기
+      queryClient.invalidateQueries({ queryKey: ['profile', accountname] });
+      setIsFollowed(true);
+    },
+    onError: (error) => {
+      const errorMessage =
+        error instanceof Error ? error.message : '팔로우에 실패했습니다.';
+      alert(errorMessage);
+    },
+  });
+
+  // 언팔로우 mutation 추가
+  const unfollowMutation = useMutation({
+    mutationFn: (accountname: string) => deleteUnFollow(accountname),
+    onSuccess: () => {
+      // 성공 시 프로필 쿼리 무효화하여 최신 데이터 가져오기
+      queryClient.invalidateQueries({ queryKey: ['profile', accountname] });
+    },
+    onError: (error) => {
+      const errorMessage =
+        error instanceof Error ? error.message : '언팔로우에 실패했습니다.';
+      alert(errorMessage);
+    },
+  });
+
+  // 서버 데이터와 로컬 상태 동기화
+  useEffect(() => {
+    if (data?.profile?.isfollow !== undefined) {
+      setIsFollowed(data.profile.isfollow);
+    }
+  }, [data?.profile?.isfollow]);
 
   // 데이터가 로드되면 콘솔에 출력
   console.log('프로필 데이터:', data);
@@ -43,7 +82,22 @@ function YourProfileInfo() {
 
   // 팔로우 버튼 클릭 핸들러
   const handleFollowClick = () => {
-    setIsFollowed(!isFollowed);
+    if (!accountname) {
+      alert('계정명이 없습니다.');
+      return;
+    }
+
+    // postFollow 함수 호출
+    followMutation.mutate(accountname);
+  };
+  const handleUnFollowClick = () => {
+    if (!accountname) {
+      alert('계정명이 없습니다.');
+      return;
+    }
+
+    // deleteUnFollow 함수 호출
+    unfollowMutation.mutate(accountname);
   };
 
   return (
@@ -87,7 +141,7 @@ function YourProfileInfo() {
           {isFollowed ? (
             <button
               className="w-[120px] h-[34px] bg-[#FFFFFF] border border-light-gray rounded-[30px] text-gray text-[14px] font-medium flex items-center justify-center"
-              onClick={handleFollowClick}
+              onClick={handleUnFollowClick}
             >
               언팔로우
             </button>
