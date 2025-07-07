@@ -35,3 +35,29 @@ export interface IBtnPopup {
   confirmText?: string;
   onConfirmClick?: () => void;
 }
+
+// 게시글 인터페이스
+interface IPostAuthor {
+  _id: string;
+  username: string;
+  accountname: string;
+  intro: string;
+  image: string;
+  isfollow: boolean;
+  following: string[];
+  follower: string[];
+  followerCount: number;
+  followingCount: number;
+}
+
+export interface IUserPost {
+  id: string;
+  content: string;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+  hearted: boolean;
+  heartCount: number;
+  commentCount: number;
+  author: IPostAuthor;
+}

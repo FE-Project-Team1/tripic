@@ -67,7 +67,7 @@ function Feeds({ accountname }: FeedsProps): ReactElement {
       <div className="w-full max-w-[608px] bg-white px-4 py-4 mx-auto">
         {currentScreen === 'feed' ? (
           // ✨ 이제 accountname은 확실히 string 타입이므로 오류 없이 전달 가능
-          <Feed accountname={accountname} />
+          <ul></ul>
         ) : (
           // ✨ 마찬가지로 accountname은 확실히 string 타입이므로 오류 없이 전달 가능
           <ImageGrid accountname={accountname} />
