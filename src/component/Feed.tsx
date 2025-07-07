@@ -64,7 +64,7 @@ function Feed({ post }: IFeed) {
               {/* likedPosts 상태에 따라 하트 아이콘 변경 */}
               <img src={heart} alt="좋아요" />
             </button>
-            <span className="text-[12px] text-gray"></span>
+            <span className="text-[12px] text-gray">{post.heartCount}</span>
           </li>
           <li className="flex items-center gap-[6px]">
             <button>
