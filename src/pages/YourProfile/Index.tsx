@@ -1,6 +1,6 @@
 import TopNavigation from '../../component/Navigation/TopNavigation';
 import BottomModal from '../../component/BottomModal';
-import { ModalProvider, useModal } from '../../context/ModalContext';
+import { useModal } from '../../context/ModalContext';
 import BtnPopup from '../../component/BtnPopup';
 import BottomNavigation from '../../component/BottomNavigation';
 import YourProfileInfo from '../YourProfile/component/YourProfileInfo';
@@ -11,8 +11,7 @@ import { getCookie } from '../../utils/auth';
 
 type PageType = 'my-profile' | 'your-profile';
 
-function YourProfileContent() {
-
+function YourProfile() {
   const { accountname: urlAccountname } = useParams<{ accountname: string }>();
 
   // accountname 존재 여부로 페이지 타입 결정
@@ -23,7 +22,6 @@ function YourProfileContent() {
   // 이 로직은 TripCourse 내부에서 이미 처리되고 있지만, Feeds도 동일하게 필요합니다.
   const displayAccountname =
     pageType === 'my-profile' ? getCookie('accountname') : urlAccountname;
-
 
   const { openConfirmModal } = useModal();
 
@@ -56,14 +54,6 @@ function YourProfileContent() {
       <BtnPopup />
       <BottomNavigation activePage="Home" />
     </>
-  );
-}
-
-function YourProfile() {
-  return (
-    <ModalProvider>
-      <YourProfileContent />
-    </ModalProvider>
   );
 }
 

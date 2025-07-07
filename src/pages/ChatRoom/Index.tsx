@@ -4,7 +4,6 @@ import ChatList from './component/ChatList';
 import CommentInput from '../../component/CommentInput';
 import ButtonImg from '../../assets/img-button.png';
 import BottomModal from '../../component/BottomModal';
-import { ModalProvider } from '../../context/ModalContext';
 
 const modalItems = [
   {
@@ -36,7 +35,7 @@ function ChatRoom() {
   };
 
   return (
-    <ModalProvider>
+    <>
       <TopNavigation
         backBtn={true}
         heading="애월읍 위니브 감귤농장"
@@ -61,7 +60,7 @@ function ChatRoom() {
         className="hidden"
       />
       <BottomModal items={modalItems} />
-    </ModalProvider>
+    </>
   );
 }
 

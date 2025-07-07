@@ -2,10 +2,10 @@ import TopNavigation from '../../component/Navigation/TopNavigation';
 import BottomNavigation from '../../component/BottomNavigation';
 import ChatList from './component/ChatList';
 import BottomModal from '../../component/BottomModal';
-import { ModalProvider, useModal } from '../../context/ModalContext';
+import { useModal } from '../../context/ModalContext';
 import BtnPopup from '../../component/BtnPopup';
 
-function ChatContent() {
+function Chat() {
   const { openConfirmModal } = useModal();
 
   const modalItems = [
@@ -31,14 +31,6 @@ function ChatContent() {
       <BtnPopup />
       <BottomNavigation activePage="Chat" />
     </>
-  );
-}
-
-function Chat() {
-  return (
-    <ModalProvider>
-      <ChatContent />
-    </ModalProvider>
   );
 }
 
