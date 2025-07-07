@@ -57,7 +57,7 @@ function Feed({ post }: IFeed) {
 
         {/* 이미지 영역 */}
         {post.image && (
-          <Link to="">
+          <Link to={`/post/${post.id}`}>
             <div className="mt-[16px] mb-[12px] aspect-[304/228] rounded-[10px]">
               <img
                 src={post.image}
@@ -78,8 +78,11 @@ function Feed({ post }: IFeed) {
             </button>
             <span className="text-[12px] text-gray">{post.heartCount}</span>
           </li>
-          <li className="flex items-center gap-[6px]">
-            <Link to="">
+          <li>
+            <Link
+              to={`/post/${post.id}`}
+              className="flex items-center gap-[6px]"
+            >
               <button>
                 <img src={messageCircleBtn} alt="메세지" />
               </button>
