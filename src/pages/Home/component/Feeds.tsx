@@ -4,7 +4,7 @@ import { getPostFeed } from '../../../api/post/getPostFeed';
 import Loading from '../../../component/Loading';
 import ErrorFallback from '../../../component/ErrorFallback';
 import DefaultHome from './DefaultHome';
-import Feed from '../../../component/Feed';
+import Feed from '../../../component/Feed/Feed';
 
 function Feeds() {
   const token = getCookie('token');

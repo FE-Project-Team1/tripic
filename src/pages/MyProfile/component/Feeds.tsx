@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type { ReactElement } from 'react';
-import Feed from '../../../component/Feed';
+import Feed from '../../../component/Feed/Feed';
 import ImageGrid from '../../MyProfile/component/ImageGrid';
 import iconPostAlbumOff from '../../../assets/icon-post-album-off.png';
 import iconPostAlbumOn from '../../../assets/icon-post-album-on.png';
