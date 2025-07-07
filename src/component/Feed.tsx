@@ -12,6 +12,7 @@ interface IFeed {
 }
 
 function getProfileImage(img: string | undefined) {
+  console.log(img);
   if (!img || img === 'null' || img === '' || img.startsWith('/'))
     return profileImage;
   if (img.startsWith('http')) return img;
@@ -29,19 +30,19 @@ function Feed({ post }: IFeed) {
     <article className="max-w-[608px] mb-8" key={post.id}>
       {/* 프로필 헤더 영역 */}
       <div className="flex justify-between items-center">
-        <Link to={`/your-profile/${post.author.accountname}`}>
+        <Link to={`/your-profile/${post.author?.accountname}`}>
           <div className="flex items-start gap-[12px]">
             <img
-              src={getProfileImage(post.author.image)}
+              src={getProfileImage(post?.author?.image)}
               alt="프로필이미지"
               className="start-0 w-10 h-10 rounded-full bg-transparent"
             />
             <div>
               <p className="text-[14px] font-bold pt-[4px] pb-[2px] ">
-                {post.author.username}
+                {post?.author?.username}
               </p>
               <p className="text-[12px] text-gray w-[107px] h-[14px]">
-                @{post.author.accountname}
+                @{post?.author?.accountname}
               </p>
             </div>
           </div>
