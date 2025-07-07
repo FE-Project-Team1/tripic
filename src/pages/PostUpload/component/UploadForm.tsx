@@ -72,7 +72,7 @@ function UploadForm() {
 
       // 성공 시 알림 및 페이지 이동
       alert('게시글 업로드 완료');
-      navigate('/profile');
+      navigate('/my-profile');
     } catch (error) {
       console.error('업로드 실패:', error);
       alert('업로드 실패했습니다');
