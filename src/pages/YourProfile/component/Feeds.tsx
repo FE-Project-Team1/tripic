@@ -1,22 +1,56 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { ReactElement } from 'react';
 import Feed from '../../../component/Feed';
-import ImageGrid from '../../MyProfile/component/ImageGrid';
+import ImageGrid from '../../YourProfile/component/ImageGrid';
 import iconPostAlbumOff from '../../../assets/icon-post-album-off.png';
 import iconPostAlbumOn from '../../../assets/icon-post-album-on.png';
 import iconPostListOff from '../../../assets/icon-post-list-off.png';
 import iconPostListOn from '../../../assets/icon-post-list-on.png';
 
-// accountname을 상위 컴포넌트에서 prop으로 받는다고 가정합니다.
+// ✨ Loading 컴포넌트와 ErrorFallback 컴포넌트 임포트
+import Loading from '../../../component/Loading'; // 경로 확인 필요
+import ErrorFallback from '../../../component/ErrorFallback'; // 경로 확인 필요
+
+// API 함수와 타입을 type-only import로 가져오기
+import { fetchUserPostsByAccount } from '../../../api/postApi';
+import type { IUserPost, IGetUserPostsResponse } from '../../../api/postApi'; // 실제 API 파일 경로에 맞게 수정해주세요.
+
 type ScreenMode = 'feed' | 'grid';
 
 interface FeedsProps {
-  // ✨ accountname이 null 또는 undefined일 가능성을 명시합니다.
   accountname: string | null | undefined;
 }
 
 function Feeds({ accountname }: FeedsProps): ReactElement {
   const [currentScreen, setCurrentScreen] = useState<ScreenMode>('feed');
+  const [posts, setPosts] = useState<IUserPost[]>([]); // 게시물 데이터를 저장할 상태
+  const [loading, setLoading] = useState<boolean>(true); // 로딩 상태
+  const [error, setError] = useState<string | null>(null); // 에러 상태
+
+  useEffect(() => {
+    const loadPosts = async () => {
+      if (!accountname) {
+        setLoading(false);
+        setPosts([]);
+        // accountname이 없을 때 에러 메시지를 표시하고 싶다면 setError('계정 정보 없음'); 추가
+        return;
+      }
+
+      setLoading(true);
+      setError(null); // 새로운 로딩 시작 시 에러 초기화
+
+      try {
+        const data: IGetUserPostsResponse = await fetchUserPostsByAccount(accountname);
+        setPosts(data.post);
+      } catch (err: any) {
+        setError(err.message || '게시물을 불러오는 데 실패했습니다.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPosts();
+  }, [accountname]); // accountname이 변경될 때마다 재실행
 
   const handleFeedIconClick = (): void => {
     setCurrentScreen('feed');
@@ -28,8 +62,6 @@ function Feeds({ accountname }: FeedsProps): ReactElement {
 
   // accountname이 유효한지 먼저 체크합니다.
   if (!accountname) {
-    // accountname이 없거나 유효하지 않을 때 보여줄 UI를 결정합니다.
-    // 예를 들어, 로딩 메시지, 오류 메시지, 로그인 유도 메시지 등을 표시할 수 있습니다.
     return (
       <section className="text-center py-8 text-gray-500">
         <p>계정 정보를 불러올 수 없습니다. 다시 시도해주세요.</p>
@@ -37,7 +69,15 @@ function Feeds({ accountname }: FeedsProps): ReactElement {
     );
   }
 
-  // accountname이 유효한 string일 때만 아래 로직을 실행합니다.
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <ErrorFallback />;
+  }
+
+  // accountname이 유효한 string이고 로딩, 에러가 아닐 때만 아래 로직을 실행합니다.
   return (
     <section>
       <div className="bg-white px-4 flex h-11 justify-end border-light-gray border-b-[1px]">
@@ -66,10 +106,18 @@ function Feeds({ accountname }: FeedsProps): ReactElement {
       </div>
       <div className="w-full max-w-[608px] bg-white px-4 py-4 mx-auto">
         {currentScreen === 'feed' ? (
-          // ✨ 이제 accountname은 확실히 string 타입이므로 오류 없이 전달 가능
-          <Feed accountname={accountname} />
+          <ul>
+            {posts.length > 0 ? (
+              posts.map((post) => (
+                <li key={post.id}>
+                  <Feed post={post} />
+                </li>
+              ))
+            ) : (
+              <p className="text-center text-gray-500">아직 게시물이 없습니다.</p>
+            )}
+          </ul>
         ) : (
-          // ✨ 마찬가지로 accountname은 확실히 string 타입이므로 오류 없이 전달 가능
           <ImageGrid accountname={accountname} />
         )}
       </div>
