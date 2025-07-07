@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import type { ReactElement } from 'react';
 import Feed from '../../../component/Feed';
 import ImageGrid from '../../MyProfile/component/ImageGrid';
@@ -6,8 +7,12 @@ import iconPostAlbumOff from '../../../assets/icon-post-album-off.png';
 import iconPostAlbumOn from '../../../assets/icon-post-album-on.png';
 import iconPostListOff from '../../../assets/icon-post-list-off.png';
 import iconPostListOn from '../../../assets/icon-post-list-on.png';
+import Loading from '../../../component/Loading';
+import ErrorFallback from '../../../component/ErrorFallback';
+import { fetchUserPostsByAccount } from '../../../api/postApi';
+import type { IGetUserPostsResponse } from '../../../api/postApi';
 
-// accountname을 상위 컴포넌트에서 prop으로 받는다고 가정합니다.
+
 type ScreenMode = 'feed' | 'grid';
 
 interface FeedsProps {
@@ -17,6 +22,26 @@ interface FeedsProps {
 
 function Feeds({ accountname }: FeedsProps): ReactElement {
   const [currentScreen, setCurrentScreen] = useState<ScreenMode>('feed');
+  const {
+    data: postsData, // API 응답 데이터 (IGetUserPostsResponse)
+    isLoading, // 로딩 상태
+    isError,   // 에러 상태
+  } = useQuery<IGetUserPostsResponse, Error>({
+    queryKey: ['userPosts', accountname], // 쿼리 키 (accountname에 따라 캐시가 달라집니다)
+    queryFn: () => {
+      if (!accountname) {
+        // accountname이 없을 경우, 쿼리를 실행하지 않거나 에러를 발생시킬 수 있습니다.
+        // 여기서는 Promise.reject를 사용하여 useQuery가 에러 상태로 진입하게 합니다.
+        return Promise.reject(new Error('계정 정보가 유효하지 않습니다.'));
+      }
+      return fetchUserPostsByAccount(accountname);
+    },
+    // accountname이 null 또는 undefined일 때는 쿼리를 비활성화합니다.
+    enabled: !!accountname,
+  });
+
+  // ✨ [수정] posts 상태 대신 useQuery의 data를 사용
+  const posts = postsData?.post || []; // 데이터가 없을 경우 빈 배열로 초기화
 
   const handleFeedIconClick = (): void => {
     setCurrentScreen('feed');
@@ -26,7 +51,7 @@ function Feeds({ accountname }: FeedsProps): ReactElement {
     setCurrentScreen('grid');
   };
 
-  // accountname이 유효한지 먼저 체크합니다.
+  // accountname이 유효한지 먼저 체크합니다. (useQuery의 enabled 옵션으로도 처리 가능)
   if (!accountname) {
     // accountname이 없거나 유효하지 않을 때 보여줄 UI를 결정합니다.
     // 예를 들어, 로딩 메시지, 오류 메시지, 로그인 유도 메시지 등을 표시할 수 있습니다.
@@ -37,7 +62,14 @@ function Feeds({ accountname }: FeedsProps): ReactElement {
     );
   }
 
-  // accountname이 유효한 string일 때만 아래 로직을 실행합니다.
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <ErrorFallback />;
+  }
+
   return (
     <section>
       <div className="bg-white px-4 flex h-11 justify-end border-light-gray border-b-[1px]">
@@ -55,7 +87,7 @@ function Feeds({ accountname }: FeedsProps): ReactElement {
         <button
           onClick={handleImageGridIconClick}
           className="p-1 rounded-md focus:outline-none"
-          aria-label="이미지 그리드 화면 보기"
+          aria-label="이미지 그리드 화면"
         >
           <img
             src={currentScreen === 'grid' ? iconPostAlbumOn : iconPostAlbumOff}
