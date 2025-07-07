@@ -1,12 +1,12 @@
 import TopNavigation from '../../component/Navigation/TopNavigation';
 import BottomNavigation from '../../component/BottomNavigation';
-import DefaultHome from './component/DefaultHome';
+import Feeds from './component/Feeds';
 
 function Home() {
   return (
     <>
       <TopNavigation heading="Tripic" searchIcon={true} />
-      <DefaultHome />
+      <Feeds />
       <BottomNavigation activePage="Home" />
     </>
   );
