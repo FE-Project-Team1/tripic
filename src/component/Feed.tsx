@@ -70,7 +70,7 @@ function Feed({ post }: IFeed) {
         )}
 
         {/* 좋아요, 댓글 영역 */}
-        <ul className="flex items-center gap-[16px]">
+        <ul className="flex items-center gap-[16px] mt-[12px]">
           <li className="flex items-center gap-[6px]">
             <button onClick={handleLikeClick}>
               {/* likedPosts 상태에 따라 하트 아이콘 변경 */}
