@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import heart from '../assets/heart.svg';
-import heartFill from '../assets/heart-fill.svg';
-import messageCircleBtn from '../assets/message-circle.svg';
-import profileImage from '../assets/profile-img.svg';
-import moreBtn from '../assets/s-icon-more-vertical.svg';
-import type { IUserPost } from '../types/commonType';
+import heart from '../../assets/heart.svg';
+import heartFill from '../../assets/heart-fill.svg';
+import messageCircleBtn from '../../assets/message-circle.svg';
+import profileImage from '../../assets/profile-img.svg';
+import SettingBtn from './SettingBtn';
+import type { IUserPost } from '../../types/commonType';
 
 interface IFeed {
   post: IUserPost;
@@ -47,9 +47,7 @@ function Feed({ post }: IFeed) {
             </div>
           </div>
         </Link>
-        <button>
-          <img src={moreBtn} alt="더보기 버튼" />
-        </button>
+        <SettingBtn />
       </div>
 
       <div className="pl-[54px]">

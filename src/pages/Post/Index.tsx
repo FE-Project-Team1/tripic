@@ -4,7 +4,7 @@ import { getPostDetail } from '../../api/post/getPostDetail';
 import TopNavigation from '../../component/Navigation/TopNavigation';
 import CommentInput from '../../component/CommentInput';
 import Reply from './component/Reply';
-import Feed from '../../component/Feed';
+import Feed from '../../component/Feed/Feed';
 import Loading from '../../component/Loading';
 import ErrorFallback from '../../component/ErrorFallback';
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import TopNavigation from '../../component/Navigation/TopNavigation';
 import BottomModal from '../../component/BottomModal';
-import { ModalProvider, useModal } from '../../context/ModalContext';
+import { useModal } from '../../context/ModalContext';
 import BtnPopup from '../../component/BtnPopup';
 import BottomNavigation from '../../component/BottomNavigation';
 import MyProfileInfo from '../MyProfile/component/MyProfileInfo';
@@ -13,7 +13,7 @@ import type { IBtnPopup } from '../../types/commonType';
 
 type PageType = 'my-profile' | 'your-profile';
 
-function MyProfileContent() {
+function MyProfile() {
   const [popupProps, setPopupProps] = useState<IBtnPopup>({});
   const { accountname: urlAccountname } = useParams<{ accountname: string }>();
 
@@ -70,14 +70,6 @@ function MyProfileContent() {
       <BtnPopup {...popupProps} />
       <BottomNavigation activePage="Profile" />
     </>
-  );
-}
-
-function MyProfile() {
-  return (
-    <ModalProvider>
-      <MyProfileContent />
-    </ModalProvider>
   );
 }
 

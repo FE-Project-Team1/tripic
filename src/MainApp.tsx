@@ -24,6 +24,7 @@ import ErrorPage from './pages/404page';
 import Followers from './pages/Followers/Index';
 import Followings from './pages/Followings/Index';
 import ProductModification from './pages/ProductModification/Index';
+import { ModalProvider } from './context/ModalContext';
 
 function AppRoutes() {
   const [hasToken, setHasToken] = useState(!!getCookie('token'));
@@ -72,7 +73,9 @@ function AppRoutes() {
 function MainApp() {
   return (
     <BrowserRouter basename="/tripic">
-      <AppRoutes />
+      <ModalProvider>
+        <AppRoutes />
+      </ModalProvider>
     </BrowserRouter>
   );
 }
