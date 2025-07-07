@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import type { ReactElement } from 'react';
 import Feed from '../../../component/Feed';
 import ImageGrid from '../../MyProfile/component/ImageGrid';
@@ -6,14 +7,10 @@ import iconPostAlbumOff from '../../../assets/icon-post-album-off.png';
 import iconPostAlbumOn from '../../../assets/icon-post-album-on.png';
 import iconPostListOff from '../../../assets/icon-post-list-off.png';
 import iconPostListOn from '../../../assets/icon-post-list-on.png';
-
-// ✨ Loading 컴포넌트와 ErrorFallback 컴포넌트 임포트
-import Loading from '../../../component/Loading'; // 경로 확인 필요
-import ErrorFallback from '../../../component/ErrorFallback'; // 경로 확인 필요
-
-// API 함수와 타입을 type-only import로 가져오기
+import Loading from '../../../component/Loading';
+import ErrorFallback from '../../../component/ErrorFallback';
 import { fetchUserPostsByAccount } from '../../../api/postApi';
-import type { IUserPost, IGetUserPostsResponse } from '../../../api/postApi'; // 실제 API 파일 경로에 맞게 수정해주세요.
+import type { IGetUserPostsResponse } from '../../../api/postApi';
 
 type ScreenMode = 'feed' | 'grid';
 
@@ -23,34 +20,27 @@ interface FeedsProps {
 
 function Feeds({ accountname }: FeedsProps): ReactElement {
   const [currentScreen, setCurrentScreen] = useState<ScreenMode>('feed');
-  const [posts, setPosts] = useState<IUserPost[]>([]); // 게시물 데이터를 저장할 상태
-  const [loading, setLoading] = useState<boolean>(true); // 로딩 상태
-  const [error, setError] = useState<string | null>(null); // 에러 상태
 
-  useEffect(() => {
-    const loadPosts = async () => {
+  const {
+    data: postsData, // API 응답 데이터 (IGetUserPostsResponse)
+    isLoading, // 로딩 상태
+    isError,   // 에러 상태
+  } = useQuery<IGetUserPostsResponse, Error>({
+    queryKey: ['userPosts', accountname], // 쿼리 키 (accountname에 따라 캐시가 달라집니다)
+    queryFn: () => {
       if (!accountname) {
-        setLoading(false);
-        setPosts([]);
-        // accountname이 없을 때 에러 메시지를 표시하고 싶다면 setError('계정 정보 없음'); 추가
-        return;
+        // accountname이 없을 경우, 쿼리를 실행하지 않거나 에러를 발생시킬 수 있습니다.
+        // 여기서는 Promise.reject를 사용하여 useQuery가 에러 상태로 진입하게 합니다.
+        return Promise.reject(new Error('계정 정보가 유효하지 않습니다.'));
       }
+      return fetchUserPostsByAccount(accountname);
+    },
+    // accountname이 null 또는 undefined일 때는 쿼리를 비활성화합니다.
+    enabled: !!accountname,
+  });
 
-      setLoading(true);
-      setError(null); // 새로운 로딩 시작 시 에러 초기화
-
-      try {
-        const data: IGetUserPostsResponse = await fetchUserPostsByAccount(accountname);
-        setPosts(data.post);
-      } catch (err: any) {
-        setError(err.message || '게시물을 불러오는 데 실패했습니다.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, [accountname]); // accountname이 변경될 때마다 재실행
+  // ✨ [수정] posts 상태 대신 useQuery의 data를 사용
+  const posts = postsData?.post || []; // 데이터가 없을 경우 빈 배열로 초기화
 
   const handleFeedIconClick = (): void => {
     setCurrentScreen('feed');
@@ -60,7 +50,7 @@ function Feeds({ accountname }: FeedsProps): ReactElement {
     setCurrentScreen('grid');
   };
 
-  // accountname이 유효한지 먼저 체크합니다.
+  // accountname이 유효한지 먼저 체크합니다. (useQuery의 enabled 옵션으로도 처리 가능)
   if (!accountname) {
     return (
       <section className="text-center py-8 text-gray-500">
@@ -69,11 +59,11 @@ function Feeds({ accountname }: FeedsProps): ReactElement {
     );
   }
 
-  if (loading) {
+  if (isLoading) {
     return <Loading />;
   }
 
-  if (error) {
+  if (isError) {
     return <ErrorFallback />;
   }
 
@@ -95,7 +85,7 @@ function Feeds({ accountname }: FeedsProps): ReactElement {
         <button
           onClick={handleImageGridIconClick}
           className="p-1 rounded-md focus:outline-none"
-          aria-label="이미지 그리드 화면 보기"
+          aria-label="이미지 그리드 화면"
         >
           <img
             src={currentScreen === 'grid' ? iconPostAlbumOn : iconPostAlbumOff}
