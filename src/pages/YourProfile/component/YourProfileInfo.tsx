@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState, useEffect } from 'react';
 import { getProfile } from '../../../api/profileApi';
+import { useParams, useNavigate } from 'react-router-dom';
 import { postFollow } from '../../../api/profile/postFollow';
 import { deleteUnFollow } from '../../../api/profile/deleteUnFollow';
 import ProfileImage from '../../../component/ProfileImage';
@@ -9,12 +10,14 @@ import messageBtn from '../../../assets/message-btn.svg';
 import shareBtn from '../../../assets/share-btn.svg';
 import ErrorFallback from '../../../component/ErrorFallback';
 import Loading from '../../../component/Loading';
-import { useParams } from 'react-router-dom';
 
 function YourProfileInfo() {
   // URL에서 accountname 가져오기
   const { accountname } = useParams<{ accountname: string }>();
   const queryClient = useQueryClient();
+
+  // 페이지 이동을 위한 네비게이션 훅
+  const navigate = useNavigate();
 
   // 버튼 상태를 위한 state
   const [isFollowed, setIsFollowed] = useState(false);
@@ -65,17 +68,34 @@ function YourProfileInfo() {
   // 데이터가 로드되면 콘솔에 출력
   console.log('프로필 데이터:', data);
 
+  // 팔로워/팔로잉 클릭 핸들러
+  const handleFollowerClick = () => {
+    if (accountname) {
+      navigate('/my-profile/followers');
+    }
+  };
+
+  const handleFollowingClick = () => {
+    if (accountname) {
+      navigate('/my-profile/followings');
+    }
+  };
+
   // 로딩 중일 때
-  if (isLoading) return;
-  <div className="h=[386px]">
-    <Loading />
-  </div>;
+  if (isLoading)
+    return (
+      <div className="h=[386px]">
+        <Loading />
+      </div>
+    );
 
   // 에러 발생 시
-  if (isError) return;
-  <div className="h=[378px]">
-    <ErrorFallback />
-  </div>;
+  if (isError)
+    return (
+      <div className="h=[378px]">
+        <ErrorFallback />
+      </div>
+    );
 
   // 프로필 데이터
   const profile = data?.profile;
@@ -105,7 +125,7 @@ function YourProfileInfo() {
       <h2 className="sr-only">프로필 정보</h2>
       <div className="w-full flex justify-between items-center mt-[30px] mb-[16px]">
         <div className="flex flex-col items-center ml-[41px]">
-          <span className="text-lg font-bold">
+          <span className="text-lg font-bold" onClick={handleFollowerClick}>
             {profile?.followerCount || 0}
           </span>
           <span className="text-[10px] text-gray">followers</span>
@@ -115,7 +135,10 @@ function YourProfileInfo() {
           <ProfileImage />
         </div>
         <div className="flex flex-col items-center mr-[45px]">
-          <span className="text-lg font-bold text-gray">
+          <span
+            className="text-lg font-bold text-gray"
+            onClick={handleFollowingClick}
+          >
             {profile?.followingCount || 0}
           </span>
           <span className="text-[10px] text-gray">followings</span>
