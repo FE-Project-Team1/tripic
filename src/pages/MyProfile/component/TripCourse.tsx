@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { getCookie } from '../../../utils/auth';
-import { fetchProductsByAccount } from '../../../api/productApi';
+import { fetchProductsByAccount } from '../../../api/product/productApi';
 import Loading from '../../../component/Loading';
 import ErrorFallback from '../../../component/ErrorFallback';
 import { useModal } from '../../../context/ModalContext';

@@ -1,5 +1,5 @@
 // 팔로워/팔로잉 사용자 타입 정의
-import { getCookie } from '../utils/auth';
+import { getCookie } from '../../utils/auth';
 
 interface User {
   _id: string;

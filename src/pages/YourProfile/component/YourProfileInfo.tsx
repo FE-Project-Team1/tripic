@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState, useEffect } from 'react';
-import { getProfile } from '../../../api/profileApi';
+import { getProfile } from '../../../api/profile/profileApi';
 import { useParams, useNavigate } from 'react-router-dom';
 import { postFollow } from '../../../api/profile/postFollow';
 import { deleteUnFollow } from '../../../api/profile/deleteUnFollow';

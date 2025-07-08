@@ -1,4 +1,4 @@
-import { getCookie } from '../utils/auth';
+import { getCookie } from '../../utils/auth';
 
 interface FollowingUser {
   _id: string;

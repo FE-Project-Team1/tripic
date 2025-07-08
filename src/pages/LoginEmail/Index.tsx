@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import CommonBtn from '../../component/CommonBtn';
-import { loginFetch } from '../../api/loginApi';
+import { loginFetch } from '../../api/login/loginApi';
 import { setCookie } from '../../utils/auth';
 import FormInput from '../../component/FormInput';
 

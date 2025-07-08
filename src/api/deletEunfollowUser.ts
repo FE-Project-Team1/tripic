@@ -1,7 +1,11 @@
 import { getCookie } from '../utils/auth';
 
-// 프로필 응답 인터페이스 정의
-interface ProfileResponse {
+/**
+ * 특정 계정 언팔로우(팔로우 취소) API 호출 함수
+ * @param accountname 언팔로우할 계정명
+ * @returns 언팔로우 후 프로필 정보 또는 에러 메시지
+ */
+export async function unfollowUser(accountname: string): Promise<{
   profile: {
     _id: string;
     username: string;
@@ -14,16 +18,7 @@ interface ProfileResponse {
     followerCount: number;
     followingCount: number;
   };
-}
-
-/**
- * 특정 계정 언팔로우(팔로우 취소) API 호출 함수
- * @param accountname 언팔로우할 계정명
- * @returns 언팔로우 후 프로필 정보 또는 에러 메시지
- */
-export async function unfollowUser(
-  accountname: string
-): Promise<ProfileResponse> {
+}> {
   try {
     const token = getCookie('token');
 

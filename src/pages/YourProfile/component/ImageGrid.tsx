@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { fetchUserPostsByAccount } from '../../../api/postApi';
+import { fetchUserPostsByAccount } from '../../../api/post/postApi';
 import iconLayers from '../../../assets/iccon-img-layers.png';
 import Loading from '../../../component/Loading';
 import ErrorFallback from '../../../component/ErrorFallback';

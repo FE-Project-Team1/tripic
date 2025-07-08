@@ -5,8 +5,8 @@ import FormInput from '../../../component/FormInput';
 import PriceInput from '../../../component/PriceInput';
 import ImageUploadBtn from '../../../component/ImageUploadBtn';
 import CommonBtn from '../../../component/CommonBtn';
-import { uploadProduct } from '../../../api/productApi';
-import { uploadImage, getImageUrl } from '../../../api/imageApi';
+import { uploadProduct } from '../../../api/product/productApi';
+import { uploadImage, getImageUrl } from '../../../api/image/imageApi';
 import CountrySelector, { countryNames } from './CountrySelector';
 
 interface IProductForm {
