@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getFollowingList } from '../../api/profile/getFollowingListApi';
+import { getFollowingList } from '../../api/profile/getFollowingList';
 import { getCookie } from '../../utils/auth';
 import BottomNavigation from '../../component/BottomNavigation';
 import TopNavigation from '../../component/Navigation/TopNavigation';
@@ -9,15 +9,15 @@ import Loading from '../../component/Loading';
 import ErrorFallback from '../../component/ErrorFallback';
 
 // 응답 데이터 타입 정의
-interface FollowingResponse {
-  following?: any[];
-}
+// interface FollowingResponse {
+//   following?: any[];
+// }
 
 function Followings() {
   // 상태 관리
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown | null>(null);
-  const [apiDataAvailable, setApiDataAvailable] = useState(false);
+  // const [apiDataAvailable, setApiDataAvailable] = useState(false);
 
   // URL에서 accountname 파라미터 가져오기
   const { accountname: urlAccountName } = useParams();
@@ -50,17 +50,17 @@ function Followings() {
         console.log('API에서 가져온 팔로잉 데이터:', data);
 
         // API 데이터가 성공적으로 받아와졌는지 확인 (타입 체크 추가)
-        if (data) {
-          if (Array.isArray(data)) {
-            setApiDataAvailable(true);
-          } else if (typeof data === 'object' && data !== null) {
-            // 안전한 타입 체크
-            const typedData = data as FollowingResponse;
-            if ('following' in typedData) {
-              setApiDataAvailable(true);
-            }
-          }
-        }
+        // if (data) {
+        //   if (Array.isArray(data)) {
+        //     setApiDataAvailable(true);
+        //   } else if (typeof data === 'object' && data !== null) {
+        //     // 안전한 타입 체크
+        //     const typedData = data as FollowingResponse;
+        //     if ('following' in typedData) {
+        //       setApiDataAvailable(true);
+        //     }
+        //   }
+        // }
       } catch (err) {
         console.error('팔로잉 목록 로드 실패:', err);
         // 에러가 발생해도 UI는 정상 표시되도록 설정
