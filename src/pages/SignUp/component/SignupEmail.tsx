@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import CommonBtn from '../../../component/CommonBtn';
-import { validEmail } from '../../../api/signupApi';
+import { validEmail } from '../../../api/signup/signupApi';
 import FormInput from '../../../component/FormInput';
 import type { IEmailPassword } from '../Index';
 
