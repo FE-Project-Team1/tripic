@@ -1,6 +1,5 @@
 import TopNavigation from '../../component/Navigation/TopNavigation';
 import BottomModal from '../../component/BottomModal';
-import { useModal } from '../../context/ModalContext';
 import BtnPopup from '../../component/BtnPopup';
 import BottomNavigation from '../../component/BottomNavigation';
 import YourProfileInfo from '../YourProfile/component/YourProfileInfo';
@@ -23,23 +22,6 @@ function YourProfile() {
   const displayAccountname =
     pageType === 'my-profile' ? getCookie('accountname') : urlAccountname;
 
-  const { openConfirmModal } = useModal();
-
-  const modalItems = [
-    {
-      label: '설정 및 개인정보',
-      onClick: () => {
-        console.log('설정 및 개인정보 클릭');
-      },
-    },
-    {
-      label: '로그아웃',
-      onClick: () => {
-        openConfirmModal(); // BtnPopup 열기
-      },
-    },
-  ];
-
   return (
     <>
       <TopNavigation backBtn={true} settingBtn={true} />
@@ -50,7 +32,7 @@ function YourProfile() {
         <div className="h-[6px] bg-light-gray-03"></div>
         <Feeds accountname={displayAccountname} />
       </main>
-      <BottomModal items={modalItems} />
+      <BottomModal />
       <BtnPopup />
       <BottomNavigation activePage="Home" />
     </>

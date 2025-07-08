@@ -1,16 +1,7 @@
 import { useModal } from '../context/ModalContext';
 
-interface ModalItem {
-  label: string;
-  onClick?: () => void;
-}
-
-interface IBottomModal {
-  items: ModalItem[];
-}
-
-function BottomModal({ items }: IBottomModal) {
-  const { isModalOpen, closeModal } = useModal();
+function BottomModal() {
+  const { isModalOpen, closeModal, modalItems } = useModal();
 
   // 핸들 클릭 시 모달 닫기
   const handleClose = () => {
@@ -39,7 +30,7 @@ function BottomModal({ items }: IBottomModal) {
         />
       </div>
       <ul>
-        {items.map((item, idx) => (
+        {modalItems.map((item, idx) => (
           <li key={`${item.label}-${idx}`}>
             <button
               className="w-full h-[46px] text-sm text-black text-left flex items-center py-[14px] pl-[26px]"

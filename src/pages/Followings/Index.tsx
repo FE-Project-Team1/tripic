@@ -17,7 +17,7 @@ function Followings() {
   // 상태 관리
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown | null>(null);
-  const [apiDataAvailable, setApiDataAvailable] = useState(false);
+  // const [apiDataAvailable, setApiDataAvailable] = useState(false);
 
   // URL에서 accountname 파라미터 가져오기
   const { accountname: urlAccountName } = useParams();
@@ -52,12 +52,12 @@ function Followings() {
         // API 데이터가 성공적으로 받아와졌는지 확인 (타입 체크 추가)
         if (data) {
           if (Array.isArray(data)) {
-            setApiDataAvailable(true);
+            // setApiDataAvailable(true);
           } else if (typeof data === 'object' && data !== null) {
             // 안전한 타입 체크
             const typedData = data as FollowingResponse;
             if ('following' in typedData) {
-              setApiDataAvailable(true);
+              // setApiDataAvailable(true);
             }
           }
         }

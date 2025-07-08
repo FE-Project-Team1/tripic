@@ -2,9 +2,14 @@ import { useSearchContext } from '../../context/SearchContext';
 
 function SearchInput() {
   const { keyword, setKeyword } = useSearchContext();
-
+  const handleSumbit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
   return (
-    <form className="flex items-center w-[316px] h-8 rounded-full bg-[#F2F2F2]">
+    <form
+      className="flex items-center w-[316px] h-8 rounded-full bg-[#F2F2F2]"
+      onSubmit={handleSumbit}
+    >
       <label htmlFor="account-search-input" className="sr-only">
         계정 검색
       </label>

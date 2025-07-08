@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useModal } from '../../context/ModalContext';
 import { getCookie } from '../../utils/auth';
 import { deletePost } from '../../api/post/deletePost';
+import { postReport } from '../../api/post/postReport';
 import { useQueryClient } from '@tanstack/react-query';
 import moreBtn from '../../assets/s-icon-more-vertical.svg';
 import type { IUserPost } from '../../types/commonType';
@@ -31,6 +32,16 @@ function PostMoreBtn({ post }: PostMoreBtnProps) {
     }
   };
 
+  const handleReportPost = async (postId: string) => {
+    try {
+      await postReport(postId);
+      alert('게시글 신고가 접수되었습니다.');
+    } catch (error) {
+      console.error('게시글 삭제 실패:', error);
+      alert('게시글 신고에 실패했습니다.');
+    }
+  };
+
   const handleClick = () => {
     const isMyPost = post.author.accountname === currentUserAccountname;
 
@@ -40,14 +51,12 @@ function PostMoreBtn({ post }: PostMoreBtnProps) {
         {
           label: '수정',
           onClick: () => {
-            console.log('포스트 수정:', post.id);
             navigate(`/post-modication/${post.id}`);
           },
         },
         {
           label: '삭제',
           onClick: () => {
-            console.log('포스트 삭제:', post.id);
             // TODO: 삭제 확인 모달 또는 직접 삭제
             openBtnPopup({
               title: '게시글을 삭제할까요?',
@@ -64,11 +73,16 @@ function PostMoreBtn({ post }: PostMoreBtnProps) {
         {
           label: '신고하기',
           onClick: () => {
-            console.log('포스트 신고:', post.id);
             // TODO: 신고 로직
+            openBtnPopup({
+              title: '게시글을 신고할까요?',
+              confirmText: '신고',
+              onConfirmClick: () => handleReportPost(post.id),
+            });
           },
         },
       ];
+
       openCustomModal(otherPostItems);
     }
   };

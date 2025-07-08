@@ -5,13 +5,6 @@ import CommentInput from '../../component/CommentInput';
 import ButtonImg from '../../assets/img-button.png';
 import BottomModal from '../../component/BottomModal';
 
-const modalItems = [
-  {
-    label: '채팅방 나가기',
-    onClick: () => {},
-  },
-];
-
 function ChatRoom() {
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -59,7 +52,7 @@ function ChatRoom() {
         onChange={handleImageChange}
         className="hidden"
       />
-      <BottomModal items={modalItems} />
+      <BottomModal />
     </>
   );
 }

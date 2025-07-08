@@ -1,6 +1,5 @@
 import TopNavigation from '../../component/Navigation/TopNavigation';
 import BottomModal from '../../component/BottomModal';
-import { useModal } from '../../context/ModalContext';
 import BtnPopup from '../../component/BtnPopup';
 import BottomNavigation from '../../component/BottomNavigation';
 import MyProfileInfo from '../MyProfile/component/MyProfileInfo';
@@ -23,8 +22,6 @@ function MyProfile() {
   const displayAccountname =
     pageType === 'my-profile' ? getCookie('accountname') : urlAccountname;
 
-  const { modalItems } = useModal();
-
   return (
     <>
       <TopNavigation backBtn={true} settingBtn={true} />
@@ -35,7 +32,7 @@ function MyProfile() {
         <div className="h-[6px] bg-light-gray-03"></div>
         <Feeds accountname={displayAccountname} />
       </main>
-      <BottomModal items={modalItems} />
+      <BottomModal />
       <BtnPopup />
       <BottomNavigation activePage="Profile" />
     </>
