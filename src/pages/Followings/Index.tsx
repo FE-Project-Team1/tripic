@@ -100,11 +100,6 @@ function Followings() {
   return (
     <>
       <TopNavigation heading="Followings" backBtn={true} />
-      {apiDataAvailable && (
-        <div className="px-4 py-2 bg-green-100 text-xs text-green-800">
-          API 데이터 로드 완료 (콘솔에서 확인 가능)
-        </div>
-      )}
       <FollowList />
       <BottomNavigation activePage="Profile" />
     </>

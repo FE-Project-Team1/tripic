@@ -16,49 +16,49 @@ function FollowList() {
       name: '애월읍 한라봉 최고 맛집',
       description: '정성을 다해 농사짓는 한라봉',
       isFollowing: false,
-      profileImageUrl: '/images/a.png',
+      profileImageUrl: '/tripic/images/a.png',
     },
     {
       id: 2,
       name: '감귤의 품격 - 애월읍',
       description: '제주 노지귤, 하우스 한라봉 판매합니다.',
       isFollowing: false,
-      profileImageUrl: '/images/b.png',
+      profileImageUrl: '/tripic/images/b.png',
     },
     {
       id: 3,
       name: '한라봉의 신',
       description: '30년 노하우로 정성스럽게 농사지은 노지...',
       isFollowing: true,
-      profileImageUrl: '/images/c.png',
+      profileImageUrl: '/tripic/images/c.png',
     },
     {
       id: 4,
       name: '나 감귤 좋아하네',
       description: '감귤농장 컬렉터 i love mandarin',
       isFollowing: true,
-      profileImageUrl: '/images/d.png',
+      profileImageUrl: '/tripic/images/d.png',
     },
     {
       id: 5,
       name: '애월읍 한라봉 최고 맛집',
       description: '',
       isFollowing: false,
-      profileImageUrl: '/images/e.png',
+      profileImageUrl: '/tripic/images/e.png',
     },
     {
       id: 6,
       name: '제주 키위, 한라봉 판매',
       description: '키위, 한라봉',
       isFollowing: true,
-      profileImageUrl: '/images/f.png',
+      profileImageUrl: '/tripic/images/f.png',
     },
     {
       id: 7,
       name: '싱싱한 제주 한라봉',
       description: '제주 한라봉',
       isFollowing: false,
-      profileImageUrl: '/images/g.png',
+      profileImageUrl: '/tripic/images/g.png',
     },
   ]);
 
@@ -72,6 +72,8 @@ function FollowList() {
       )
     );
   };
+
+  console.log(followers);
 
   return (
     <div className="min-h-screen bg-white pt-12">
@@ -87,6 +89,7 @@ function FollowList() {
                 src={follower.profileImageUrl}
                 alt={follower.name}
                 className="w-12 h-12 rounded-full mr-4 object-cover"
+                crossOrigin="anonymous"
               />
               <div className="flex flex-col gap-y-[6px]">
                 <p className="font-medium text-sm max-w-[288px] truncate">
