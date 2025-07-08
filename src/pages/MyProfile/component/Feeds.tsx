@@ -9,8 +9,8 @@ import iconPostListOff from '../../../assets/icon-post-list-off.png';
 import iconPostListOn from '../../../assets/icon-post-list-on.png';
 import Loading from '../../../component/Loading';
 import ErrorFallback from '../../../component/ErrorFallback';
-import { fetchUserPostsByAccount } from '../../../api/postApi';
-import type { IGetUserPostsResponse } from '../../../api/postApi';
+import { fetchUserPostsByAccount } from '../../../api/post/postApi';
+import type { IGetUserPostsResponse } from '../../../api/post/postApi';
 
 type ScreenMode = 'feed' | 'grid';
 

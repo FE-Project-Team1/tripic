@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import image from '../../../assets/image.svg';
 import CommonBtn from '../../../component/CommonBtn';
 import ImageUploadBtn from '../../../component/ImageUploadBtn';
-import { uploadImage, getImageUrl } from '../../../api/imageApi';
-import { uploadPost } from '../../../api/postApi';
+import { uploadImage, getImageUrl } from '../../../api/image/imageApi';
+import { uploadPost } from '../../../api/post/postApi';
 
 function UploadForm() {
   const navigate = useNavigate();
