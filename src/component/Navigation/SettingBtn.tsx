@@ -1,24 +1,26 @@
-import { useContext } from 'react';
-import { ModalContext } from '../../context/ModalContext';
-import iconMore from '../../assets/icon- more-vertical.svg';
+// src/component/Navigation/SettingBtn.tsx
+import { useModal } from '../../context/ModalContext';
+import iconMore from '../../assets/icon-more-vertical.svg';
 
 interface ISettingBtn {
+  type?: 'default' | 'custom';
+  customItems?: Array<{ label: string; onClick?: () => void }>;
   onClick?: () => void;
 }
 
-function SettingBtn({ onClick }: ISettingBtn) {
-  // Context가 없어도 에러가 발생하지 않도록 처리
-  const modalContext = useContext(ModalContext);
+function SettingBtn({ type = 'default', customItems, onClick }: ISettingBtn) {
+  const { openDefaultModal, openCustomModal } = useModal();
 
   const handleClick = () => {
     if (onClick) {
+      // 커스텀 onClick이 있으면 우선 실행
       onClick();
-    } else if (modalContext) {
-      // 기본 동작: Context의 toggleModal 사용
-      console.log('settingBtn 기본 동작');
-      modalContext.toggleModal();
+    } else if (type === 'custom' && customItems) {
+      // 커스텀 메뉴
+      openCustomModal(customItems);
     } else {
-      console.log('모달 없이 설정 버튼 클릭');
+      // 기본 설정 메뉴
+      openDefaultModal();
     }
   };
 
@@ -27,7 +29,7 @@ function SettingBtn({ onClick }: ISettingBtn) {
       className="w-6 h-6 flex justify-center items-center"
       onClick={handleClick}
     >
-      <img src={iconMore} alt={iconMore} className="w-full h-full block" />
+      <img src={iconMore} alt="더보기" className="w-full h-full block" />
     </button>
   );
 }
