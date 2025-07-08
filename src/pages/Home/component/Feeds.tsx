@@ -35,7 +35,7 @@ function Feeds() {
   return (
     <>
       {data?.posts && data?.posts.length > 0 ? (
-        <ul className="pt-17 px-4 pb-15">
+        <ul className="pt-17 px-4 pb-15 mx-auto max-w-[608px]">
           {data.posts.map((post) => (
             <li key={post.id}>
               <Feed post={post} />
