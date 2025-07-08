@@ -47,7 +47,7 @@ function Feed({ post }: IFeed) {
             </div>
           </div>
         </Link>
-        <SettingBtn />
+        <SettingBtn post={post} />
       </div>
 
       <div className="pl-[54px]">

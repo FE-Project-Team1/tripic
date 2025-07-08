@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import TopNavigation from '../../component/Navigation/TopNavigation';
 import BottomModal from '../../component/BottomModal';
 import { useModal } from '../../context/ModalContext';
@@ -9,12 +8,10 @@ import TripCourse from '../MyProfile/component/TripCourse';
 import Feeds from '../MyProfile/component/Feeds';
 import { useParams } from 'react-router-dom';
 import { getCookie } from '../../utils/auth';
-import type { IBtnPopup } from '../../types/commonType';
 
 type PageType = 'my-profile' | 'your-profile';
 
 function MyProfile() {
-  const [popupProps, setPopupProps] = useState<IBtnPopup>({});
   const { accountname: urlAccountname } = useParams<{ accountname: string }>();
 
   // accountname 존재 여부로 페이지 타입 결정
@@ -26,48 +23,20 @@ function MyProfile() {
   const displayAccountname =
     pageType === 'my-profile' ? getCookie('accountname') : urlAccountname;
 
-  const { modalItems, openModal, openConfirmModal } = useModal();
-
-  const profileModalItems = [
-    {
-      label: '설정 및 개인정보',
-      onClick: () => {
-        console.log('설정 및 개인정보 클릭');
-      },
-    },
-    {
-      label: '로그아웃',
-      onClick: () => {
-        openConfirmModal(); // BtnPopup 열기
-      },
-    },
-  ];
-
-  // TopNavigation의 settingBtn 클릭 핸들러
-  const handleSettingBtnClick = () => {
-    openModal(profileModalItems);
-  };
+  const { modalItems } = useModal();
 
   return (
     <>
-      <TopNavigation
-        backBtn={true}
-        settingBtn={true}
-        onSettingClick={handleSettingBtnClick}
-      />
+      <TopNavigation backBtn={true} settingBtn={true} />
       <main className="pt-12 pb-15">
         <MyProfileInfo />
         <div className="h-[6px] bg-light-gray-03"></div>
-        <TripCourse
-          pageType={pageType}
-          urlAccountname={urlAccountname}
-          setPopupProps={setPopupProps}
-        />
+        <TripCourse pageType={pageType} urlAccountname={urlAccountname} />
         <div className="h-[6px] bg-light-gray-03"></div>
         <Feeds accountname={displayAccountname} />
       </main>
       <BottomModal items={modalItems} />
-      <BtnPopup {...popupProps} />
+      <BtnPopup />
       <BottomNavigation activePage="Profile" />
     </>
   );

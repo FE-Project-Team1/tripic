@@ -7,12 +7,11 @@ import Loading from '../../../component/Loading';
 import ErrorFallback from '../../../component/ErrorFallback';
 import { useModal } from '../../../context/ModalContext';
 import { deleteProduct } from '../../../api/product/deleteProduct';
-import type { IProduct, IBtnPopup } from '../../../types/commonType';
+import type { IProduct } from '../../../types/commonType';
 
 interface ITripCourse {
   pageType: string;
   urlAccountname?: string;
-  setPopupProps: React.Dispatch<React.SetStateAction<IBtnPopup>>;
 }
 
 // 스와이프를 인식할 최소 이동 거리 (픽셀)
@@ -25,10 +24,10 @@ const SWIPE_THRESHOLD = 30;
  *
  * @returns 렌더링된 TripCourse 컴포넌트.
  */
-function TripCourse({ pageType, urlAccountname, setPopupProps }: ITripCourse) {
+function TripCourse({ pageType, urlAccountname }: ITripCourse) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { openModal, openConfirmModal, closeAllModals } = useModal();
+  const { openCustomModal, closeAllModals, openBtnPopup } = useModal();
 
   // 현재 캐러셀에서 가장 왼쪽에 보이는(스냅된) 상품의 인덱스를 관리합니다.
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -274,7 +273,6 @@ function TripCourse({ pageType, urlAccountname, setPopupProps }: ITripCourse) {
           queryKey: ['productsByAccount', accountname, pageType],
         });
         closeAllModals();
-        setPopupProps({}); // BtnPopup props 초기화
         alert('상품이 삭제되었습니다');
       } catch (error) {
         // 실패 시 처리
@@ -283,10 +281,9 @@ function TripCourse({ pageType, urlAccountname, setPopupProps }: ITripCourse) {
           error instanceof Error ? error.message : '상품 삭제에 실패했습니다.';
         alert(errorMessage);
         closeAllModals();
-        setPopupProps({}); // 실패해도 팝업 초기화
       }
     },
-    [queryClient, accountname, pageType, closeAllModals, setPopupProps]
+    [queryClient, accountname, pageType, closeAllModals]
   );
   // 제품 클릭 핸들러
   const handleProductClick = useCallback(
@@ -304,37 +301,29 @@ function TripCourse({ pageType, urlAccountname, setPopupProps }: ITripCourse) {
           {
             label: '삭제',
             onClick: () => {
-              setPopupProps({
+              openBtnPopup({
                 title: '상품을 삭제할까요?',
                 confirmText: '삭제',
                 onConfirmClick: () => handleDeleteProduct(product.id),
               });
-              openConfirmModal();
             },
           },
         ];
 
-        openModal(productModalItems);
+        openCustomModal(productModalItems);
       } else {
         // 다른 사용자 프로필일 때는 상세보기나 다른 액션
         console.log('상품 상세보기:', product.id);
         // TODO: 상품 상세 페이지로 이동하거나 상세 정보 표시
       }
     },
-    [
-      pageType,
-      openModal,
-      navigate,
-      handleDeleteProduct,
-      openConfirmModal,
-      setPopupProps,
-    ]
+    [pageType, openCustomModal, navigate, handleDeleteProduct, openBtnPopup]
   );
 
   // --- 로딩 및 에러 UI  ---
   if (isLoading) {
     return (
-      <div className="h-[333px]"> 
+      <div className="h-[333px]">
         <Loading />
       </div>
     );

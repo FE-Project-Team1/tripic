@@ -1,30 +1,34 @@
+// src/component/BtnPopup.tsx
 import { useModal } from '../context/ModalContext';
 import { deleteAllCookies } from '../utils/auth';
-import type { IBtnPopup } from '../types/commonType';
 
-function BtnPopup({
-  title = '로그아웃하시겠어요?',
-  confirmText = '로그아웃',
-  onConfirmClick,
-}: IBtnPopup) {
-  const { isConfirmModalOpen, closeAllModals } = useModal();
+function BtnPopup() {
+  const { isConfirmModalOpen, btnPopupProps, closeAllModals } = useModal();
 
   const handleCancel = () => {
-    closeAllModals(); // BtnPopup과 BottomModal 모두 닫기
+    closeAllModals();
   };
 
-  const handleLogout = () => {
-    const result = confirm('정말 로그아웃 하시겠습니까?');
-    if (result) {
-      console.log('로그아웃 처리');
-      // 실제 로그아웃 로직 구현
-      deleteAllCookies();
-      closeAllModals();
+  const handleConfirm = () => {
+    if (btnPopupProps.onConfirmClick) {
+      // 커스텀 확인 로직 실행
+      btnPopupProps.onConfirmClick();
+    } else {
+      // 기본 로그아웃 로직
+      const result = confirm('정말 로그아웃 하시겠습니까?');
+      if (result) {
+        console.log('로그아웃 처리');
+        deleteAllCookies();
+      }
     }
+    closeAllModals();
   };
 
-  // 기본 상태는 안보임
+  // 모달이 열려있지 않으면 렌더링 안함
   if (!isConfirmModalOpen) return null;
+
+  const { title = '로그아웃하시겠어요?', confirmText = '로그아웃' } =
+    btnPopupProps;
 
   return (
     <div className="fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[252px] h-[110px] bg-white rounded-[10px] flex flex-col justify-between shadow">
@@ -47,7 +51,7 @@ function BtnPopup({
         <button
           type="button"
           className="w-1/2 h-full text-sm text-[color:var(--color-main)] bg-white rounded-br-[10px] font-medium leading-none p-0"
-          onClick={onConfirmClick ? onConfirmClick : handleLogout}
+          onClick={handleConfirm}
         >
           {confirmText}
         </button>
