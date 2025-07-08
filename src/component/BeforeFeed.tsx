@@ -5,7 +5,7 @@ import heartFill from '../assets/heart-fill.svg';
 import messageCircleBtn from '../assets/message-circle.svg';
 import profileImage from '../assets/profile-img.svg';
 import moreBtn from '../assets/s-icon-more-vertical.svg';
-import { fetchUserPostsByAccount } from '../api/postApi';
+import { fetchUserPostsByAccount } from '../api/post/postApi';
 import Loading from './Loading';
 import ErrorFallback from './ErrorFallback';
 

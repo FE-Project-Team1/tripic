@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { validAccountName } from '../api/signupApi';
-import { uploadImage, getImageUrl } from '../api/imageApi';
+import { uploadImage, getImageUrl } from '../api/image/imageApi';
 import type { IProfile } from '../types/commonType';
 
 interface UseProfileFormOptions {
