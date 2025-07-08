@@ -24,6 +24,7 @@ import ErrorPage from './pages/404page';
 import Followers from './pages/Followers/Index';
 import Followings from './pages/Followings/Index';
 import ProductModification from './pages/ProductModification/Index';
+import PostModification from './pages/PostModification/Index';
 import { ModalProvider } from './context/ModalContext';
 
 function AppRoutes() {
@@ -65,6 +66,7 @@ function AppRoutes() {
       <Route path="/chat/room" element={<ChatRoom />} />
       <Route path="/post/:postId" element={<Post />} />
       <Route path="/post-upload" element={<PostUpload />} />
+      <Route path="/post-modification/:postId" element={<PostModification />} />
       <Route path="*" element={<ErrorPage />} />
     </Routes>
   );

@@ -51,7 +51,7 @@ function PostMoreBtn({ post }: PostMoreBtnProps) {
         {
           label: '수정',
           onClick: () => {
-            navigate(`/post-modication/${post.id}`);
+            navigate(`/post-modification/${post.id}`);
           },
         },
         {
