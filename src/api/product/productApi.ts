@@ -1,4 +1,4 @@
-import { getCookie } from '../utils/auth';
+import { getCookie } from '../../utils/auth';
 
 interface IProductAuthor {
   _id: string;

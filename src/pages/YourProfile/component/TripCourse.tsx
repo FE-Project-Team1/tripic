@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getCookie } from '../../../utils/auth';
-import { fetchProductsByAccount } from '../../../api/productApi';
+import { fetchProductsByAccount } from '../../../api/product/productApi';
 import Loading from '../../../component/Loading';
 import ErrorFallback from '../../../component/ErrorFallback';
 

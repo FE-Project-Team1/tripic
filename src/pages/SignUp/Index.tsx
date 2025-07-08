@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import ProfileSetting from './component/ProfileSetting';
 import SignUpEmail from './component/SignupEmail';
-import { signupFetch } from '../../api/signupApi';
+import { signupFetch } from '../../api/signup/signupApi';
 import type { IProfile } from '../../types/commonType';
 
 // 회원가입 단계를 나타내는 타입
