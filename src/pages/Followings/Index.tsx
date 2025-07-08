@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getFollowingList } from '../../api/getFollowingListApi';
+import { getFollowingList } from '../../api/profile/getFollowingListApi';
 import { getCookie } from '../../utils/auth';
 import BottomNavigation from '../../component/BottomNavigation';
 import TopNavigation from '../../component/Navigation/TopNavigation';
