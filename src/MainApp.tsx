@@ -23,6 +23,8 @@ import PostUpload from './pages/PostUpload/Index';
 import ErrorPage from './pages/404page';
 import Followers from './pages/Followers/Index';
 import Followings from './pages/Followings/Index';
+import ProductModification from './pages/ProductModification/Index';
+import { ModalProvider } from './context/ModalContext';
 
 function AppRoutes() {
   const [hasToken, setHasToken] = useState(!!getCookie('token'));
@@ -54,10 +56,14 @@ function AppRoutes() {
         element={<ProfileModification />}
       />
       <Route path="/my-profile/product-upload" element={<ProductUpload />} />
+      <Route
+        path="/my-profile/product-modification/:product-id"
+        element={<ProductModification />}
+      />
       <Route path="/your-profile/:accountname" element={<YourProfile />} />
       <Route path="/chat" element={<Chat />} />
       <Route path="/chat/room" element={<ChatRoom />} />
-      <Route path="/post" element={<Post />} />
+      <Route path="/post/:postId" element={<Post />} />
       <Route path="/post-upload" element={<PostUpload />} />
       <Route path="*" element={<ErrorPage />} />
     </Routes>
@@ -67,7 +73,9 @@ function AppRoutes() {
 function MainApp() {
   return (
     <BrowserRouter basename="/tripic">
-      <AppRoutes />
+      <ModalProvider>
+        <AppRoutes />
+      </ModalProvider>
     </BrowserRouter>
   );
 }

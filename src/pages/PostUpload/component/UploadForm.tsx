@@ -72,7 +72,7 @@ function UploadForm() {
 
       // 성공 시 알림 및 페이지 이동
       alert('게시글 업로드 완료');
-      navigate('/profile');
+      navigate('/my-profile');
     } catch (error) {
       console.error('업로드 실패:', error);
       alert('업로드 실패했습니다');
@@ -105,13 +105,13 @@ function UploadForm() {
           placeholder="게시글 입력하기..."
           className="w-full min-h-[200px] aspect-[414/273] placeholder:text-sm placeholder:text-light-gray-02 text-sm"
         />
-        <div className="relative bg-gray-300 mine-h-[200px] aspect-[414/273] mt-5 rounded-[10px] flex justify-center items-center p-6">
+        <div className="relative bg-light-gray mine-h-[200px] aspect-[414/273] mt-5 rounded-[10px] flex justify-center items-center p-6">
           <div className="flex flex-col gap-4 items-center">
             <img src={image} alt={image} className="block w-20 h-20" />
             <p className="text-white">이곳에 이미지를 올려주세요.</p>
           </div>
           {previewImageUrl && (
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[90%]">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full">
               <img
                 src={previewImageUrl}
                 alt="미리보기"

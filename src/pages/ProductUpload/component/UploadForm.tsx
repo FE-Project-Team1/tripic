@@ -138,7 +138,7 @@ function UplaodForm() {
 
   return (
     <form
-      className="pt-[30px] px-[34px] max-w-[640px]"
+      className="pt-[30px] px-[34px] max-w-[640px] mx-auto"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div>

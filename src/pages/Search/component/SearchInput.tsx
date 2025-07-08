@@ -1,10 +1,6 @@
-import { useSearchContext } from '../../context/SearchContext';
-
 function SearchInput() {
-  const { keyword, setKeyword } = useSearchContext();
-
   return (
-    <form className="flex items-center w-[316px] h-8 rounded-full bg-[#F2F2F2]">
+    <form className="flex items-center h-8 rounded-full bg-[#F2F2F2] mb-8">
       <label htmlFor="account-search-input" className="sr-only">
         계정 검색
       </label>
@@ -14,8 +10,6 @@ function SearchInput() {
         placeholder="계정 검색"
         className="flex-grow outline-none text-sm bg-transparent placeholder-light-gray-02 px-4 placeholder:text-sm"
         autoFocus
-        onChange={(e) => setKeyword(e.target.value)}
-        value={keyword}
       />
     </form>
   );

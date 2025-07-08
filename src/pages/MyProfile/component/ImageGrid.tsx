@@ -21,8 +21,22 @@ function ImageGrid({ accountname }: ImageGridProps): React.ReactElement {
     return <div className="text-center text-gray-500 py-10">계정 정보가 유효하지 않습니다.</div>;
   }
 
-  if (isLoading) return <Loading />;
-  if (isError) return <ErrorFallback />;
+  if (isLoading) {
+    return (
+      <div className="h-[333px]"> {/* `h=[333px]` 대신 `h-[333px]`로 수정했습니다. */}
+        <Loading />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="h-[333px]">
+        <ErrorFallback />
+      </div>
+    );
+  }
+  
   if (!data || data.post.length === 0)
     return <div className="text-center text-gray-400 py-10">게시글이 없습니다.</div>;
 
