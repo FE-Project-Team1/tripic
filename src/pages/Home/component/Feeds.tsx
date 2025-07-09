@@ -10,7 +10,7 @@ function Feeds() {
   const token = getCookie('token');
   const { data, isLoading, isError } = useQuery({
     queryKey: ['postFeed'],
-    queryFn: () => getPostFeed(10, 0),
+    queryFn: () => getPostFeed(20, 0),
     enabled: !!token,
     staleTime: 1000 * 60 * 5,
     retry: 1,

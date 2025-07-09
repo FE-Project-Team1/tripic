@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import image from '../../../assets/image.svg';
 import CommonBtn from '../../../component/CommonBtn';
 import ImageUploadBtn from '../../../component/ImageUploadBtn';
-import { uploadImage, getImageUrl } from '../../../api/image/imageApi';
+import { postImage } from '../../../api/image/postImage';
+import { getImageUrl } from '../../../api/image/getImageUrl';
 import { uploadPost } from '../../../api/post/postApi';
 
 function UploadForm() {
@@ -52,7 +53,7 @@ function UploadForm() {
       // 이미지가 있을 경우 먼저 이미지 업로드
       if (selectedImageFile) {
         console.log('이미지 업로드 시작...');
-        const imageUploadResponse = await uploadImage(selectedImageFile);
+        const imageUploadResponse = await postImage(selectedImageFile);
         imageUrl = getImageUrl(imageUploadResponse.info.filename);
         console.log('이미지 업로드 성공:', imageUrl);
       }

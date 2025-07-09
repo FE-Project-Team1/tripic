@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import CommonBtn from '../../component/CommonBtn';
-import { loginFetch } from '../../api/login/loginApi';
+import { postLogin } from '../../api/login/postLogin';
 import { setCookie } from '../../utils/auth';
 import FormInput from '../../component/FormInput';
 
@@ -26,7 +26,7 @@ function LoginEmail() {
 
   // React Query mutation 설정
   const loginMutation = useMutation({
-    mutationFn: loginFetch,
+    mutationFn: postLogin,
     onSuccess: (data) => {
       // 로그인 성공 시 쿠키에 토큰 저장 (유효기간 1일)
       if (data) {

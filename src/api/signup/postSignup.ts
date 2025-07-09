@@ -28,7 +28,7 @@ interface ISignupResponse {
  * @param signupData 회원가입 데이터
  * @returns 회원가입 응답 데이터
  */
-export async function signupFetch(
+export async function postSignup(
   signupData: ISignupParams
 ): Promise<ISignupResponse> {
   try {

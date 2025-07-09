@@ -6,7 +6,8 @@ import PriceInput from '../../../component/PriceInput';
 import ImageUploadBtn from '../../../component/ImageUploadBtn';
 import CommonBtn from '../../../component/CommonBtn';
 import { uploadProduct } from '../../../api/product/productApi';
-import { uploadImage, getImageUrl } from '../../../api/image/imageApi';
+import { postImage } from '../../../api/image/postImage';
+import { getImageUrl } from '../../../api/image/getImageUrl';
 import CountrySelector, { countryNames } from './CountrySelector';
 
 interface IProductForm {
@@ -93,7 +94,7 @@ function UplaodForm() {
 
       // 1단계: 이미지 업로드
       console.log('1단계: 이미지 업로드 시작...');
-      const imageUploadResponse = await uploadImage(selectedImageFile);
+      const imageUploadResponse = await postImage(selectedImageFile);
       const imageUrl = getImageUrl(imageUploadResponse.info.filename);
 
       console.log('이미지 업로드 성공:', imageUrl);

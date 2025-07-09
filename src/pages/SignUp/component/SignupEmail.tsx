@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import CommonBtn from '../../../component/CommonBtn';
-import { validEmail } from '../../../api/signup/signupApi';
+import { postEmail } from '../../../api/signup/postEmail';
 import FormInput from '../../../component/FormInput';
 import type { IEmailPassword } from '../Index';
 
@@ -31,7 +31,7 @@ function SignUpEmail({ onComplete }: SignUpEmailProps) {
 
   // 이메일 유효성 검사 API 뮤테이션
   const emailValidMutation = useMutation({
-    mutationFn: validEmail,
+    mutationFn: postEmail,
     onSuccess: (data) => {
       // API 검증 성공
       setEmailError('');

@@ -4,7 +4,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import image from '../../../assets/image.svg';
 import CommonBtn from '../../../component/CommonBtn';
 import ImageUploadBtn from '../../../component/ImageUploadBtn';
-import { uploadImage, getImageUrl } from '../../../api/image/imageApi';
+import { postImage } from '../../../api/image/postImage';
+import { getImageUrl } from '../../../api/image/getImageUrl';
 import { getPostDetail } from '../../../api/post/getPostDetail';
 import { putPost } from '../../../api/post/putPost';
 import Loading from '../../../component/Loading';
@@ -91,7 +92,7 @@ function UploadForm() {
       // 새로운 이미지가 선택되었을 경우 업로드
       if (selectedImageFile) {
         console.log('새 이미지 업로드 시작...');
-        const imageUploadResponse = await uploadImage(selectedImageFile);
+        const imageUploadResponse = await postImage(selectedImageFile);
         imageUrl = getImageUrl(imageUploadResponse.info.filename);
         console.log('이미지 업로드 성공:', imageUrl);
       } else if (previewImageUrl && !previewImageUrl.startsWith('blob:')) {

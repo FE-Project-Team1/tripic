@@ -36,37 +36,157 @@ function AppRoutes() {
     setHasToken(!!getCookie('token'));
   }, [location.pathname]);
 
+  // 로그인이 필요한 페이지들을 보호하는 컴포넌트
+  const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+    return hasToken ? <>{children}</> : <Navigate to="/login" replace />;
+  };
+
+  // 로그인 상태에서 접근하면 안 되는 페이지들을 보호하는 컴포넌트
+  const PublicOnlyRoute = ({ children }: { children: React.ReactNode }) => {
+    return hasToken ? <Navigate to="/" replace /> : <>{children}</>;
+  };
+
   return (
     <Routes>
+      {/* 로그인 상태: 홈으로, 비로그인 상태: 로그인으로 */}
       <Route
         path="/"
         element={hasToken ? <Home /> : <Navigate to="/login" replace />}
       />
+
+      {/* 공개 페이지 (로그인 상태에서는 홈으로 리다이렉트) */}
       <Route
         path="/login"
-        element={hasToken ? <Navigate to="/" replace /> : <Login />}
+        element={
+          <PublicOnlyRoute>
+            <Login />
+          </PublicOnlyRoute>
+        }
       />
-      <Route path="/login/email" element={<LoginEmail />} />
-      <Route path="/search" element={<Search />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/my-profile" element={<MyProfile />} />
-      <Route path="/my-profile/followers" element={<Followers />} />
-      <Route path="/my-profile/followings" element={<Followings />} />
+      <Route
+        path="/login/email"
+        element={
+          <PublicOnlyRoute>
+            <LoginEmail />
+          </PublicOnlyRoute>
+        }
+      />
+      <Route
+        path="/signup"
+        element={
+          <PublicOnlyRoute>
+            <SignUp />
+          </PublicOnlyRoute>
+        }
+      />
+
+      {/* 보호된 페이지들 (로그인 필요) */}
+      <Route
+        path="/search"
+        element={
+          <ProtectedRoute>
+            <Search />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/my-profile"
+        element={
+          <ProtectedRoute>
+            <MyProfile />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/my-profile/followers"
+        element={
+          <ProtectedRoute>
+            <Followers />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/my-profile/followings"
+        element={
+          <ProtectedRoute>
+            <Followings />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/my-profile/modification"
-        element={<ProfileModification />}
+        element={
+          <ProtectedRoute>
+            <ProfileModification />
+          </ProtectedRoute>
+        }
       />
-      <Route path="/my-profile/product-upload" element={<ProductUpload />} />
+      <Route
+        path="/my-profile/product-upload"
+        element={
+          <ProtectedRoute>
+            <ProductUpload />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/my-profile/product-modification/:product-id"
-        element={<ProductModification />}
+        element={
+          <ProtectedRoute>
+            <ProductModification />
+          </ProtectedRoute>
+        }
       />
-      <Route path="/your-profile/:accountname" element={<YourProfile />} />
-      <Route path="/chat" element={<Chat />} />
-      <Route path="/chat/room" element={<ChatRoom />} />
-      <Route path="/post/:postId" element={<Post />} />
-      <Route path="/post-upload" element={<PostUpload />} />
-      <Route path="/post-modification/:postId" element={<PostModification />} />
+      <Route
+        path="/your-profile/:accountname"
+        element={
+          <ProtectedRoute>
+            <YourProfile />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/chat"
+        element={
+          <ProtectedRoute>
+            <Chat />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/chat/room"
+        element={
+          <ProtectedRoute>
+            <ChatRoom />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/post/:postId"
+        element={
+          <ProtectedRoute>
+            <Post />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/post-upload"
+        element={
+          <ProtectedRoute>
+            <PostUpload />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/post-modification/:postId"
+        element={
+          <ProtectedRoute>
+            <PostModification />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* 404 페이지 */}
       <Route path="*" element={<ErrorPage />} />
     </Routes>
   );

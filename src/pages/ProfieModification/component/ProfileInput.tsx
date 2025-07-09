@@ -3,7 +3,7 @@ import ProfileImage from '../../../component/ProfileImage';
 import FormInput from '../../../component/FormInput';
 import CommonBtn from '../../../component/CommonBtn';
 import { useProfileForm } from '../../../hooks/useProfileForm';
-import { modifyProfile } from '../../../api/profile/profileApi';
+import { putProfile } from '../../../api/profile/putProfile';
 import type { IProfile } from '../../../types/commonType';
 import { setCookie } from '../../../utils/auth';
 
@@ -43,7 +43,7 @@ function ProfileInput() {
       console.log('프로필 수정 데이터:', profileData);
 
       // modifyProfile API 호출
-      const result = await modifyProfile(profileData);
+      const result = await putProfile(profileData);
 
       console.log('프로필 수정 성공:', result);
 

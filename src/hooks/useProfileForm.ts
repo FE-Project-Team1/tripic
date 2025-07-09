@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
-import { validAccountName } from '../api/signup/signupApi';
-import { uploadImage, getImageUrl } from '../api/image/imageApi';
+import { postAccountName } from '../api/signup/postAccountName';
+import { postImage } from '../api/image/postImage';
+import { getImageUrl } from '../api/image/getImageUrl';
 import type { IProfile } from '../types/commonType';
 
 interface UseProfileFormOptions {
@@ -42,7 +43,7 @@ export function useProfileForm(options: UseProfileFormOptions = {}) {
 
   // 계정명 API 검증
   const accountNameMutation = useMutation({
-    mutationFn: validAccountName,
+    mutationFn: postAccountName,
     onSuccess: (data) => {
       setAccountNameError('');
       setAccountNameSuccess(data.message);
@@ -61,7 +62,7 @@ export function useProfileForm(options: UseProfileFormOptions = {}) {
 
   // 이미지 업로드 뮤테이션
   const imageUploadMutation = useMutation({
-    mutationFn: uploadImage,
+    mutationFn: postImage,
     onSuccess: (data) => {
       console.log('이미지 업로드 성공:', data);
       setIsUploading(false);
