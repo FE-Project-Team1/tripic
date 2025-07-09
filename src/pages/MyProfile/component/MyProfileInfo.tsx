@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getMyProfile } from '../../../api/profile/getMyProfile';
 import { getCookie } from '../../../utils/auth';
 import { Link, useNavigate } from 'react-router-dom';
-import ProfileImage from '../../../component/ProfileImage';
+import ProfileImage from '../../../component/ProfileImage'; // ProfileImage 경로 확인
 import ErrorFallback from '../../../component/ErrorFallback';
 import Loading from '../../../component/Loading';
 
@@ -33,7 +33,6 @@ function MyProfileInfo() {
   };
 
   // 로딩 중일 때
-
   if (isLoading)
     return (
       <div className="h=[386px]">
@@ -42,7 +41,6 @@ function MyProfileInfo() {
     );
 
   // 에러 발생 시
-
   if (isError)
     return (
       <div className="h=[378px]">
@@ -63,9 +61,10 @@ function MyProfileInfo() {
           </span>
           <span className="text-[10px] text-gray">followers</span>
         </div>
-        {/* 프로필 이미지 영역 (빈 공간으로 유지) */}
+        {/* 프로필 이미지 영역 */}
         <div className="w-[110px] h-[110px] flex items-center justify-center">
-          <ProfileImage upload={false} />
+          {/* 프로필 이미지 URL을 src prop으로 전달합니다. */}
+          <ProfileImage upload={false} src={profile?.image} />
         </div>
         <div className="flex flex-col items-center mr-[45px] cursor-pointer">
           <span

@@ -4,7 +4,7 @@ import { getProfile } from '../../../api/profile/getProfile';
 import { useParams, useNavigate } from 'react-router-dom';
 import { postFollow } from '../../../api/profile/postFollow';
 import { deleteUnFollow } from '../../../api/profile/deleteUnFollow';
-import ProfileImage from '../../../component/ProfileImage';
+import ProfileImage from '../../../component/ProfileImage'; // ProfileImage 컴포넌트 임포트
 import CommonBtn from '../../../component/CommonBtn';
 import messageBtn from '../../../assets/message-btn.svg';
 import shareBtn from '../../../assets/share-btn.svg';
@@ -12,28 +12,21 @@ import ErrorFallback from '../../../component/ErrorFallback';
 import Loading from '../../../component/Loading';
 
 function YourProfileInfo() {
-  // URL에서 accountname 가져오기
   const { accountname } = useParams<{ accountname: string }>();
   const queryClient = useQueryClient();
-
-  // 페이지 이동을 위한 네비게이션 훅
   const navigate = useNavigate();
 
-  // 버튼 상태를 위한 state
   const [isFollowed, setIsFollowed] = useState(false);
 
-  // useQuery를 사용하여 프로필 데이터 가져오기
   const { data, isLoading, isError } = useQuery({
     queryKey: ['profile', accountname],
     queryFn: () => getProfile(accountname || ''),
-    enabled: !!accountname, // accountname이 있을 때만 쿼리 실행
+    enabled: !!accountname,
   });
 
-  // 팔로우 mutation
   const followMutation = useMutation({
     mutationFn: (accountname: string) => postFollow(accountname),
     onSuccess: () => {
-      // 성공 시 프로필 쿼리 무효화하여 최신 데이터 가져오기
       queryClient.invalidateQueries({ queryKey: ['profile', accountname] });
       setIsFollowed(true);
     },
@@ -44,11 +37,9 @@ function YourProfileInfo() {
     },
   });
 
-  // 언팔로우 mutation 추가
   const unfollowMutation = useMutation({
     mutationFn: (accountname: string) => deleteUnFollow(accountname),
     onSuccess: () => {
-      // 성공 시 프로필 쿼리 무효화하여 최신 데이터 가져오기
       queryClient.invalidateQueries({ queryKey: ['profile', accountname] });
     },
     onError: (error) => {
@@ -58,30 +49,26 @@ function YourProfileInfo() {
     },
   });
 
-  // 서버 데이터와 로컬 상태 동기화
   useEffect(() => {
     if (data?.profile?.isfollow !== undefined) {
       setIsFollowed(data.profile.isfollow);
     }
   }, [data?.profile?.isfollow]);
 
-  // 데이터가 로드되면 콘솔에 출력
   console.log('프로필 데이터:', data);
 
-  // 팔로워/팔로잉 클릭 핸들러
   const handleFollowerClick = () => {
     if (accountname) {
-      navigate('/my-profile/followers');
+      navigate('/my-profile/followers'); // 필요에 따라 동적으로 변경 고려
     }
   };
 
   const handleFollowingClick = () => {
     if (accountname) {
-      navigate('/my-profile/followings');
+      navigate('/my-profile/followings'); // 필요에 따라 동적으로 변경 고려
     }
   };
 
-  // 로딩 중일 때
   if (isLoading)
     return (
       <div className="h=[386px]">
@@ -89,7 +76,6 @@ function YourProfileInfo() {
       </div>
     );
 
-  // 에러 발생 시
   if (isError)
     return (
       <div className="h=[378px]">
@@ -97,27 +83,22 @@ function YourProfileInfo() {
       </div>
     );
 
-  // 프로필 데이터
   const profile = data?.profile;
 
-  // 팔로우 버튼 클릭 핸들러
   const handleFollowClick = () => {
     if (!accountname) {
       alert('계정명이 없습니다.');
       return;
     }
-
-    // postFollow 함수 호출
     followMutation.mutate(accountname);
     queryClient.invalidateQueries({ queryKey: ['postFeed'] });
   };
+
   const handleUnFollowClick = () => {
     if (!accountname) {
       alert('계정명이 없습니다.');
       return;
     }
-
-    // deleteUnFollow 함수 호출
     unfollowMutation.mutate(accountname);
     queryClient.invalidateQueries({ queryKey: ['postFeed'] });
   };
@@ -132,9 +113,9 @@ function YourProfileInfo() {
           </span>
           <span className="text-[10px] text-gray">followers</span>
         </div>
-        {/* 프로필 이미지 영역 (빈 공간으로 유지) */}
+        {/* 프로필 이미지 영역: image prop 대신 src prop 사용 */}
         <div className="w-[110px] h-[110px] flex items-center justify-center">
-          <ProfileImage />
+          <ProfileImage src={profile?.image} /> {/* 🚩 이 부분 수정됨 */}
         </div>
         <div className="flex flex-col items-center mr-[45px]">
           <span
