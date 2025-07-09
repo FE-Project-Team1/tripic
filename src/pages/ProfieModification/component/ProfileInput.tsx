@@ -49,7 +49,7 @@ function ProfileInput() {
 
       // 성공 시 알림 및 페이지 이동
       alert('프로필 수정이 완료되었습니다');
-      navigate('/profile');
+      navigate('/my-profile');
       setCookie('accountname', data.accountName, 1);
     } catch (error) {
       console.error('프로필 수정 중 오류:', error);

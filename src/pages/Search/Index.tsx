@@ -14,7 +14,7 @@ function SearchContent() {
   return (
     <>
       <TopNavigation backBtn={true} searchInput={true} />
-      <section className="pt-17 px-4">
+      <section className="pt-17 pb-19 px-4">
         <ul className="flex flex-col gap-4">
           {data?.map((item) => (
             <SearchList
