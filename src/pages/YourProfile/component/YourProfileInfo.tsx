@@ -109,6 +109,7 @@ function YourProfileInfo() {
 
     // postFollow 함수 호출
     followMutation.mutate(accountname);
+    queryClient.invalidateQueries({ queryKey: ['postFeed'] });
   };
   const handleUnFollowClick = () => {
     if (!accountname) {
@@ -118,6 +119,7 @@ function YourProfileInfo() {
 
     // deleteUnFollow 함수 호출
     unfollowMutation.mutate(accountname);
+    queryClient.invalidateQueries({ queryKey: ['postFeed'] });
   };
 
   return (
