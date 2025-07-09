@@ -36,6 +36,7 @@ function Feed({ post }: IFeed) {
               src={getProfileImage(post?.author?.image)}
               alt="프로필이미지"
               className="start-0 w-10 h-10 rounded-full bg-transparent"
+              crossOrigin="anonymous"
             />
             <div>
               <p className="text-[14px] font-bold pt-[4px] pb-[2px] ">
