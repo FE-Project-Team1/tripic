@@ -1,9 +1,10 @@
-// src/component/BtnPopup.tsx
+import { useNavigate } from 'react-router-dom';
 import { useModal } from '../context/ModalContext';
 import { deleteAllCookies } from '../utils/auth';
 
 function BtnPopup() {
   const { isConfirmModalOpen, btnPopupProps, closeAllModals } = useModal();
+  const navigate = useNavigate();
 
   const handleCancel = () => {
     closeAllModals();
@@ -19,6 +20,7 @@ function BtnPopup() {
       if (result) {
         console.log('로그아웃 처리');
         deleteAllCookies();
+        navigate('/login');
       }
     }
     closeAllModals();

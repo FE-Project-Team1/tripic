@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import ProfileSetting from './component/ProfileSetting';
 import SignUpEmail from './component/SignupEmail';
-import { signupFetch } from '../../api/signup/signupApi';
+import { postSignup } from '../../api/signup/postSignup';
 import type { IProfile } from '../../types/commonType';
 
 // 회원가입 단계를 나타내는 타입
@@ -29,7 +29,7 @@ function SignUp() {
   // 회원가입 API 요청
   const signupMutation = useMutation({
     mutationFn: (profileData: IProfile) =>
-      signupFetch({
+      postSignup({
         email: signUpData.email,
         password: signUpData.password,
         username: profileData.username,

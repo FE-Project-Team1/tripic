@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getMyProfile } from '../../../api/profile/myprofileApi';
+import { getMyProfile } from '../../../api/profile/getMyProfile';
 import { getCookie } from '../../../utils/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import ProfileImage from '../../../component/ProfileImage';
