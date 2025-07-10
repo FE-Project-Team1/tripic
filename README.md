@@ -37,7 +37,6 @@
 
 - 모바일 우선 설계
 - 데스크톱/태블릿/모바일 대응
-- PWA 지원 (예정)
 
 ### 1.3 팀 구성
 
@@ -46,7 +45,10 @@
         <th>Frontend Developer</th>
     </tr>
      <tr>
-        <td><img src="https://via.placeholder.com/150" width="100%"></td>
+        <td>김나은</td>
+        <td>나연규</td>
+        <td>나진원</td>
+        <td>이한승</td>
     </tr>
 </table>
 
@@ -79,11 +81,11 @@
 
 ### 2.2 배포 URL
 
-- **Production**: https://username.github.io/tripic/
+- **Production**: https://fe-project-team1.github.io/tripic/
 - **테스트용 계정**
   ```
   Email: demo@tripic.com
-  Password: demo123!
+  Password: demo123
   ```
 
 ### 2.3 라우터 구조
@@ -227,116 +229,9 @@ gantt
 
 ## 5. 역할 분담
 
-- **팀장 & Frontend Developer**: [이름]
-- **UI/UX 디자인**: [이름]
-- **API 연동**: [이름]
-- **테스트 및 배포**: [이름]
+- **팀장 & Frontend Developer**: 이한승 & 김나은, 나연규, 나진원
 
-## 6. 와이어프레임 / UI / BM
-
-### 6.1 와이어프레임
-
-- 피그마를 사용하여 와이어프레임을 제작했습니다.
-  <img src="https://via.placeholder.com/800x600/f0f0f0/333?text=Wireframe" width="60%">
-
-### 6.2 화면 설계
-
-<table>
-    <tbody>
-        <tr>
-            <td>로그인</td>
-            <td>회원가입</td>
-        </tr>
-        <tr>
-            <td>
-                <img src="https://via.placeholder.com/300x600/f0f0f0/333?text=Login+Screen" width="100%">
-            </td>
-            <td>
-                <img src="https://via.placeholder.com/300x600/f0f0f0/333?text=SignUp+Screen" width="100%">
-            </td>
-        </tr>
-        <tr>
-            <td>메인 피드</td>
-            <td>게시글 작성</td>
-        </tr>
-        <tr>
-            <td>
-                <img src="https://via.placeholder.com/300x600/f0f0f0/333?text=Main+Feed" width="100%">
-            </td>
-            <td>
-                <img src="https://via.placeholder.com/300x600/f0f0f0/333?text=Post+Upload" width="100%">
-            </td>
-        </tr>
-        <tr>
-            <td>프로필</td>
-            <td>검색</td>
-        </tr>
-        <tr>
-            <td>
-                <img src="https://via.placeholder.com/300x600/f0f0f0/333?text=Profile+Screen" width="100%">
-            </td>
-            <td>
-                <img src="https://via.placeholder.com/300x600/f0f0f0/333?text=Search+Screen" width="100%">
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-## 7. 데이터베이스 모델링(ERD)
-
-```mermaid
-erDiagram
-    USER ||--o{ POST : writes
-    USER ||--o{ FOLLOW : follows
-    POST ||--o{ HEART : receives
-    POST ||--o{ COMMENT : has
-
-    USER {
-        string _id PK
-        string username
-        string email
-        string accountname UK
-        string intro
-        string image
-        boolean isfollow
-        number followerCount
-        number followingCount
-    }
-
-    POST {
-        string id PK
-        string content
-        string image
-        string createdAt
-        string updatedAt
-        number heartCount
-        boolean hearted
-        number commentCount
-        string author_id FK
-    }
-
-    FOLLOW {
-        string follower_id FK
-        string following_id FK
-        string createdAt
-    }
-
-    HEART {
-        string user_id FK
-        string post_id FK
-        string createdAt
-    }
-
-    COMMENT {
-        string id PK
-        string content
-        string createdAt
-        string user_id FK
-        string post_id FK
-    }
-```
-
-## 8. Architecture
+## 6. Architecture
 
 ```mermaid
 graph TD;
@@ -355,9 +250,9 @@ graph TD;
     class C,F deploy;
 ```
 
-## 9. 주요 기능
+## 7. 주요 기능
 
-### 9.1 무한 스크롤 구현
+### 7.1 무한 스크롤 구현
 
 ```mermaid
 graph TD
@@ -370,7 +265,7 @@ graph TD
     G --> H[UI 업데이트]
 ```
 
-### 9.2 인증 시스템
+### 7.2 인증 시스템
 
 ```mermaid
 stateDiagram-v2
@@ -383,7 +278,7 @@ stateDiagram-v2
     메인피드 --> [*] : 로그아웃
 ```
 
-### 9.3 게시글 관리
+### 7.3 게시글 관리
 
 - **게시글 작성**: 이미지 업로드와 텍스트 입력을 통한 게시글 생성
 - **게시글 수정**: 작성자만 수정 가능한 권한 시스템
@@ -391,16 +286,16 @@ stateDiagram-v2
 - **좋아요 기능**: 실시간 좋아요 수 업데이트
 - **무한 스크롤**: Intersection Observer를 활용한 성능 최적화
 
-### 9.4 소셜 기능
+### 7.4 소셜 기능
 
 - **팔로우/언팔로우**: 사용자 간 팔로우 관계 설정
 - **사용자 검색**: 계정명 기반 사용자 검색
 - **프로필 조회**: 다른 사용자의 프로필 및 게시글 확인
 - **팔로워/팔로잉 목록**: 관계 목록 조회
 
-## 10. 개발하며 느낀점
+## 8. 개발하며 느낀점
 
-### 10.1 기술적 성장
+### 8.1 기술적 성장
 
 **React Query의 강력함을 경험**
 
@@ -420,7 +315,7 @@ stateDiagram-v2
 - Tailwind CSS의 반응형 클래스 활용
 - 터치 친화적 UI 설계 필요성
 
-### 10.2 아쉬운 점 및 개선사항
+### 8.2 아쉬운 점 및 개선사항
 
 **상태 관리 구조**
 
@@ -437,7 +332,7 @@ stateDiagram-v2
 - 단위 테스트와 통합 테스트 부족
 - 다음 프로젝트에서는 TDD 접근법 시도 예정
 
-### 10.3 배운 점
+### 8.3 배운 점
 
 **협업의 중요성**
 
@@ -456,36 +351,3 @@ stateDiagram-v2
 - 번들 사이즈 최적화
 - 이미지 최적화
 - 네트워크 요청 최적화
-
-### 10.4 향후 개발 계획
-
-**단기 계획 (1-2주)**
-
-- [ ] 댓글 시스템 구현
-- [ ] 게시글 검색 기능
-- [ ] 알림 시스템
-- [ ] PWA 대응
-
-**중기 계획 (1-2개월)**
-
-- [ ] 실시간 채팅 기능
-- [ ] 게시글 태그 시스템
-- [ ] 위치 기반 서비스
-- [ ] 다크 모드 지원
-
-**장기 계획 (3-6개월)**
-
-- [ ] 모바일 앱 개발 (React Native)
-- [ ] AI 기반 추천 시스템
-- [ ] 다국어 지원
-- [ ] 성능 최적화 및 분석
-
----
-
-## 라이선스
-
-MIT License
-
-## 연락처
-
-프로젝트 관련 문의: [이메일 주소]
