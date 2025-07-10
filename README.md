@@ -201,25 +201,6 @@ sequenceDiagram
 ┗ 📜 README.md
 ```
 
-### 4.2 개발 일정
-
-```mermaid
-gantt
-    title Tripic 개발 일정
-    dateFormat YY-MM-DD
-    section 기획
-        기술 채택 및 회의:2025-06-19, 4d
-    section Frontend 개발
-        프로젝트 초기 설정 :2025-06-19, 1d
-        UI 개발, 반응형 디자인:2025-06-27, 2d
-        CRUD 구현:2024-07-04, 3d
-    section 배포 및 테스트
-        GitHub Pages 배포 :2025-07-09, 1d
-        기능 테스트 :2025-07-09, 3d
-        버그 수정 :2025-07-09, 2d
-        최종 배포 :2025-07-10, 1d
-```
-
 ## 5. 역할 분담
 
 - **팀장 & Frontend Developer**: 이한승 & 김나은, 나연규, 나진원
