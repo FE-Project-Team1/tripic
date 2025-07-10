@@ -10,7 +10,7 @@ import ImageUploadBtn from '../../../component/ImageUploadBtn';
 import CommonBtn from '../../../component/CommonBtn';
 import CountrySelector, {
   countryNames,
-} from '../../ProductUpload/component/CountrySelector';
+} from '../../../component/CountrySelector';
 import Loading from '../../../component/Loading';
 import ErrorFallback from '../../../component/ErrorFallback';
 import { putProduct } from '../../../api/product/putProduct';

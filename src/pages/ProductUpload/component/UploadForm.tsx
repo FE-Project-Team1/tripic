@@ -8,7 +8,9 @@ import CommonBtn from '../../../component/CommonBtn';
 import { uploadProduct } from '../../../api/product/productApi';
 import { postImage } from '../../../api/image/postImage';
 import { getImageUrl } from '../../../api/image/getImageUrl';
-import CountrySelector, { countryNames } from './CountrySelector';
+import CountrySelector, {
+  countryNames,
+} from '../../../component/CountrySelector';
 
 interface IProductForm {
   itemName: string;
